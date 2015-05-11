@@ -1,0 +1,421 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Python使用UUID库生成唯一ID | One Night in Mok&#39;s Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Moky">
+    
+    <meta name="description" content="【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。http://www.cnblogs.com/dkblog/archive/2011/10/10/2205200.htmlhttp://docs.python.org/library/uuid.">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml" title="One Night in Mok&#39;s Studio" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="One Night in Mok&#39;s Studio" title="One Night in Mok&#39;s Studio"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="One Night in Mok&#39;s Studio">One Night in Mok&#39;s Studio</a></h1>
+				<h2 class="blog-motto">Life is a beautiful struggle.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:moky.cc">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/01/Python使用UUID库生成唯一ID/" title="Python使用UUID库生成唯一ID" itemprop="url">Python使用UUID库生成唯一ID</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://moky.cc" title="Moky">Moky</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-04-01T08:12:28.000Z" itemprop="datePublished">Apr 1 2015</time>
+    Updated:<time datetime="2015-05-11T03:01:06.000Z" itemprop="dateModified">May 11 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+		</div>
+		
+		<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/dkblog/archive/2011/10/10/2205200.html" title="http://www.cnblogs.com/dkblog/archive/2011/10/10/2205200.html" target="_blank" rel="external">http://www.cnblogs.com/dkblog/archive/2011/10/10/2205200.html</a><br><a href="http://docs.python.org/library/uuid.html" title="http://docs.python.org/library/uuid.html" target="_blank" rel="external">http://docs.python.org/library/uuid.html</a><br><a href="http://www.ietf.org/rfc/rfc4122.txt" title="http://www.ietf.org/rfc/rfc4122.txt" target="_blank" rel="external">http://www.ietf.org/rfc/rfc4122.txt</a></p>
+</blockquote>
+<p>概述：</p>
+<p>UUID是128位的全局唯一标识符，通常由32字节的字符串表示。<br>它可以保证时间和空间的唯一性，也称为GUID，全称为：<br><code>UUID</code> —— Universally Unique IDentifier      Python 中叫 UUID<br><code>GUID</code> —— Globally Unique IDentifier         C#  中叫 GUID</p>
+<p>它通过MAC地址、时间戳、命名空间、随机数、伪随机数来保证生成ID的唯一性。<br>UUID主要有五个算法，也就是五种方法来实现：<br>1、<code>uuid1()</code> 基于时间戳<br>由MAC地址、当前时间戳、随机数生成。可以保证全球范围内的唯一性，<br>但MAC的使用同时带来安全性问题，局域网中可以使用IP来代替MAC。</p>
+<p>2、<code>uuid2()</code> 基于分布式计算环境DCE（Python中没有这个函数）<br>算法与uuid1相同，不同的是把时间戳的前4位置换为POSIX的UID。<br>实际中很少用到该方法。</p>
+<p>3、<code>uuid3()</code> 基于名字的MD5散列值<br>通过计算名字和命名空间的MD5散列值得到，保证了同一命名空间中不同名字的唯一性，<br>和不同命名空间的唯一性，但同一命名空间的同一名字生成相同的uuid。    </p>
+<p>4、<code>uuid4()</code> 基于随机数<br>由伪随机数得到，有一定的重复概率，该概率可以计算出来。</p>
+<p>5、<code>uuid5()</code> 基于名字的SHA-1散列值<br>算法与uuid3相同，不同的是使用 Secure Hash Algorithm 1 算法</p>
+<p>使用方面：<br>首先，<code>Python</code>中没有基于<code>DCE</code>的，所以<code>uuid2</code>可以忽略；<br>其次，<code>uuid4</code>存在概率性重复，由无映射性，最好不用；<br>再次，若在<code>Global</code>的分布式计算环境下，最好用<code>uuid1</code>；<br>最后，若有名字的唯一性要求，最好用<code>uuid3</code>或<code>uuid5</code>。</p>
+<p>编码方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> uuid</div><div class="line"></div><div class="line">name = <span class="string">"test_name"</span></div><div class="line">namespace = <span class="string">"test_namespace"</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> uuid.uuid1()  <span class="comment"># 带参的方法参见Python Doc</span></div><div class="line"><span class="keyword">print</span> uuid.uuid3(namespace, name)</div><div class="line"><span class="keyword">print</span> uuid.uuid4()</div><div class="line"><span class="keyword">print</span> uuid.uuid5(namespace, name)</div></pre></td></tr></table></figure>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/uuid/">uuid</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python/">Python</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  
+<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到linkedin" href="#" class="bds_linkedin" data-cmd="linkedin"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到Facebook" href="#" class="bds_fbook" data-cmd="fbook"></a><a title="分享到Twitter" href="#" class="bds_twi" data-cmd="twi"></a><a title="分享到有道云笔记" href="#" class="bds_youdao" data-cmd="youdao"></a><a title="分享到飞信" href="#" class="bds_fx" data-cmd="fx"></a><a title="分享到复制网址" href="#" class="bds_copy" data-cmd="copy"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"],"viewText":" ","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/04/19/Python单例模式/" title="Python单例模式">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Python单例模式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/03/20/关于Python文件操作/"  title="关于Python文件操作">
+ <strong>NEXT:</strong><br/> 
+ <span>关于Python文件操作
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		
+			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Python/" title="Python">Python<sup>20</sup></a></li>
+		
+			<li><a href="/categories/Qt/" title="Qt">Qt<sup>18</sup></a></li>
+		
+			<li><a href="/categories/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂类/" title="杂类">杂类<sup>2</sup></a></li>
+		
+			<li><a href="/categories/猿人日常/" title="猿人日常">猿人日常<sup>4</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/ASCII/" title="ASCII">ASCII<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Branch/" title="Branch">Branch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Notepad/" title="Notepad++">Notepad++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyChecker/" title="PyChecker">PyChecker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyQt/" title="PyQt">PyQt<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+		
+			<li><a href="/tags/QFontMetrics/" title="QFontMetrics">QFontMetrics<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QLabel/" title="QLabel">QLabel<sup>3</sup></a></li>
+		
+			<li><a href="/tags/QSS/" title="QSS">QSS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QScrollBar/" title="QScrollBar">QScrollBar<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QTabWidget/" title="QTabWidget">QTabWidget<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QThread/" title="QThread">QThread<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QWebView/" title="QWebView">QWebView<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Qt/" title="Qt">Qt<sup>15</sup></a></li>
+		
+			<li><a href="/tags/QtWebKit/" title="QtWebKit">QtWebKit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QtWebkit/" title="QtWebkit">QtWebkit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+    
+    <div class="line">
+        <span></span>
+
+        <div class="author"></div>
+    </div>
+    
+    
+    <section class="info">
+        <p> Hi, I&#39;m Moky. <br/>
+            I wanna share all my stuffs with u ~</p>
+    </section>
+    
+    <div class="social-font clearfix">
+        
+        <a href="http://weibo.com/218889128" target="_blank" title="weibo"></a>
+        
+        
+        
+        <a href="https://github.com/mokyue" target="_blank" title="github"></a>
+        
+        
+        
+        <a href="https://www.linkedin.com/pub/matthew-mok/69/9a3/641" target="_blank" title="linkedin"></a>
+        
+    </div>
+    <p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a> and themed by <a
+                href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a>
+        © 2015
+        
+        <a href="http://moky.cc" target="_blank" title="Moky">Moky</a>
+        
+        <br>
+        <a class="icp" href="http://www.miitbeian.gov.cn/" target="_blank"
+           title="粤ICP备15013592号">粤ICP备15013592号</a>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank" title="中华人民共和国工业和信息化部">
+            <img src="/img/copy_right.png" alt="中华人民共和国工业和信息化部"/>
+        </a>
+    </p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mokyue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<div id="to_top" style="position: fixed; bottom: 80px; right: 7.5%; cursor: pointer;">
+    <a title="返回顶部" style="display: block; line-height: 25px !important; text-align: center; box-shadow: 2px 4px 5px rgba(3, 3, 3, 0.2); width: 28px; height: 28px; border-radius: 50%; font: normal 28px 'FontAwesome'; background-color: #ea6753; color: #ffffff"></a>
+</div>
+
+<script src="/js/to_top.js"></script>
+
+  </body>
+</html>

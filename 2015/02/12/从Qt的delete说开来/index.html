@@ -1,0 +1,550 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>从Qt的delete说开来 | One Night in Mok&#39;s Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Moky">
+    
+    <meta name="description" content="【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。http://blog.csdn.net/dbzhang800/article/details/6300025
+
+在C++中学习过程中，我们都知道：
+
+delete 和 new 必须 配对使用(">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml" title="One Night in Mok&#39;s Studio" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="One Night in Mok&#39;s Studio" title="One Night in Mok&#39;s Studio"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="One Night in Mok&#39;s Studio">One Night in Mok&#39;s Studio</a></h1>
+				<h2 class="blog-motto">Life is a beautiful struggle.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:moky.cc">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/02/12/从Qt的delete说开来/" title="从Qt的delete说开来" itemprop="url">从Qt的delete说开来</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://moky.cc" title="Moky">Moky</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-02-12T12:57:36.000Z" itemprop="datePublished">Feb 12 2015</time>
+    Updated:<time datetime="2015-05-11T03:01:06.000Z" itemprop="dateModified">May 11 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#Qt半自动的内存管理"><span class="toc-number">1.</span> <span class="toc-text">Qt半自动的内存管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#父子关系"><span class="toc-number">2.</span> <span class="toc-text">父子关系</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#建立与解除"><span class="toc-number">2.1.</span> <span class="toc-text">建立与解除</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#获取父、子对象"><span class="toc-number">2.2.</span> <span class="toc-text">获取父、子对象</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#deleteLater"><span class="toc-number">3.</span> <span class="toc-text">deleteLater</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#删除自己"><span class="toc-number">3.1.</span> <span class="toc-text">删除自己</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#later"><span class="toc-number">3.2.</span> <span class="toc-text">later</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#一些例子"><span class="toc-number">4.</span> <span class="toc-text">一些例子</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#无关痛痒"><span class="toc-number">4.1.</span> <span class="toc-text">无关痛痒</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#单独列一个吧"><span class="toc-number">4.2.</span> <span class="toc-text">单独列一个吧</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#隐蔽很深？"><span class="toc-number">4.3.</span> <span class="toc-text">隐蔽很深？</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#参考"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+		</div>
+		
+		<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/dbzhang800/article/details/6300025" title="http://blog.csdn.net/dbzhang800/article/details/6300025" target="_blank" rel="external">http://blog.csdn.net/dbzhang800/article/details/6300025</a></p>
+</blockquote>
+<p>在C++中学习过程中，我们都知道：</p>
+<ul>
+<li>delete 和 new 必须 配对使用(一 一对应)：delete少了，则内存泄露，多了麻烦更大。</li>
+</ul>
+<p>Qt作为C++的库，显然是不会违背C++的前述原则的。可是:</p>
+<ul>
+<li>在Qt中，我们很多时候都疯狂地用new，却很少用delete，缺少的 delete 去哪儿了？！</li>
+</ul>
+<h5 id="Qt半自动的内存管理">Qt半自动的内存管理</h5>
+<p>在Qt中，以下情况下你new出的对象你可以不用 亲自去delete (但你应该清楚delete在何处被Qt调用的，怎么被调用的)：</p>
+<ul>
+<li>QObject及其派生类的对象，如果其parent非0，那么其parent析构时会析构该对象(本文内容围绕这一点展开 )</li>
+</ul>
+<p>除此之外，有些类的对象可以接收设置一些特别的标记，比如：</p>
+<ul>
+<li>QWidget及其派生类的对象，可以设置 Qt::WA_DeleteOnClose 标志位(当close时会析构该对象)</li>
+<li>QAbstractAnimation派生类的对象，可以设置 QAbstractAnimation::DeleteWhenStopped</li>
+<li>QRunnable::setAutoDelete()</li>
+<li>MediaSource::setAutoDelete()</li>
+<li>…</li>
+</ul>
+<p>注意：这些用法会有些陷阱 ，请注意看本文最后的3个小例子。</p>
+<p>在Qt中，最基础和核心的类是：QObject 。它的魔力很大，本文只关注两点：</p>
+<ul>
+<li>父子关系</li>
+<li>deleteLater</li>
+</ul>
+<h5 id="父子关系">父子关系</h5>
+<p>在Qt中，每个 QObject 内部都有一个list，用来保存所有的 children，还有一个指针，保存自己的parent。当它自己析构时，它会将自己从parent的列表中删除，并且析构掉所有的children。</p>
+<p>注意：在 Qt 中，我们经常会遇到</p>
+<ul>
+<li><strong>基类</strong>、<strong>派生类</strong>，或<strong>父类</strong>、<strong>子类</strong>。 这是对于派生体系来说的，和在C++相关书中看到的完全一样，与这的parent无关</li>
+<li><strong>父对象</strong>、<strong>子对象</strong>、<strong>父子关系</strong>。 这是Qt中所特有的，也就是这儿的parent所引入的，与类的继承关系无关</li>
+</ul>
+<h6 id="建立与解除">建立与解除</h6>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Q_INVOKABLE QObject<span class="tag">::QObject</span> ( QObject <span class="subst">*</span> <span class="keyword">parent</span> <span class="subst">=</span> <span class="number">0</span> )</div></pre></td></tr></table></figure>
+
+<p>创建一个QObject对象时，如果指定了父对象，它就会将自己添加到父对象的 children 列表中</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QObject::~QObject () [<span class="keyword">virtual</span>]</div></pre></td></tr></table></figure>
+
+<p>当一个QObject对象析构时，它会将自己从父对象的 children 列表中移除(parent非0的话)</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="literal">void</span> QObject<span class="tag">::setParent</span> ( QObject <span class="subst">*</span> <span class="keyword">parent</span> )</div></pre></td></tr></table></figure>
+
+<p>通过该函数，将自己从原父对象的children中删除，添加到新parent的children列表中</p>
+<p>注：这三个函数都是通过一个内部私有函数来实现的，这就是</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QObjectPrivate::<span class="keyword">set</span>Parent_helper(QObject *o)</div></pre></td></tr></table></figure>
+
+<h6 id="获取父、子对象">获取父、子对象</h6>
+<p>每个QObject只有一个父对象：</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QObject * QObject::parent () <span class="keyword">const</span></div></pre></td></tr></table></figure>
+
+<p>子对象可以有多个</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> QObjectList & QObject::children () <span class="keyword">const</span></div></pre></td></tr></table></figure>
+
+<p>所以可以根据条件来查找喽：</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">T QObject::findChild ( <span class="keyword">const</span> QString & name = QString() ) <span class="keyword">const</span></div><div class="line">QList&lt;T&gt; QObject::findChildren ( <span class="keyword">const</span> QString & name = QString() ) <span class="keyword">const</span></div></pre></td></tr></table></figure>
+
+<h5 id="deleteLater">deleteLater</h5>
+<p>deleteLater 包含两层意思了</p>
+<ul>
+<li>delete</li>
+<li>later</li>
+</ul>
+<p>呵呵，似乎这是废话哈。</p>
+<h6 id="删除自己">删除自己</h6>
+<p>在去年春节前的时候吧，有人对</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">obj-&gt;</span> deleteLater()</span></div></pre></td></tr></table></figure>
+
+<p>会像下面一样调用delete：</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="operator"><span class="keyword">delete</span> obj;</span></div></pre></td></tr></table></figure>
+
+<p>感到不解。然后我写了这样一个C++例子：</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class A</div><div class="line">{</div><div class="line">  <span class="keyword">public</span>:</div><div class="line">  <span class="title">A</span>(){}</div><div class="line">  <span class="keyword">void</span> deleteMe()</div><div class="line">  {</div><div class="line">      delete <span class="keyword">this</span>;</div><div class="line">  }</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keyword">int</span> main()</div><div class="line">{</div><div class="line">  A * a = <span class="keyword">new</span> A;</div><div class="line">  a-&gt;deleteMe();</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>应该不需要解释吧</p>
+<h6 id="later">later</h6>
+<p>Qt 是事件驱动的，所以发送一个删除事件到事件系统就可以啦：</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">void</span> <span class="tag">QObject</span><span class="pseudo">::deleteLater()</span></div><div class="line"><span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">QCoreApplication</span>:<span class="value">:<span class="function">postEvent</span>(this, new <span class="function">QEvent</span>(QEvent::DeferredDelete))</span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
+
+<p>事件循环稍后看到该事件就会将其派发会这个widget：</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">bool QObject::event(QEvent *e)</div><div class="line">{</div><div class="line">    <span class="keyword">switch</span> (e-&gt;type()) {</div><div class="line"><span class="keyword">...</span></div><div class="line">    case QEvent::DeferredDelete:</div><div class="line">         <span class="keyword">...</span></div></pre></td></tr></table></figure>
+
+<h5 id="一些例子">一些例子</h5>
+<h6 id="无关痛痒">无关痛痒</h6>
+<p>很简短、很熟悉的一个例子是不？但是 如果你发现对象的析构函数始终不被成功调用 ，会有什么感觉？</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QApplication&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QLabel&gt;</span></div><div class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</div><div class="line">{</div><div class="line">QApplication app(argc, argv);</div><div class="line">QLabel *label = <span class="keyword">new</span> QLabel(<span class="string">"Hello Qt!"</span>);</div><div class="line">label-&gt;show();</div><div class="line"><span class="keyword">return</span> app.exec();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这是 C++ GUI Programming with Qt 4 一书的第一个例子。我们注意到这儿的 label 既没有指定parent，也没有对其调用delete。</p>
+<p>所以，这儿会造成内存泄露。</p>
+<p>书中解释说，对于这种小例子，这点内存泄露不算什么。不清楚官方这个例子的意图是什么，或许是一开始就让大家用指针吧。</p>
+<p>三种改进方式</p>
+<ul>
+<li>分配对象到stack而不是heap中</li>
+</ul>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">QLabel <span class="keyword">label</span>(<span class="string">"Hello Qt!"</span>);</div><div class="line"><span class="keyword">label</span>.show();</div></pre></td></tr></table></figure>
+
+<ul>
+<li>设置标志位，这样，当我们点击关闭按钮时，close()函数将会调用deleteLater</li>
+</ul>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">label-&gt;setAttribute(Qt::WA_DeleteOnClose);</div></pre></td></tr></table></figure>
+
+<ul>
+<li>动手调用delete(不就是少了一个么，我们补上还不行么)</li>
+</ul>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> <span class="keyword">ret</span> = app.exec();</div><div class="line"><span class="built_in">delete</span> label;</div><div class="line"><span class="keyword">return</span> <span class="keyword">ret</span>;</div></pre></td></tr></table></figure>
+
+<h6 id="单独列一个吧">单独列一个吧</h6>
+<p>强化一下对前一个例子的了解</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QApplication&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QLabel&gt;</span></div><div class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</div><div class="line">{</div><div class="line">QApplication app(argc, argv);</div><div class="line">QLabel label(<span class="string">"Hello Qt!"</span>);</div><div class="line">label.show();</div><div class="line">label.setAttribute(Qt::WA_DeleteOnClose);</div><div class="line"><span class="keyword">return</span> app.exec();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>运行正常，退出时会崩溃 ，因为label被close时，将会 delete 这儿label对象，但label对象却不是通过new分配到heap中的。</p>
+<p>为了使得用户减少自己显式使用delete，Qt将delete隐藏的比较深。这样一来，不使用new为对象分配空间时，反倒需要多多小心了。</p>
+<h6 id="隐蔽很深？">隐蔽很深？</h6>
+<p>看个小例子：这个程序退出时会直接崩溃 。</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#include &lt;QtGui&gt;</span></div><div class="line">int main(int argc, char* argv[])</div><div class="line">{</div><div class="line">   QApplication app(argc, argv);</div><div class="line">   QLabel label(t<span class="string">r"Hello Qt!"</span>);</div><div class="line">   QWidget w;</div><div class="line">   label.setParent(&w);</div><div class="line">   w.show();</div><div class="line">   <span class="keyword">return</span> app.exec();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>问题出在哪儿呢？因为退出时，w 比 label 先被析构，当 w 被析构时，会删除chilren列表中的对象，也就是这儿的 label。但 label 却不是通过new分配在heap中，而是在stack中，可想而知，delete 一个再stack中的对象会怎么样了。相当于</p>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">QLabel label();</div><div class="line"><span class="operator"><span class="keyword">delete</span> &label;</span></div></pre></td></tr></table></figure>
+
+<p>两种改进办法：</p>
+<ul>
+<li>一是，将label分配到heap中</li>
+</ul>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">QLabel *<span class="keyword">label</span> = <span class="keyword">new</span> QLabel(<span class="string">"Hello Qt!"</span>);</div><div class="line"><span class="keyword">label</span>.setParent(&w)</div></pre></td></tr></table></figure>
+
+<ul>
+<li>再一种就是，确保label先于其parent被析构(调整一下顺序)，这样，label析构时将自己从父对象的列表中移除自己，w析构时，children列表中就不会有分配在stack中的对象了。</li>
+</ul>
+<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">QWidget w;</div><div class="line">QLabel label(t<span class="string">r"Hello Qt!"</span>);</div></pre></td></tr></table></figure>
+
+<p>Qt 对象的父子关系的引入，简化了我们对内存的管理，但是，由于它会在你不太注意的地方调用 delete，所以，使用时还是要当心。</p>
+<h5 id="参考">参考</h5>
+<ul>
+<li><a href="http://doc.qt.nokia.com/4.7/qobject.html" title="http://doc.qt.nokia.com/4.7/qobject.html" target="_blank" rel="external">http://doc.qt.nokia.com/4.7/qobject.html</a></li>
+<li><a href="http://www.cuteqt.com/blog/?p=824" title="http://www.cuteqt.com/blog/?p=824" target="_blank" rel="external">http://www.cuteqt.com/blog/?p=824</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Qt/">Qt</a><a href="/tags/delete/">delete</a><a href="/tags/内存管理/">内存管理</a><a href="/tags/C/">C++</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Qt/">Qt</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  
+<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到linkedin" href="#" class="bds_linkedin" data-cmd="linkedin"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到Facebook" href="#" class="bds_fbook" data-cmd="fbook"></a><a title="分享到Twitter" href="#" class="bds_twi" data-cmd="twi"></a><a title="分享到有道云笔记" href="#" class="bds_youdao" data-cmd="youdao"></a><a title="分享到飞信" href="#" class="bds_fx" data-cmd="fx"></a><a title="分享到复制网址" href="#" class="bds_copy" data-cmd="copy"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"],"viewText":" ","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/02/13/QtWebkit-使用方法/" title="QtWebkit 使用方法">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  QtWebkit 使用方法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/02/12/为上云而备案/"  title="为上云而备案">
+ <strong>NEXT:</strong><br/> 
+ <span>为上云而备案
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#Qt半自动的内存管理"><span class="toc-number">1.</span> <span class="toc-text">Qt半自动的内存管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#父子关系"><span class="toc-number">2.</span> <span class="toc-text">父子关系</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#建立与解除"><span class="toc-number">2.1.</span> <span class="toc-text">建立与解除</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#获取父、子对象"><span class="toc-number">2.2.</span> <span class="toc-text">获取父、子对象</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#deleteLater"><span class="toc-number">3.</span> <span class="toc-text">deleteLater</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#删除自己"><span class="toc-number">3.1.</span> <span class="toc-text">删除自己</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#later"><span class="toc-number">3.2.</span> <span class="toc-text">later</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#一些例子"><span class="toc-number">4.</span> <span class="toc-text">一些例子</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#无关痛痒"><span class="toc-number">4.1.</span> <span class="toc-text">无关痛痒</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#单独列一个吧"><span class="toc-number">4.2.</span> <span class="toc-text">单独列一个吧</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#隐蔽很深？"><span class="toc-number">4.3.</span> <span class="toc-text">隐蔽很深？</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#参考"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		
+			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Python/" title="Python">Python<sup>20</sup></a></li>
+		
+			<li><a href="/categories/Qt/" title="Qt">Qt<sup>18</sup></a></li>
+		
+			<li><a href="/categories/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂类/" title="杂类">杂类<sup>2</sup></a></li>
+		
+			<li><a href="/categories/猿人日常/" title="猿人日常">猿人日常<sup>4</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/ASCII/" title="ASCII">ASCII<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Branch/" title="Branch">Branch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Notepad/" title="Notepad++">Notepad++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyChecker/" title="PyChecker">PyChecker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyQt/" title="PyQt">PyQt<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+		
+			<li><a href="/tags/QFontMetrics/" title="QFontMetrics">QFontMetrics<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QLabel/" title="QLabel">QLabel<sup>3</sup></a></li>
+		
+			<li><a href="/tags/QSS/" title="QSS">QSS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QScrollBar/" title="QScrollBar">QScrollBar<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QTabWidget/" title="QTabWidget">QTabWidget<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QThread/" title="QThread">QThread<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QWebView/" title="QWebView">QWebView<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Qt/" title="Qt">Qt<sup>15</sup></a></li>
+		
+			<li><a href="/tags/QtWebKit/" title="QtWebKit">QtWebKit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QtWebkit/" title="QtWebkit">QtWebkit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+    
+    <div class="line">
+        <span></span>
+
+        <div class="author"></div>
+    </div>
+    
+    
+    <section class="info">
+        <p> Hi, I&#39;m Moky. <br/>
+            I wanna share all my stuffs with u ~</p>
+    </section>
+    
+    <div class="social-font clearfix">
+        
+        <a href="http://weibo.com/218889128" target="_blank" title="weibo"></a>
+        
+        
+        
+        <a href="https://github.com/mokyue" target="_blank" title="github"></a>
+        
+        
+        
+        <a href="https://www.linkedin.com/pub/matthew-mok/69/9a3/641" target="_blank" title="linkedin"></a>
+        
+    </div>
+    <p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a> and themed by <a
+                href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a>
+        © 2015
+        
+        <a href="http://moky.cc" target="_blank" title="Moky">Moky</a>
+        
+        <br>
+        <a class="icp" href="http://www.miitbeian.gov.cn/" target="_blank"
+           title="粤ICP备15013592号">粤ICP备15013592号</a>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank" title="中华人民共和国工业和信息化部">
+            <img src="/img/copy_right.png" alt="中华人民共和国工业和信息化部"/>
+        </a>
+    </p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mokyue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<div id="to_top" style="position: fixed; bottom: 80px; right: 7.5%; cursor: pointer;">
+    <a title="返回顶部" style="display: block; line-height: 25px !important; text-align: center; box-shadow: 2px 4px 5px rgba(3, 3, 3, 0.2); width: 28px; height: 28px; border-radius: 50%; font: normal 28px 'FontAwesome'; background-color: #ea6753; color: #ffffff"></a>
+</div>
+
+<script src="/js/to_top.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,416 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JSON解析器小练习 | One Night in Mok&#39;s Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Moky">
+    
+    <meta name="description" content="原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。
+
+来到网易的第三天，我还是在Python的学习阶段，不过对Python一些理论性的东西已经有所理解。与此同时，主管也有给我一些小练习，让我边做边熟悉。是的，学习一种新的编程语言最有效率的方法就是边看">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml" title="One Night in Mok&#39;s Studio" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="One Night in Mok&#39;s Studio" title="One Night in Mok&#39;s Studio"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="One Night in Mok&#39;s Studio">One Night in Mok&#39;s Studio</a></h1>
+				<h2 class="blog-motto">Life is a beautiful struggle.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:moky.cc">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/01/15/JSON解析器小练习/" title="JSON解析器小练习" itemprop="url">JSON解析器小练习</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://moky.cc" title="Moky">Moky</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-01-15T01:50:01.000Z" itemprop="datePublished">Jan 15 2015</time>
+    Updated:<time datetime="2015-05-11T03:01:06.000Z" itemprop="dateModified">May 11 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+		</div>
+		
+		<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>来到网易的第三天，我还是在Python的学习阶段，不过对Python一些理论性的东西已经有所理解。与此同时，主管也有给我一些小练习，让我边做边熟悉。是的，学习一种新的编程语言最有效率的方法就是边看书边打代码做小练习，这在我之前的学习中也深有体会。</p>
+<p>在此顺便记录一下小练习<code>JSON Parser</code>的代码：<code>初学勿喷</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> string</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonParser</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self.data_json = <span class="keyword">None</span></div><div class="line"></div><div class="line">    <span class="comment"># JSON type: null, true and false.</span></div><div class="line">    __list_jdt = [<span class="string">u'null'</span>, <span class="string">u'true'</span>, <span class="string">u'false'</span>]</div><div class="line"></div><div class="line">    <span class="comment"># Read a string JSON data into the class, with no return value.</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self, s)</span>:</span></div><div class="line">        print(<span class="string">u'[INFO] Load JSON string.'</span>)</div><div class="line">        json_type = JsonParser.__get_json_obj_type(s)</div><div class="line">        <span class="keyword">if</span> json_type == list:</div><div class="line">            self.data_json = list()</div><div class="line">        <span class="keyword">elif</span> json_type == dict:</div><div class="line">            self.data_json = dict()</div><div class="line">        self.__build_json_data(self.data_json, self.__parse_json_objects(s), json_type)</div><div class="line"></div><div class="line">    <span class="comment"># Reference to the dictionary data and return the JSON string.</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dump</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> str(self.data_json)</div><div class="line"></div><div class="line">    <span class="comment"># Build with parent and child relationship, to align the JSON data structure, with no return value.</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__build_json_data</span><span class="params">(self, parent, obj, typ)</span>:</span></div><div class="line">        <span class="keyword">if</span> typ == dict:</div><div class="line">            count_bb = <span class="number">0</span></div><div class="line">            count_sb = <span class="number">0</span></div><div class="line">            obj_key = <span class="string">''</span></div><div class="line">            obj_value = []</div><div class="line">            flg_d = <span class="keyword">True</span></div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(len(obj)):</div><div class="line">                <span class="keyword">if</span> flg_d:</div><div class="line">                    <span class="keyword">if</span> obj[i] == <span class="string">':'</span>:</div><div class="line">                        flg_d = <span class="keyword">not</span> flg_d</div><div class="line">                        obj_key = obj[i - <span class="number">1</span>].replace(<span class="string">'"'</span>, <span class="string">''</span>)</div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    count_bb, count_sb = JsonParser.__cal_brackets(obj[i], count_bb, count_sb)</div><div class="line">                    obj_value.append(obj[i])</div><div class="line">                    <span class="keyword">if</span> count_bb + count_sb == <span class="number">0</span>:</div><div class="line">                        flg_d = <span class="keyword">not</span> flg_d</div><div class="line">                        self.__build_dict(parent, obj_key, obj_value)</div><div class="line">                        obj_key = <span class="string">''</span></div><div class="line">                        obj_value = []</div><div class="line">        <span class="keyword">elif</span> typ == list:</div><div class="line">            count_bb = <span class="number">0</span></div><div class="line">            count_sb = <span class="number">0</span></div><div class="line">            list_obj = []</div><div class="line">            <span class="keyword">del</span> obj[<span class="number">0</span>]</div><div class="line">            <span class="keyword">del</span> obj[len(obj) - <span class="number">1</span>]</div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(len(obj)):</div><div class="line">                count_bb, count_sb = JsonParser.__cal_brackets(obj[i], count_bb, count_sb)</div><div class="line">                list_obj.append(obj[i])</div><div class="line">                <span class="keyword">if</span> count_bb + count_sb == <span class="number">0</span>:</div><div class="line">                    self.__build_list(parent, list_obj)</div><div class="line">                    list_obj = []</div><div class="line"></div><div class="line">    <span class="comment"># Build list data</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__build_list</span><span class="params">(self, parent, list_obj)</span>:</span></div><div class="line">        <span class="keyword">if</span> list_obj[<span class="number">0</span>] != <span class="string">','</span>:</div><div class="line">            <span class="keyword">if</span> list_obj[<span class="number">0</span>] == <span class="string">'{'</span>:</div><div class="line">                parent.append(list_obj)</div><div class="line">                parent[len(parent) - <span class="number">1</span>] = dict()</div><div class="line">                self.__build_json_data(parent[len(parent) - <span class="number">1</span>], list_obj, dict)</div><div class="line">            <span class="keyword">elif</span> list_obj[<span class="number">0</span>] == <span class="string">'['</span>:</div><div class="line">                parent.append(list_obj)</div><div class="line">                parent[len(parent) - <span class="number">1</span>] = list()</div><div class="line">                self.__build_json_data(parent[len(parent) - <span class="number">1</span>], list_obj, list)</div><div class="line"></div><div class="line">    <span class="comment"># Build dictionary data</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__build_dict</span><span class="params">(self, parent, obj_key, obj_value)</span>:</span></div><div class="line">        <span class="keyword">if</span> obj_value[<span class="number">0</span>] == <span class="string">'{'</span>:</div><div class="line">            parent[obj_key] = dict()</div><div class="line">            self.__build_json_data(parent[obj_key], obj_value, dict)</div><div class="line">        <span class="keyword">elif</span> obj_value[<span class="number">0</span>] == <span class="string">'['</span>:</div><div class="line">            parent[obj_key] = list()</div><div class="line">            self.__build_json_data(parent[obj_key], obj_value, list)</div><div class="line">        <span class="keyword">elif</span> len(obj_value) == <span class="number">1</span>:</div><div class="line">            <span class="keyword">if</span> obj_value[<span class="number">0</span>] <span class="keyword">in</span> self.__list_jdt:</div><div class="line">                <span class="keyword">if</span> obj_value[<span class="number">0</span>] == self.__list_jdt[<span class="number">0</span>]:</div><div class="line">                    parent[obj_key] = <span class="keyword">None</span></div><div class="line">                <span class="keyword">elif</span> obj_value[<span class="number">0</span>] == self.__list_jdt[<span class="number">1</span>]:</div><div class="line">                    parent[obj_key] = <span class="keyword">True</span></div><div class="line">                <span class="keyword">elif</span> obj_value[<span class="number">0</span>] == self.__list_jdt[<span class="number">2</span>]:</div><div class="line">                    parent[obj_key] = <span class="keyword">False</span></div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    <span class="keyword">raise</span> JsonValueError(<span class="string">u'JSON value exception.'</span>, obj_value[<span class="number">0</span>])</div><div class="line">            <span class="keyword">elif</span> obj_value[<span class="number">0</span>][<span class="number">0</span>] == <span class="string">'"'</span>:</div><div class="line">                parent[obj_key] = obj_value[<span class="number">0</span>].replace(<span class="string">'"'</span>, <span class="string">''</span>)</div><div class="line">            <span class="keyword">elif</span> <span class="string">'.'</span> <span class="keyword">in</span> obj_value[<span class="number">0</span>]:</div><div class="line">                <span class="keyword">try</span>:</div><div class="line">                    parent[obj_key] = string.atof(obj_value[<span class="number">0</span>])</div><div class="line">                <span class="keyword">except</span> ValueError:</div><div class="line">                    <span class="keyword">raise</span> JsonValueError(<span class="string">u'Invalid literal JSON value for float.'</span>, obj_value[<span class="number">0</span>])</div><div class="line">                <span class="keyword">except</span>:</div><div class="line">                    <span class="keyword">raise</span> JsonError(<span class="string">u'[ERROR] Unknown Json Error.'</span>)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">try</span>:</div><div class="line">                    parent[obj_key] = string.atoi(obj_value[<span class="number">0</span>])</div><div class="line">                <span class="keyword">except</span> ValueError:</div><div class="line">                    <span class="keyword">raise</span> JsonValueError(<span class="string">u'Invalid literal JSON value for int.'</span>, obj_value[<span class="number">0</span>])</div><div class="line">                <span class="keyword">except</span>:</div><div class="line">                    <span class="keyword">raise</span> JsonError(<span class="string">u'[ERROR] Unknown Json Error.'</span>)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">raise</span> JsonFormatError(<span class="string">u'JSON format exception.'</span>)</div><div class="line"></div><div class="line">    <span class="comment"># calculate the brackets</span></div><div class="line">    <span class="decorator">@staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__cal_brackets</span><span class="params">(obj, count_bb, count_sb)</span>:</span></div><div class="line">        <span class="keyword">if</span> obj == <span class="string">'{'</span>:</div><div class="line">            count_bb += <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> obj == <span class="string">'}'</span>:</div><div class="line">            count_bb -= <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> obj == <span class="string">'['</span>:</div><div class="line">            count_sb += <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> obj == <span class="string">']'</span>:</div><div class="line">            count_sb -= <span class="number">1</span></div><div class="line">        <span class="keyword">return</span> count_bb, count_sb</div><div class="line"></div><div class="line">    <span class="comment"># Return the quantity of quotes.</span></div><div class="line">    <span class="decorator">@staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__count_quotes</span><span class="params">(s, flg)</span>:</span></div><div class="line">        count = <span class="number">0</span></div><div class="line">        <span class="keyword">if</span> flg == <span class="number">0</span>:</div><div class="line">            <span class="keyword">for</span> cc <span class="keyword">in</span> s:</div><div class="line">                <span class="keyword">if</span> cc == <span class="string">'"'</span>:</div><div class="line">                    count += <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> flg == <span class="number">1</span>:</div><div class="line">            <span class="keyword">for</span> cc <span class="keyword">in</span> s:</div><div class="line">                <span class="keyword">if</span> cc == <span class="string">'\''</span>:</div><div class="line">                    count += <span class="number">1</span></div><div class="line">        <span class="keyword">return</span> count</div><div class="line"></div><div class="line">    <span class="comment"># Check if s is the JSON data type.</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__is_json_type</span><span class="params">(self, s)</span>:</span></div><div class="line">        <span class="keyword">if</span> s[<span class="number">0</span>] == <span class="string">'"'</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line">        <span class="keyword">elif</span> s <span class="keyword">in</span> self.__list_jdt:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line"></div><div class="line">    <span class="comment"># Parse the JSON string data to the object list.</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__parse_json_objects</span><span class="params">(self, str_json)</span>:</span></div><div class="line">        list_json = []</div><div class="line">        str_tmp = <span class="string">''</span></div><div class="line">        <span class="keyword">for</span> sgm_i <span class="keyword">in</span> str_json:</div><div class="line">            <span class="keyword">if</span> sgm_i == <span class="string">u'\n'</span>:</div><div class="line">                <span class="keyword">continue</span></div><div class="line">            <span class="keyword">if</span> sgm_i != <span class="string">' '</span>:</div><div class="line">                <span class="keyword">if</span> sgm_i == <span class="string">'{'</span> <span class="keyword">or</span> sgm_i == <span class="string">'}'</span> <span class="keyword">or</span> sgm_i == <span class="string">'['</span> <span class="keyword">or</span> sgm_i == <span class="string">']'</span> <span class="keyword">or</span> sgm_i == <span class="string">':'</span> <span class="keyword">or</span> sgm_i == <span class="string">','</span>:</div><div class="line">                    <span class="keyword">if</span> str_tmp != <span class="string">''</span>:</div><div class="line">                        <span class="keyword">if</span> str_tmp[<span class="number">0</span>] == <span class="string">'\''</span> <span class="keyword">or</span> str_tmp[len(str_tmp) - <span class="number">1</span>] == <span class="string">'\''</span>:</div><div class="line">                            <span class="keyword">raise</span> JsonFormatError(</div><div class="line">                                <span class="string">u'JSON standard does not allow single quoted strings. &gt;&gt;&gt; '</span> + str_tmp)</div><div class="line">                        <span class="keyword">if</span> (str_tmp[<span class="number">0</span>] == <span class="string">'"'</span> <span class="keyword">and</span> str_tmp[len(str_tmp) - <span class="number">1</span>] != <span class="string">'"'</span>) \</div><div class="line">                                <span class="keyword">or</span> (str_tmp[<span class="number">0</span>] != <span class="string">'"'</span> <span class="keyword">and</span> str_tmp[len(str_tmp) - <span class="number">1</span>] == <span class="string">'"'</span>):</div><div class="line">                            <span class="keyword">raise</span> JsonFormatError(<span class="string">u'JSON verification error, missing double quote. &gt;&gt;&gt; '</span> + str_tmp)</div><div class="line">                        <span class="keyword">elif</span> <span class="keyword">not</span> self.__is_json_type(str_tmp):</div><div class="line">                            <span class="keyword">try</span>:</div><div class="line">                                <span class="keyword">if</span> float(str_tmp) / <span class="number">1</span> == float(<span class="string">'inf'</span>) <span class="keyword">or</span> float(str_tmp) / <span class="number">1</span> == float(<span class="string">'-inf'</span>):</div><div class="line">                                    exit(<span class="number">1</span>)</div><div class="line">                            <span class="keyword">except</span> ValueError:</div><div class="line">                                print(<span class="string">u'[ERROR] JSON standard does not allow identifiers. &gt;&gt;&gt; %s'</span> % str_tmp)</div><div class="line">                                exit(<span class="number">1</span>)</div><div class="line">                            <span class="keyword">except</span>:</div><div class="line">                                print(<span class="string">u'[ERROR] Upper limit of Python float type. &gt;&gt;&gt; %s'</span> % str_tmp)</div><div class="line">                                exit(<span class="number">1</span>)</div><div class="line">                        <span class="keyword">if</span> sgm_i == <span class="string">':'</span> <span class="keyword">and</span> str_tmp[<span class="number">0</span>] != <span class="string">'"'</span>:</div><div class="line">                            <span class="keyword">raise</span> JsonFormatError(</div><div class="line">                                <span class="string">u'JSON standard allows only double quoted string as property key. &gt;&gt;&gt; '</span> + str_tmp)</div><div class="line">                        list_json.append(str_tmp)</div><div class="line">                        str_tmp = <span class="string">''</span></div><div class="line">                    list_json.append(sgm_i)</div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    str_tmp = str_tmp + sgm_i</div><div class="line">            <span class="keyword">elif</span> len(str_tmp) &gt; <span class="number">0</span> <span class="keyword">and</span> str_tmp[<span class="number">0</span>] == <span class="string">'"'</span> <span class="keyword">and</span> JsonParser.__count_quotes(str_tmp, <span class="number">0</span>) == <span class="number">1</span>:</div><div class="line">                str_tmp = str_tmp + sgm_i</div><div class="line">        <span class="keyword">return</span> list_json</div><div class="line"></div><div class="line">    <span class="comment"># To determine the JSON object type</span></div><div class="line">    <span class="decorator">@staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get_json_obj_type</span><span class="params">(str_json)</span>:</span></div><div class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> str_json:</div><div class="line">            <span class="keyword">if</span> ch == <span class="string">u' '</span>:</div><div class="line">                <span class="keyword">continue</span></div><div class="line">            <span class="keyword">elif</span> ch == <span class="string">u'['</span>:</div><div class="line">                <span class="keyword">return</span> list</div><div class="line">            <span class="keyword">elif</span> ch == <span class="string">u'{'</span>:</div><div class="line">                <span class="keyword">return</span> dict</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">raise</span> JsonInvalidKeywordError(</div><div class="line">                    <span class="string">u'JSON standard not allow to begin with this character (root character). &gt;&gt;&gt; %s'</span>, ch)</div><div class="line"></div><div class="line">    <span class="comment"># Parse None, True, False to JSON value</span></div><div class="line">    <span class="decorator">@staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__parse_jdt</span><span class="params">(s)</span>:</span></div><div class="line">        <span class="keyword">if</span> s == <span class="string">'None'</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">'null'</span></div><div class="line">        <span class="keyword">if</span> s == <span class="string">'True'</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">'true'</span></div><div class="line">        <span class="keyword">if</span> s == <span class="string">'False'</span>:</div><div class="line">            <span class="keyword">return</span> <span class="string">'false'</span></div><div class="line">        <span class="keyword">return</span> s</div><div class="line"></div><div class="line">    <span class="comment"># Parse the dictionary to JSON string.</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__dict_to_json_str</span><span class="params">(self, dict_json)</span>:</span></div><div class="line">        str_json = str(dict_json)</div><div class="line">        list_json = []</div><div class="line">        str_tmp = <span class="string">''</span></div><div class="line">        <span class="keyword">for</span> sgm_i <span class="keyword">in</span> str_json:</div><div class="line">            <span class="keyword">if</span> sgm_i == <span class="string">u'\n'</span>:</div><div class="line">                <span class="keyword">continue</span></div><div class="line">            <span class="keyword">if</span> sgm_i != <span class="string">' '</span>:</div><div class="line">                <span class="keyword">if</span> sgm_i == <span class="string">'{'</span> <span class="keyword">or</span> sgm_i == <span class="string">'}'</span> <span class="keyword">or</span> sgm_i == <span class="string">'['</span> <span class="keyword">or</span> sgm_i == <span class="string">']'</span> <span class="keyword">or</span> sgm_i == <span class="string">':'</span> <span class="keyword">or</span> sgm_i == <span class="string">','</span>:</div><div class="line">                    <span class="keyword">if</span> str_tmp != <span class="string">''</span>:</div><div class="line">                        <span class="keyword">if</span> str_tmp[<span class="number">0</span>] == <span class="string">'\''</span> <span class="keyword">or</span> str_tmp[len(str_tmp) - <span class="number">1</span>] == <span class="string">'\''</span>:</div><div class="line">                            str_tmp = <span class="string">'"'</span> + str_tmp[<span class="number">1</span>:len(str_tmp) - <span class="number">1</span>] + <span class="string">'"'</span></div><div class="line">                        <span class="keyword">if</span> sgm_i == <span class="string">':'</span> <span class="keyword">and</span> str_tmp[<span class="number">0</span>] != <span class="string">'"'</span>:</div><div class="line">                            <span class="keyword">raise</span> JsonFormatError(</div><div class="line">                                <span class="string">u'JSON standard allows only double quoted string as property key. &gt;&gt;&gt; Key: '</span> + str_tmp)</div><div class="line">                        <span class="keyword">if</span> list_json[len(list_json) - <span class="number">1</span>] == <span class="string">':'</span>:</div><div class="line">                            str_tmp = self.__parse_jdt(str_tmp)</div><div class="line">                        <span class="keyword">if</span> <span class="keyword">not</span> self.__is_json_type(str_tmp):</div><div class="line">                            <span class="keyword">try</span>:</div><div class="line">                                <span class="keyword">if</span> float(str_tmp) / <span class="number">1</span> == float(<span class="string">'inf'</span>) <span class="keyword">or</span> float(str_tmp) / <span class="number">1</span> == float(<span class="string">'-inf'</span>):</div><div class="line">                                    exit(<span class="number">1</span>)</div><div class="line">                            <span class="keyword">except</span> ValueError:</div><div class="line">                                print(<span class="string">u'[ERROR] JSON standard does not allow identifiers. &gt;&gt;&gt; %s'</span> % str_tmp)</div><div class="line">                                exit(<span class="number">1</span>)</div><div class="line">                            <span class="keyword">except</span>:</div><div class="line">                                print(<span class="string">u'[ERROR] Upper limit of Python float type. &gt;&gt;&gt; %s'</span> % str_tmp)</div><div class="line">                                exit(<span class="number">1</span>)</div><div class="line">                        list_json.append(str_tmp)</div><div class="line">                        str_tmp = <span class="string">''</span></div><div class="line">                    list_json.append(sgm_i)</div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    str_tmp = str_tmp + sgm_i</div><div class="line">            <span class="keyword">elif</span> len(str_tmp) &gt; <span class="number">0</span> <span class="keyword">and</span> str_tmp[<span class="number">0</span>] == <span class="string">'\''</span> <span class="keyword">and</span> JsonParser.__count_quotes(str_tmp, <span class="number">1</span>) == <span class="number">1</span>:</div><div class="line">                str_tmp = str_tmp + sgm_i</div><div class="line">        str_tmp = <span class="string">''</span></div><div class="line">        <span class="keyword">for</span> sgm_j <span class="keyword">in</span> list_json:</div><div class="line">            str_tmp += sgm_j</div><div class="line">        <span class="keyword">return</span> str_tmp</div><div class="line"></div><div class="line">    <span class="comment"># Deep copy a JSON object</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__deep_copy</span><span class="params">(self, obj)</span>:</span></div><div class="line">        <span class="keyword">if</span> isinstance(obj, list):</div><div class="line">            <span class="keyword">return</span> [self.__deep_copy(item) <span class="keyword">for</span> item <span class="keyword">in</span> obj]</div><div class="line">        <span class="keyword">elif</span> isinstance(obj, dict):</div><div class="line">            <span class="keyword">return</span> dict((key, self.__deep_copy(obj[key])) <span class="keyword">for</span> key <span class="keyword">in</span> obj)</div><div class="line">        <span class="keyword">return</span> obj</div><div class="line"></div><div class="line">    <span class="comment"># Load a external JSON file into json_dict.</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">loadJson</span><span class="params">(self, f)</span>:</span></div><div class="line">        print(<span class="string">u'[INFO] Load the JSON file: %s'</span> % f)</div><div class="line">        str_json = <span class="string">''</span></div><div class="line">        file_json = open(f, <span class="string">'r'</span>)</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">                line = file_json.readline()</div><div class="line">                <span class="keyword">if</span> len(line) == <span class="number">0</span>:</div><div class="line">                    <span class="keyword">break</span></div><div class="line">                str_json += line</div><div class="line">        <span class="keyword">except</span> IOError:</div><div class="line">            print(<span class="string">u'[ERROR] IO error, please check!'</span>)</div><div class="line">            exit(<span class="number">1</span>)</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            print(<span class="string">u'[ERROR] Program exception!'</span>)</div><div class="line">            exit(<span class="number">1</span>)</div><div class="line">        <span class="keyword">finally</span>:</div><div class="line">            file_json.close()</div><div class="line">        self.load(str_json)</div><div class="line"></div><div class="line">    <span class="comment"># Dump the class data into a JSON file, overwrite if file exist, failed if IO error.</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dumpJson</span><span class="params">(self, f)</span>:</span></div><div class="line">        print(<span class="string">u'[INFO] Dump to JSON file: %s'</span> % f)</div><div class="line">        file_json = open(f, <span class="string">'w'</span>)</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            file_json.write(self.__dict_to_json_str(self.data_json))</div><div class="line">        <span class="keyword">except</span> IOError:</div><div class="line">            print(<span class="string">'[ERROR] IO error, please check!'</span>)</div><div class="line">            exit(<span class="number">1</span>)</div><div class="line">        <span class="keyword">finally</span>:</div><div class="line">            file_json.close()</div><div class="line"></div><div class="line">    <span class="comment"># Load a object into class data and skip non-string type keys</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">loadDict</span><span class="params">(self, d)</span>:</span></div><div class="line">        print(<span class="string">u'[INFO] Load dictionary.'</span>)</div><div class="line">        str_json = str(d)</div><div class="line">        str_tgt = <span class="string">''</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(str_json)):</div><div class="line">            <span class="keyword">if</span> str_json[i] == <span class="string">'\''</span> <span class="keyword">and</span> str_json[i - <span class="number">1</span>] != <span class="string">'\\'</span>:</div><div class="line">                str_tgt += <span class="string">'"'</span></div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                str_tgt += str_json[i]</div><div class="line">        str_tgt = str_tgt.replace(<span class="string">': None,'</span>, <span class="string">': null,'</span>).replace(<span class="string">': False,'</span>, <span class="string">': false,'</span>).replace(<span class="string">': True,'</span>, <span class="string">': true,'</span>)</div><div class="line">        <span class="keyword">if</span> isinstance(d, list):</div><div class="line">            self.data_json = list()</div><div class="line">            self.__build_json_data(self.data_json, self.__parse_json_objects(str_tgt), list)</div><div class="line">        <span class="keyword">elif</span> isinstance(d, dict):</div><div class="line">            self.data_json = dict()</div><div class="line">            self.__build_json_data(self.data_json, self.__parse_json_objects(str_tgt), dict)</div><div class="line"></div><div class="line">    <span class="comment"># Return a deep copy dump JSON object</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dumpDict</span><span class="params">(self)</span>:</span></div><div class="line">        print(<span class="string">u'[INFO] Return a dump object.'</span>)</div><div class="line">        <span class="keyword">return</span> self.__deep_copy(self.data_json)</div><div class="line"></div><div class="line">    <span class="comment"># Update the JSON data in dictionary</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update</span><span class="params">(self, d)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            self.data_json.update(d)</div><div class="line">        <span class="keyword">except</span> ValueError:</div><div class="line">            print(<span class="string">u'[ERROR] Value error, please check!'</span>)</div><div class="line">            exit(<span class="number">1</span>)</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            print(<span class="string">u'[ERROR] Program exception!'</span>)</div><div class="line">            exit(<span class="number">1</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonError</span><span class="params">(Exception)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, msg)</span>:</span></div><div class="line">        Exception.__init__(self, <span class="string">u'%s'</span> % msg)</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonFormatError</span><span class="params">(JsonError)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, msg)</span>:</span></div><div class="line">        JsonError.__init__(self, <span class="string">u'[ERROR] %s'</span> % msg)</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonValueError</span><span class="params">(JsonError)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, msg, var)</span>:</span></div><div class="line">        JsonError.__init__(self, <span class="string">u'[ERROR] %s &gt;&gt;&gt; %s'</span> % (msg, var))</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonInvalidKeywordError</span><span class="params">(JsonError)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, msg, kw)</span>:</span></div><div class="line">        JsonError.__init__(self, <span class="string">u'[ERROR] %s &gt;&gt;&gt; %s'</span> % (msg, kw))</div></pre></td></tr></table></figure>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/JSON/">JSON</a><a href="/tags/解析器/">解析器</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/猿人日常/">猿人日常</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  
+<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到linkedin" href="#" class="bds_linkedin" data-cmd="linkedin"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到Facebook" href="#" class="bds_fbook" data-cmd="fbook"></a><a title="分享到Twitter" href="#" class="bds_twi" data-cmd="twi"></a><a title="分享到有道云笔记" href="#" class="bds_youdao" data-cmd="youdao"></a><a title="分享到飞信" href="#" class="bds_fx" data-cmd="fx"></a><a title="分享到复制网址" href="#" class="bds_copy" data-cmd="copy"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"],"viewText":" ","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/01/16/PyQt4中使用qrc资源文件/" title="PyQt4中使用qrc资源文件">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  PyQt4中使用qrc资源文件</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/01/14/Python经验总结/"  title="Python经验总结">
+ <strong>NEXT:</strong><br/> 
+ <span>Python经验总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		
+			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Python/" title="Python">Python<sup>20</sup></a></li>
+		
+			<li><a href="/categories/Qt/" title="Qt">Qt<sup>18</sup></a></li>
+		
+			<li><a href="/categories/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂类/" title="杂类">杂类<sup>2</sup></a></li>
+		
+			<li><a href="/categories/猿人日常/" title="猿人日常">猿人日常<sup>4</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/ASCII/" title="ASCII">ASCII<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Branch/" title="Branch">Branch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Notepad/" title="Notepad++">Notepad++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyChecker/" title="PyChecker">PyChecker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyQt/" title="PyQt">PyQt<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+		
+			<li><a href="/tags/QFontMetrics/" title="QFontMetrics">QFontMetrics<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QLabel/" title="QLabel">QLabel<sup>3</sup></a></li>
+		
+			<li><a href="/tags/QSS/" title="QSS">QSS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QScrollBar/" title="QScrollBar">QScrollBar<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QTabWidget/" title="QTabWidget">QTabWidget<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QThread/" title="QThread">QThread<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QWebView/" title="QWebView">QWebView<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Qt/" title="Qt">Qt<sup>15</sup></a></li>
+		
+			<li><a href="/tags/QtWebKit/" title="QtWebKit">QtWebKit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QtWebkit/" title="QtWebkit">QtWebkit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+    
+    <div class="line">
+        <span></span>
+
+        <div class="author"></div>
+    </div>
+    
+    
+    <section class="info">
+        <p> Hi, I&#39;m Moky. <br/>
+            I wanna share all my stuffs with u ~</p>
+    </section>
+    
+    <div class="social-font clearfix">
+        
+        <a href="http://weibo.com/218889128" target="_blank" title="weibo"></a>
+        
+        
+        
+        <a href="https://github.com/mokyue" target="_blank" title="github"></a>
+        
+        
+        
+        <a href="https://www.linkedin.com/pub/matthew-mok/69/9a3/641" target="_blank" title="linkedin"></a>
+        
+    </div>
+    <p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a> and themed by <a
+                href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a>
+        © 2015
+        
+        <a href="http://moky.cc" target="_blank" title="Moky">Moky</a>
+        
+        <br>
+        <a class="icp" href="http://www.miitbeian.gov.cn/" target="_blank"
+           title="粤ICP备15013592号">粤ICP备15013592号</a>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank" title="中华人民共和国工业和信息化部">
+            <img src="/img/copy_right.png" alt="中华人民共和国工业和信息化部"/>
+        </a>
+    </p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mokyue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<div id="to_top" style="position: fixed; bottom: 80px; right: 7.5%; cursor: pointer;">
+    <a title="返回顶部" style="display: block; line-height: 25px !important; text-align: center; box-shadow: 2px 4px 5px rgba(3, 3, 3, 0.2); width: 28px; height: 28px; border-radius: 50%; font: normal 28px 'FontAwesome'; background-color: #ea6753; color: #ffffff"></a>
+</div>
+
+<script src="/js/to_top.js"></script>
+
+  </body>
+</html>

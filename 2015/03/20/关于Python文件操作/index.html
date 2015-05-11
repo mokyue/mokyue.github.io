@@ -1,0 +1,485 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>关于Python文件操作 | One Night in Mok&#39;s Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Moky">
+    
+    <meta name="description" content="【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。http://www.cnblogs.com/rollenholt/archive/2012/04/23/2466179.html
+
+总是记不住API。昨晚写的时候用到了这些，但是没记住，于是就">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml" title="One Night in Mok&#39;s Studio" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="One Night in Mok&#39;s Studio" title="One Night in Mok&#39;s Studio"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="One Night in Mok&#39;s Studio">One Night in Mok&#39;s Studio</a></h1>
+				<h2 class="blog-motto">Life is a beautiful struggle.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:moky.cc">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/03/20/关于Python文件操作/" title="关于Python文件操作" itemprop="url">关于Python文件操作</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://moky.cc" title="Moky">Moky</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-03-20T09:53:30.000Z" itemprop="datePublished">Mar 20 2015</time>
+    Updated:<time datetime="2015-05-11T03:01:06.000Z" itemprop="dateModified">May 11 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#os模块和shutil模块"><span class="toc-number">1.</span> <span class="toc-text">os模块和shutil模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件操作"><span class="toc-number">2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录操作"><span class="toc-number">3.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关例子"><span class="toc-number">4.</span> <span class="toc-text">相关例子</span></a></li></ol>
+		</div>
+		
+		<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/rollenholt/archive/2012/04/23/2466179.html" title="http://www.cnblogs.com/rollenholt/archive/2012/04/23/2466179.html" target="_blank" rel="external">http://www.cnblogs.com/rollenholt/archive/2012/04/23/2466179.html</a></p>
+</blockquote>
+<p>总是记不住API。昨晚写的时候用到了这些，但是没记住，于是就索性整理一下吧：</p>
+<h2 id="os模块和shutil模块">os模块和shutil模块</h2>
+<p>得到当前工作目录，即当前Python脚本工作的目录路径: <code>os.getcwd()</code><br>返回指定目录下的所有文件和目录名: <code>os.listdir()</code><br>函数用来删除一个文件: <code>os.remove()</code><br>删除多个目录: <code>os.removedirs（r“c：\python”）</code><br>检验给出的路径是否是一个文件: <code>os.path.isfile()</code><br>检验给出的路径是否是一个目录: <code>os.path.isdir()</code><br>判断是否是绝对路径: <code>os.path.isabs()</code><br>检验给出的路径是否真地存: <code>os.path.exists()</code><br>返回一个路径的目录名和文件名: <code>os.path.split()</code><br>分离扩展名: <code>os.path.splitext()</code><br>获取路径名: <code>os.path.dirname()</code><br>获取文件名: <code>os.path.basename()</code><br>运行shell命令: <code>os.system()</code><br>读取和设置环境变量: <code>os.getenv()</code> 与 <code>os.putenv()</code><br>给出当前平台使用的行终止符: <code>os.linesep</code> (Windows使用’\r\n’，Linux使用’\n’而Mac使用’\r’)<br>指示你正在使用的平台: <code>os.name</code> (对于Windows，它是’nt’，而对于Linux/Unix用户，它是’posix’)<br>重命名: <code>os.rename（old, new）</code><br>创建多级目录: <code>os.makedirs（r“c：\python\test”）</code><br>创建单个目录: <code>os.mkdir（“test”）</code><br>获取文件属性: <code>os.stat（file）</code><br>修改文件权限与时间戳: <code>os.chmod（file）</code><br>终止当前进程: <code>os.exit（）</code><br>获取文件大小: <code>os.path.getsize（filename）</code></p>
+<p><br></p>
+<h2 id="文件操作">文件操作</h2>
+<p><code>os.mknod(&quot;test.txt&quot;)</code> 创建空文件<br><code>fp = open(&quot;test.txt&quot;,w)</code> 直接打开一个文件，如果文件不存在则创建文件</p>
+<p>关于open 模式：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">w</td>
+<td style="text-align:left">以写方式打开</td>
+</tr>
+<tr>
+<td style="text-align:left">a</td>
+<td style="text-align:left">以追加模式打开 (从 EOF 开始, 必要时创建新文件)</td>
+</tr>
+<tr>
+<td style="text-align:left">r+</td>
+<td style="text-align:left">以读写模式打开</td>
+</tr>
+<tr>
+<td style="text-align:left">w+</td>
+<td style="text-align:left">以读写模式打开 (参见 w )</td>
+</tr>
+<tr>
+<td style="text-align:left">a+</td>
+<td style="text-align:left">以读写模式打开 (参见 a )</td>
+</tr>
+<tr>
+<td style="text-align:left">rb</td>
+<td style="text-align:left">以二进制读模式打开</td>
+</tr>
+<tr>
+<td style="text-align:left">wb</td>
+<td style="text-align:left">以二进制写模式打开 (参见 w )</td>
+</tr>
+<tr>
+<td style="text-align:left">ab</td>
+<td style="text-align:left">以二进制追加模式打开 (参见 a )</td>
+</tr>
+<tr>
+<td style="text-align:left">rb+</td>
+<td style="text-align:left">以二进制读写模式打开 (参见 r+ )</td>
+</tr>
+<tr>
+<td style="text-align:left">wb+</td>
+<td style="text-align:left">以二进制读写模式打开 (参见 w+ )</td>
+</tr>
+<tr>
+<td style="text-align:left">ab+</td>
+<td style="text-align:left">以二进制读写模式打开 (参见 a+ )</td>
+</tr>
+</tbody>
+</table>
+<p><code>fp.read([size])</code> #size为读取的长度，以byte为单位<br><code>fp.readline([size])</code> #读一行，如果定义了size，有可能返回的只是一行的一部分<br><code>fp.readlines([size])</code> #把文件每一行作为一个list的一个成员，并返回这个list。其实它的内部是通过循环调用readline()来实现的。如果提供size参数，size是表示读取内容的总长，也就是说可能只读到文件的一部分。<br><code>fp.write(str)</code> #把str写到文件中，write()并不会在str后加上一个换行符<br><code>fp.writelines(seq)</code> #把seq的内容全部写到文件中(多行一次性写入)。这个函数也只是忠实地写入，不会在每行后面加上任何东西。<br><code>fp.close()</code> #关闭文件。python会在一个文件不用后自动关闭文件，不过这一功能没有保证，最好还是养成自己关闭的习惯。  如果一个文件在关闭后还对其进行操作会产生ValueError<br><code>fp.flush()</code> #把缓冲区的内容写入硬盘<br><code>fp.fileno()</code> #返回一个长整型的”文件标签“<br><code>fp.isatty()</code> #文件是否是一个终端设备文件（unix系统中的）<br><code>fp.tell()</code> #返回文件操作标记的当前位置，以文件的开头为原点<br><code>fp.next()</code> #返回下一行，并将文件操作标记位移到下一行。把一个file用于for … in file这样的语句时，就是调用next()函数来实现遍历的。<br><code>fp.seek(offset[,whence])</code> #将文件打操作标记移到offset的位置。这个offset一般是相对于文件的开头来计算的，一般为正数。但如果提供了whence参数就不一定了，whence可以为0表示从头开始计算，1表示以当前位置为原点计算。2表示以文件末尾为原点进行计算。需要注意，如果文件以a或a+的模式打开，每次进行写操作时，文件操作标记会自动返回到文件末尾。<br><code>fp.truncate([size])</code> #把文件裁成规定的大小，默认的是裁到当前文件操作标记的位置。如果size比文件的大小还要大，依据系统的不同可能是不改变文件，也可能是用0把文件补到相应的大小，也可能是以一些随机的内容加上去。</p>
+<p><br></p>
+<h2 id="目录操作">目录操作</h2>
+<p>创建目录 <code>os.mkdir(&quot;file&quot;)</code><br>复制文件:<br><code>shutil.copyfile(&quot;oldfile&quot;,&quot;newfile&quot;)</code> oldfile和newfile都只能是文件<br><code>shutil.copy(&quot;oldfile&quot;,&quot;newfile&quot;)</code> oldfile只能是文件夹，newfile可以是文件，也可以是目标目录<br>复制文件夹 <code>shutil.copytree(&quot;olddir&quot;,&quot;newdir&quot;)</code> olddir和newdir都只能是目录，且newdir必须不存在<br>重命名文件（目录） <code>os.rename(&quot;oldname&quot;,&quot;newname&quot;)</code> 文件或目录都是使用这条命令<br>移动文件（目录） <code>shutil.move(&quot;oldpos&quot;,&quot;newpos&quot;)</code><br>删除文件 <code>os.remove(&quot;file&quot;)</code><br>删除目录:<br><code>os.rmdir(&quot;dir&quot;)</code> 只能删除空目录<br><code>shutil.rmtree(&quot;dir&quot;)</code> 空目录、有内容的目录都可以删<br>转换目录 <code>os.chdir(&quot;path&quot;)</code></p>
+<p><br></p>
+<h2 id="相关例子">相关例子</h2>
+<p><strong>将文件夹下所有图片名称加上’_fc’</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="comment">#str.split(string)分割字符串</span></div><div class="line"><span class="comment">#'连接符'.join(list) 将列表组成字符串</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">change_name</span><span class="params">(path)</span>:</span></div><div class="line">    <span class="keyword">global</span> i</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(path) <span class="keyword">and</span> <span class="keyword">not</span> os.path.isfile(path):</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    <span class="keyword">if</span> os.path.isfile(path):</div><div class="line">        file_path = os.path.split(path) <span class="comment">#分割出目录与文件</span></div><div class="line">        lists = file_path[<span class="number">1</span>].split(<span class="string">'.'</span>) <span class="comment">#分割出文件与文件扩展名</span></div><div class="line">        file_ext = lists[-<span class="number">1</span>] <span class="comment">#取出后缀名(列表切片操作)</span></div><div class="line">        img_ext = [<span class="string">'bmp'</span>,<span class="string">'jpeg'</span>,<span class="string">'gif'</span>,<span class="string">'psd'</span>,<span class="string">'png'</span>,<span class="string">'jpg'</span>]</div><div class="line">        <span class="keyword">if</span> file_ext <span class="keyword">in</span> img_ext:</div><div class="line">            os.rename(path,file_path[<span class="number">0</span>]+<span class="string">'/'</span>+lists[<span class="number">0</span>]+<span class="string">'_fc.'</span>+file_ext)</div><div class="line">            i+=<span class="number">1</span> <span class="comment">#注意这里的i是一个陷阱</span></div><div class="line">        <span class="comment">#或者</span></div><div class="line">        <span class="comment">#img_ext = 'bmp|jpeg|gif|psd|png|jpg'</span></div><div class="line">        <span class="comment">#if file_ext in img_ext:</span></div><div class="line">        <span class="comment">#    print('ok---'+file_ext)</span></div><div class="line">    <span class="keyword">elif</span> os.path.isdir(path):</div><div class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> os.listdir(path):</div><div class="line">            change_name(os.path.join(path,x)) <span class="comment">#os.path.join()在路径处理上很有用</span></div><div class="line"></div><div class="line"></div><div class="line">img_dir = <span class="string">'D:\\xx\\xx\\images'</span></div><div class="line">img_dir = img_dir.replace(<span class="string">'\\'</span>,<span class="string">'/'</span>)</div><div class="line">start = time.time()</div><div class="line">i = <span class="number">0</span></div><div class="line">change_name(img_dir)</div><div class="line">c = time.time() - start</div><div class="line">print(<span class="string">'程序运行耗时:%0.2f'</span>%(c))</div><div class="line">print(<span class="string">'总共处理了 %s 张图片'</span>%(i))</div></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">程序运行耗时<span class="pseudo">:0</span><span class="class">.11</span></div><div class="line">总共处理了 109 张图片</div></pre></td></tr></table></figure>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/文件操作/">文件操作</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python/">Python</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  
+<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到linkedin" href="#" class="bds_linkedin" data-cmd="linkedin"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到Facebook" href="#" class="bds_fbook" data-cmd="fbook"></a><a title="分享到Twitter" href="#" class="bds_twi" data-cmd="twi"></a><a title="分享到有道云笔记" href="#" class="bds_youdao" data-cmd="youdao"></a><a title="分享到飞信" href="#" class="bds_fx" data-cmd="fx"></a><a title="分享到复制网址" href="#" class="bds_copy" data-cmd="copy"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"],"viewText":" ","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/04/01/Python使用UUID库生成唯一ID/" title="Python使用UUID库生成唯一ID">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Python使用UUID库生成唯一ID</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/03/19/QLabel中html标签的使用/"  title="QLabel中html标签的使用">
+ <strong>NEXT:</strong><br/> 
+ <span>QLabel中html标签的使用
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#os模块和shutil模块"><span class="toc-number">1.</span> <span class="toc-text">os模块和shutil模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件操作"><span class="toc-number">2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录操作"><span class="toc-number">3.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关例子"><span class="toc-number">4.</span> <span class="toc-text">相关例子</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		
+			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Python/" title="Python">Python<sup>20</sup></a></li>
+		
+			<li><a href="/categories/Qt/" title="Qt">Qt<sup>18</sup></a></li>
+		
+			<li><a href="/categories/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂类/" title="杂类">杂类<sup>2</sup></a></li>
+		
+			<li><a href="/categories/猿人日常/" title="猿人日常">猿人日常<sup>4</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/ASCII/" title="ASCII">ASCII<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Branch/" title="Branch">Branch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Notepad/" title="Notepad++">Notepad++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyChecker/" title="PyChecker">PyChecker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyQt/" title="PyQt">PyQt<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+		
+			<li><a href="/tags/QFontMetrics/" title="QFontMetrics">QFontMetrics<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QLabel/" title="QLabel">QLabel<sup>3</sup></a></li>
+		
+			<li><a href="/tags/QSS/" title="QSS">QSS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QScrollBar/" title="QScrollBar">QScrollBar<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QTabWidget/" title="QTabWidget">QTabWidget<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QThread/" title="QThread">QThread<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QWebView/" title="QWebView">QWebView<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Qt/" title="Qt">Qt<sup>15</sup></a></li>
+		
+			<li><a href="/tags/QtWebKit/" title="QtWebKit">QtWebKit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QtWebkit/" title="QtWebkit">QtWebkit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+    
+    <div class="line">
+        <span></span>
+
+        <div class="author"></div>
+    </div>
+    
+    
+    <section class="info">
+        <p> Hi, I&#39;m Moky. <br/>
+            I wanna share all my stuffs with u ~</p>
+    </section>
+    
+    <div class="social-font clearfix">
+        
+        <a href="http://weibo.com/218889128" target="_blank" title="weibo"></a>
+        
+        
+        
+        <a href="https://github.com/mokyue" target="_blank" title="github"></a>
+        
+        
+        
+        <a href="https://www.linkedin.com/pub/matthew-mok/69/9a3/641" target="_blank" title="linkedin"></a>
+        
+    </div>
+    <p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a> and themed by <a
+                href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a>
+        © 2015
+        
+        <a href="http://moky.cc" target="_blank" title="Moky">Moky</a>
+        
+        <br>
+        <a class="icp" href="http://www.miitbeian.gov.cn/" target="_blank"
+           title="粤ICP备15013592号">粤ICP备15013592号</a>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank" title="中华人民共和国工业和信息化部">
+            <img src="/img/copy_right.png" alt="中华人民共和国工业和信息化部"/>
+        </a>
+    </p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mokyue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<div id="to_top" style="position: fixed; bottom: 80px; right: 7.5%; cursor: pointer;">
+    <a title="返回顶部" style="display: block; line-height: 25px !important; text-align: center; box-shadow: 2px 4px 5px rgba(3, 3, 3, 0.2); width: 28px; height: 28px; border-radius: 50%; font: normal 28px 'FontAwesome'; background-color: #ea6753; color: #ffffff"></a>
+</div>
+
+<script src="/js/to_top.js"></script>
+
+  </body>
+</html>
