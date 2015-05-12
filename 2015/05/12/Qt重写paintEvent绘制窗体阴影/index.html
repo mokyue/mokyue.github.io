@@ -4,17 +4,14 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>解决 Git 里 fatal: the remote end hung up unexpectedly | One Night in Mok&#39;s Studio</title>
+    <title>Qt重写paintEvent绘制窗体阴影 | One Night in Mok&#39;s Studio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Moky">
     
     <meta name="description" content="原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。
 
-fatal: the remote end hung up unexpectedly发生在push命令中，有可能是push的文件过大导致。
-解决方法：
-for windows
-在.git/conf">
+Qt窗体做阴影效果的方法有很多种，有直接使用带阴影效果美术资源的，这里就不详说这种方法了，还有一种方法就是重写paintEvent绘制阴影的方法。代码如下: (以下为PyQt代码的实现，C++ Q">
     
     
     
@@ -73,15 +70,15 @@ for windows
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/03/02/解决-Git-里-fatal-the-remote-end-hung-up-unexpectedly/" title="解决 Git 里 fatal: the remote end hung up unexpectedly" itemprop="url">解决 Git 里 fatal: the remote end hung up unexpectedly</a>
+      <a href="/2015/05/12/Qt重写paintEvent绘制窗体阴影/" title="Qt重写paintEvent绘制窗体阴影" itemprop="url">Qt重写paintEvent绘制窗体阴影</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://moky.cc" title="Moky">Moky</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-03-02T03:04:24.000Z" itemprop="datePublished">Mar 2 2015</time>
-    Updated:<time datetime="2015-05-11T01:14:07.000Z" itemprop="dateModified">May 11 2015</time>
+    <time datetime="2015-05-12T13:57:44.000Z" itemprop="datePublished">May 12 2015</time>
+    Updated:<time datetime="2015-05-12T14:19:51.000Z" itemprop="dateModified">May 12 2015</time>
     
   </p>
 </header>
@@ -90,35 +87,33 @@ for windows
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方法："><span class="toc-number">1.</span> <span class="toc-text">解决方法：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#for_windows"><span class="toc-number">1.1.</span> <span class="toc-text">for windows</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for_linux"><span class="toc-number">1.2.</span> <span class="toc-text">for linux</span></a></li></ol></li></ol>
+		
 		</div>
 		
 		<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
-<p><code>fatal: the remote end hung up unexpectedly</code><br>发生在push命令中，有可能是push的文件过大导致。</p>
-<h2 id="解决方法："><strong>解决方法：</strong></h2>
-<h3 id="for_windows"><em>for windows</em></h3>
-<p>在<code>.git/config</code>文件中加入</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">[http]</span></div><div class="line"><span class="setting">postBuffer = <span class="value"><span class="number">524288000</span></span></span></div></pre></td></tr></table></figure>
+<p>Qt窗体做阴影效果的方法有很多种，有直接使用带阴影效果美术资源的，这里就不详说这种方法了，还有一种方法就是重写paintEvent绘制阴影的方法。<br><br><br>代码如下: (以下为PyQt代码的实现，C++ Qt实现的方法原理也是一样的。)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">paintEvent</span><span class="params">(self, event)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    绘制阴影</div><div class="line">    :param event:</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    path = QtGui.QPainterPath()</div><div class="line">    path.setFillRule(QtCore.Qt.WindingFill)</div><div class="line">    path.addRect(<span class="number">10</span>, <span class="number">10</span>, self.width() - <span class="number">20</span>, self.height() - <span class="number">20</span>)</div><div class="line">    painter = QtGui.QPainter(self)</div><div class="line">    painter.setRenderHint(QtGui.QPainter.Antialiasing, <span class="keyword">True</span>)</div><div class="line">    painter.fillPath(path, QtGui.QBrush(QtCore.Qt.white))</div><div class="line">    color = QtGui.QColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>):</div><div class="line">        path = QtGui.QPainterPath()</div><div class="line">        path.setFillRule(QtCore.Qt.WindingFill)</div><div class="line">        path.addRect(<span class="number">10</span> - i, <span class="number">10</span> - i, self.width() - (<span class="number">10</span> - i) * <span class="number">2</span>, self.height() - (<span class="number">10</span> - i) * <span class="number">2</span>)</div><div class="line">        color.setAlpha(<span class="number">150</span> - math.sqrt(i) * <span class="number">50</span>)</div><div class="line">        painter.setPen(color)</div><div class="line">        painter.drawPath(path)</div></pre></td></tr></table></figure>
 
-<p><br></p>
-<h3 id="for_linux"><em>for linux</em></h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config <span class="keyword">http</span>.postBuffer <span class="number">524288000</span></div></pre></td></tr></table></figure>
-
+<p>做出来的阴影效果类似于下图:<br><img src="http://i.imgur.com/afURmb0.png" alt="效果图"></p>
+<p><br><br>之前写的一篇自定义Tooltips的文章用的就是这种方法，大家可以参考一下。</p>
+<blockquote>
+<p><a href="http://moky.cc/2015/03/17/%E7%BB%98%E5%88%B6%E6%94%AF%E6%8C%81%E5%AF%8C%E6%96%87%E6%9C%AC%E5%B8%A6%E9%98%B4%E5%BD%B1%E8%87%AA%E9%80%82%E5%BA%94%E5%A4%A7%E5%B0%8F%E7%9A%84Tooltips/" target="_blank" rel="external">绘制支持富文本带阴影自适应大小的Tooltips</a></p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/fatal/">fatal</a>
+  <span></span> <a href="/tags/paintEvent/">paintEvent</a><a href="/tags/绘制阴影/">绘制阴影</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Git/">Git</a>
+  <a class="article-category-link" href="/categories/Qt/">Qt</a>►<a class="article-category-link" href="/categories/Qt/PyQt/">PyQt</a>
 </div>
 
 
@@ -136,19 +131,11 @@ for windows
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/03/03/Python增强的格式化字符串format函数/" title="Python增强的格式化字符串format函数">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  Python增强的格式化字符串format函数</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/02/27/Qt-mapToGlobal-以及-mapToParent-理解要点/"  title="Qt mapToGlobal 以及 mapToParent 理解要点">
+<a href="/2015/05/11/自定义QScrollBar样式/"  title="自定义QScrollBar样式">
  <strong>NEXT:</strong><br/> 
- <span>Qt mapToGlobal 以及 mapToParent 理解要点
+ <span>自定义QScrollBar样式
 </span>
 </a>
 </div>
@@ -165,7 +152,7 @@ for windows
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方法："><span class="toc-number">1.</span> <span class="toc-text">解决方法：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#for_windows"><span class="toc-number">1.1.</span> <span class="toc-text">for windows</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for_linux"><span class="toc-number">1.2.</span> <span class="toc-text">for linux</span></a></li></ol></li></ol>
+  
   </div>
 
 <div id="asidepart">

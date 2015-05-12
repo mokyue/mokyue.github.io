@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Life is a beautiful struggle.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://moky.cc/"/>
-  <updated>2015-05-12T13:34:27.847Z</updated>
+  <updated>2015-05-12T14:20:56.409Z</updated>
   <id>http://moky.cc/</id>
   
   <author>
@@ -13,6 +13,41 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Qt重写paintEvent绘制窗体阴影]]></title>
+    <link href="http://moky.cc/2015/05/12/Qt%E9%87%8D%E5%86%99paintEvent%E7%BB%98%E5%88%B6%E7%AA%97%E4%BD%93%E9%98%B4%E5%BD%B1/"/>
+    <id>http://moky.cc/2015/05/12/Qt重写paintEvent绘制窗体阴影/</id>
+    <published>2015-05-12T13:57:44.000Z</published>
+    <updated>2015-05-12T14:19:51.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>Qt窗体做阴影效果的方法有很多种，有直接使用带阴影效果美术资源的，这里就不详说这种方法了，还有一种方法就是重写paintEvent绘制阴影的方法。<br><br><br>代码如下: (以下为PyQt代码的实现，C++ Qt实现的方法原理也是一样的。)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">paintEvent</span><span class="params">(self, event)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    绘制阴影</div><div class="line">    :param event:</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    path = QtGui.QPainterPath()</div><div class="line">    path.setFillRule(QtCore.Qt.WindingFill)</div><div class="line">    path.addRect(<span class="number">10</span>, <span class="number">10</span>, self.width() - <span class="number">20</span>, self.height() - <span class="number">20</span>)</div><div class="line">    painter = QtGui.QPainter(self)</div><div class="line">    painter.setRenderHint(QtGui.QPainter.Antialiasing, <span class="keyword">True</span>)</div><div class="line">    painter.fillPath(path, QtGui.QBrush(QtCore.Qt.white))</div><div class="line">    color = QtGui.QColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>):</div><div class="line">        path = QtGui.QPainterPath()</div><div class="line">        path.setFillRule(QtCore.Qt.WindingFill)</div><div class="line">        path.addRect(<span class="number">10</span> - i, <span class="number">10</span> - i, self.width() - (<span class="number">10</span> - i) * <span class="number">2</span>, self.height() - (<span class="number">10</span> - i) * <span class="number">2</span>)</div><div class="line">        color.setAlpha(<span class="number">150</span> - math.sqrt(i) * <span class="number">50</span>)</div><div class="line">        painter.setPen(color)</div><div class="line">        painter.drawPath(path)</div></pre></td></tr></table></figure>
+
+<p>做出来的阴影效果类似于下图:<br><img src="http://i.imgur.com/afURmb0.png" alt="效果图"></p>
+<p><br><br>之前写的一篇自定义Tooltips的文章用的就是这种方法，大家可以参考一下。</p>
+<blockquote>
+<p><a href="http://moky.cc/2015/03/17/%E7%BB%98%E5%88%B6%E6%94%AF%E6%8C%81%E5%AF%8C%E6%96%87%E6%9C%AC%E5%B8%A6%E9%98%B4%E5%BD%B1%E8%87%AA%E9%80%82%E5%BA%94%E5%A4%A7%E5%B0%8F%E7%9A%84Tooltips/" target="_blank" rel="external">绘制支持富文本带阴影自适应大小的Tooltips</a></p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>Qt窗体做阴影效果的方法有很多种，有直接使用带阴影效果美术资源的，这里就不详说这种方法了，还有一种方法就]]>
+    </summary>
+    
+      <category term="paintEvent" scheme="http://moky.cc/tags/paintEvent/"/>
+    
+      <category term="绘制阴影" scheme="http://moky.cc/tags/%E7%BB%98%E5%88%B6%E9%98%B4%E5%BD%B1/"/>
+    
+      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
+    
+      <category term="PyQt" scheme="http://moky.cc/categories/Qt/PyQt/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[自定义QScrollBar样式]]></title>
@@ -1220,34 +1255,6 @@
       <category term="正则表达式" scheme="http://moky.cc/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
     
       <category term="获得html标签数据" scheme="http://moky.cc/tags/%E8%8E%B7%E5%BE%97html%E6%A0%87%E7%AD%BE%E6%95%B0%E6%8D%AE/"/>
-    
-      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[解决UnicodeEncodeError: 'ascii' codec can't encode characters in position问题]]></title>
-    <link href="http://moky.cc/2015/03/14/%E8%A7%A3%E5%86%B3UnicodeEncodeError-ascii-codec-can-t-encode-characters-in-position%E9%97%AE%E9%A2%98/"/>
-    <id>http://moky.cc/2015/03/14/解决UnicodeEncodeError-ascii-codec-can-t-encode-characters-in-position问题/</id>
-    <published>2015-03-14T03:20:41.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_64a3795a01018vyp.html" title="http://blog.sina.com.cn/s/blog_64a3795a01018vyp.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_64a3795a01018vyp.html</a></p>
-</blockquote>
-<p>今天把一个列表转换成字符串输出的时候出现了<code>UnicodeEncodeError: &#39;ascii&#39; codec can&#39;t encode characters in position 32-34: ordinal not in range(128)</code>问题，使用的是<code>ulipad</code>编译器。</p>
-<p><strong>解决方法1：</strong><br>在开头加上</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line">reload(sys)</div><div class="line">sys.setdefaultencoding( <span class="string">"utf-8"</span> )</div></pre></td></tr></table></figure>
-
-<p><strong>解决方法2：</strong><br>使用cmd运行python程序，能正常显示结果</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_64a3795a01018vyp.html" titl]]>
-    </summary>
-    
-      <category term="UnicodeEncodeError" scheme="http://moky.cc/tags/UnicodeEncodeError/"/>
-    
-      <category term="ascii" scheme="http://moky.cc/tags/ascii/"/>
     
       <category term="Python" scheme="http://moky.cc/categories/Python/"/>
     
