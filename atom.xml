@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Life is a beautiful struggle.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://moky.cc/"/>
-  <updated>2015-05-12T03:43:02.427Z</updated>
+  <updated>2015-05-12T13:34:27.847Z</updated>
   <id>http://moky.cc/</id>
   
   <author>
@@ -147,7 +147,7 @@
     <link href="http://moky.cc/2015/05/07/QT%E5%86%85%E7%BD%AE%E7%9A%84ICON%E8%B5%84%E6%BA%90/"/>
     <id>http://moky.cc/2015/05/07/QT内置的ICON资源/</id>
     <published>2015-05-07T08:57:53.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
+    <updated>2015-05-12T13:33:19.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/fjb2080/article/details/7225692" title="http://blog.csdn.net/fjb2080/article/details/7225692" target="_blank" rel="external">http://blog.csdn.net/fjb2080/article/details/7225692</a></p>
 </blockquote>
@@ -515,6 +515,9 @@
 </tr>
 </tbody>
 </table>
+<p>实例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">labelIcon = QtGui.QLabel(self)</div><div class="line">labelIcon.setGeometry(<span class="number">0</span>, <span class="number">0</span>, <span class="number">16</span>, <span class="number">16</span>)</div><div class="line">labelIcon.setPixmap(QtGui.QApplication.style().standardPixmap(</div><div class="line">    QtGui.QStyle.StandardPixmap(QtGui.QStyle.SP_MessageBoxInformation)).scaled(labelIcon.size(),</div><div class="line">    QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))</div></pre></td></tr></table></figure>
+
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>

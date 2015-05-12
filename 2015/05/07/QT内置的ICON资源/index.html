@@ -79,7 +79,7 @@ QT内置的ICON资源保存在QStyle类里。
     </p>
   <p class="article-time">
     <time datetime="2015-05-07T08:57:53.000Z" itemprop="datePublished">May 7 2015</time>
-    Updated:<time datetime="2015-05-11T01:14:08.000Z" itemprop="dateModified">May 11 2015</time>
+    Updated:<time datetime="2015-05-12T13:33:19.000Z" itemprop="dateModified">May 12 2015</time>
     
   </p>
 </header>
@@ -458,6 +458,9 @@ QT内置的ICON资源保存在QStyle类里。
 </tr>
 </tbody>
 </table>
+<p>实例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">labelIcon = QtGui.QLabel(self)</div><div class="line">labelIcon.setGeometry(<span class="number">0</span>, <span class="number">0</span>, <span class="number">16</span>, <span class="number">16</span>)</div><div class="line">labelIcon.setPixmap(QtGui.QApplication.style().standardPixmap(</div><div class="line">    QtGui.QStyle.StandardPixmap(QtGui.QStyle.SP_MessageBoxInformation)).scaled(labelIcon.size(),</div><div class="line">    QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))</div></pre></td></tr></table></figure>
+
   
 	</div>
 		<footer class="article-footer clearfix">
