@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Life is a beautiful struggle.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://moky.cc/"/>
-  <updated>2015-05-13T01:46:28.850Z</updated>
+  <updated>2015-05-16T11:39:50.015Z</updated>
   <id>http://moky.cc/</id>
   
   <author>
@@ -13,6 +13,136 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Qt字符串显示不全显示省略号的实现]]></title>
+    <link href="http://moky.cc/2015/05/16/Qt%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E6%98%BE%E7%A4%BA%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://moky.cc/2015/05/16/Qt字符串显示不全显示省略号的实现/</id>
+    <published>2015-05-16T08:22:06.000Z</published>
+    <updated>2015-05-16T08:52:25.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断得很不友好，一般的交互处理是在即将截断的文本后面显示省略号，以下为Qt的实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 根据label截断文本</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_truncatedText</span><span class="params">(self, str_text, label)</span>:</span></div><div class="line">    <span class="keyword">return</span> QtGui.QFontMetrics(label.font()).elidedText(str_text, QtCore.Qt.ElideRight, label.width())</div></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 根据截断文本</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_truncatedText</span><span class="params">(self, str_text, width)</span>:</span></div><div class="line">    <span class="keyword">return</span> QtGui.QFontMetrics(label.font()).elidedText(str_text, QtCore.Qt.ElideRight, width)</div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断]]>
+    </summary>
+    
+      <category term="截断文字" scheme="http://moky.cc/tags/%E6%88%AA%E6%96%AD%E6%96%87%E5%AD%97/"/>
+    
+      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
+    
+      <category term="PyQt" scheme="http://moky.cc/categories/Qt/PyQt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[QTimer和QThread的调度时间精度]]></title>
+    <link href="http://moky.cc/2015/05/15/QTimer%E5%92%8CQThread%E7%9A%84%E8%B0%83%E5%BA%A6%E6%97%B6%E9%97%B4%E7%B2%BE%E5%BA%A6/"/>
+    <id>http://moky.cc/2015/05/15/QTimer和QThread的调度时间精度/</id>
+    <published>2015-05-15T04:07:45.000Z</published>
+    <updated>2015-05-16T09:13:54.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/dijunfeng/article/details/7272475" title="http://blog.csdn.net/dijunfeng/article/details/7272475" target="_blank" rel="external">http://blog.csdn.net/dijunfeng/article/details/7272475</a></p>
+</blockquote>
+<p><br><br>最近做的一个模拟嵌入式设备的项目中，要求事件的响应精度在1毫秒左右，特地编写代码测试了一下QTimer和QThread中的msleep函数的时间精度。</p>
+<p>QT的帮助中对于QTimer的时间精度问题是这么写的：</p>
+<blockquote>
+<p>Timers will never time out earlier than the specified timeout value and they are not guaranteed to time out at the exact value specified. In many situations, they may time out late by a period of time that depends on the accuracy of the system timers.</p>
+<p>The accuracy of timers depends on the underlying operating system and hardware. Most platforms support a resolution of 1 millisecond, though the accuracy of the timer will not equal this resolution in many real-world situations.</p>
+<p>If Qt is unable to deliver the requested number of timer clicks, it will silently discard some.</p>
+</blockquote>
+<p><br><br>测试函数用到了windows的高精度时间读取函数，如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;Windows.h&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;math.h&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> TIMER_INTVL  1000  <span class="comment">//毫秒</span></span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> ARRAY_LEN    1  <span class="comment">//数组长度</span></span></div><div class="line"></div><div class="line"><span class="comment">//传入调用时间间隔，打印出最大和平均时间误差</span></div><div class="line"><span class="keyword">void</span> testTimer(<span class="keyword">int</span> intvl_us)</div><div class="line">{</div><div class="line">    <span class="keyword">static</span> <span class="keyword">bool</span> inited = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">static</span> LARGE_INTEGER lastT;</div><div class="line">    <span class="keyword">static</span> LARGE_INTEGER freq;</div><div class="line">    LARGE_INTEGER now;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> usarray[ARRAY_LEN];</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> index = <span class="number">0</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> maxus = <span class="number">0</span>, averus = <span class="number">0</span>, difus;<span class="comment">//时间差</span></div><div class="line">    QString info(<span class="string">"最大时间差："</span>);</div><div class="line">    <span class="keyword">if</span>(!inited)</div><div class="line">    {</div><div class="line">        <span class="built_in">memset</span>(usarray, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>)*ARRAY_LEN);</div><div class="line">        QueryPerformanceCounter(&lastT);<span class="comment">//获取第一次进入时的时间</span></div><div class="line">        QueryPerformanceFrequency(&freq);<span class="comment">//获取时钟频率</span></div><div class="line">        inited = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line">    QueryPerformanceCounter(&now);</div><div class="line">    difus = ((now.QuadPart-lastT.QuadPart)*<span class="number">1000000</span>)/freq.QuadPart;</div><div class="line">    difus = <span class="built_in">abs</span>(difus-intvl_us);</div><div class="line">    usarray[index++] = difus;</div><div class="line">    maxus = maxus&gt;difus?maxus:difus;</div><div class="line">    <span class="keyword">if</span>(index == ARRAY_LEN)</div><div class="line">    {</div><div class="line">        index = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;ARRAY_LEN; i++)</div><div class="line">            averus += usarray[i];</div><div class="line">        averus /= ARRAY_LEN;</div><div class="line">        info = info + QString::number(maxus) + <span class="string">"  平均误差 "</span> + QString::number(averus);</div><div class="line">        gSimDrvDlg-&gt;putInfo(info);</div><div class="line">        maxus = <span class="number">0</span>;</div><div class="line">        averus = <span class="number">0</span>;</div><div class="line">    }</div><div class="line">    lastT = now;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br><br>把此函数设为QTimer的超时响应函数，在32位windows7下测试QTimer的不同定时周期的调度误差如下：</p>
+<p><strong>1ms周期：</strong><br><em>最大：30、40毫秒<br>平均：100微秒左右</em></p>
+<p><strong>10ms周期：</strong><br><em>最大：2、3毫秒，跳动比较大，也有20毫秒多过<br>平均：200多微秒</em></p>
+<p><strong>100ms周期：</strong><br><em>最大：20多毫秒<br>平均：10毫秒左右</em></p>
+<p><strong>1秒周期：</strong><br><em>误差十几毫秒</em></p>
+<p>把此函数稍加改动，也可以放到QThread的run()函数中测试一下QThread::msleep的时间精度。<br>在windows下，由于操作系统的本身设计理念问题，定时器的调度误差是比较大的。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/dijunfeng/article/details/7272475" ti]]>
+    </summary>
+    
+      <category term="QTimer" scheme="http://moky.cc/tags/QTimer/"/>
+    
+      <category term="QThread" scheme="http://moky.cc/tags/QThread/"/>
+    
+      <category term="时间精度" scheme="http://moky.cc/tags/%E6%97%B6%E9%97%B4%E7%B2%BE%E5%BA%A6/"/>
+    
+      <category term="计时器精度" scheme="http://moky.cc/tags/%E8%AE%A1%E6%97%B6%E5%99%A8%E7%B2%BE%E5%BA%A6/"/>
+    
+      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Qt中鼠标穿透的实现]]></title>
+    <link href="http://moky.cc/2015/05/14/Qt%E4%B8%AD%E9%BC%A0%E6%A0%87%E7%A9%BF%E9%80%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://moky.cc/2015/05/14/Qt中鼠标穿透的实现/</id>
+    <published>2015-05-14T09:01:20.000Z</published>
+    <updated>2015-05-16T09:06:27.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>在Qt中，QWidget默认是非鼠标穿透的，如果将QWidget覆盖在其他控件上面，即使这个QWidget是透明的，鼠标也是无法点击下面的控件的。但是我们可以通过设置它的属性来实现鼠标穿透，代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QWidget::setAttribute(Qt::WA_TransparentForMouseEvents,<span class="keyword">true</span>);</div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>在Qt中，QWidget默认是非鼠标穿透的，如果将QWidget覆盖在其他控件上面，即使这个QWidge]]>
+    </summary>
+    
+      <category term="鼠标穿透" scheme="http://moky.cc/tags/%E9%BC%A0%E6%A0%87%E7%A9%BF%E9%80%8F/"/>
+    
+      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Python字符串格式化千分位逗号分隔]]></title>
+    <link href="http://moky.cc/2015/05/13/Python%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%8D%83%E5%88%86%E4%BD%8D%E9%80%97%E5%8F%B7%E5%88%86%E9%9A%94/"/>
+    <id>http://moky.cc/2015/05/13/Python字符串格式化千分位逗号分隔/</id>
+    <published>2015-05-13T08:51:35.000Z</published>
+    <updated>2015-05-16T08:59:39.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>在显示大数字的时候，通常会每隔三位用逗号分隔开来显示，这样用户就会更加容易识别出数字的大小，这个可以用字符串处理函数<code>format()</code>来实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> <span class="string">"{:,}"</span>.format(<span class="number">99999999</span>)</div><div class="line"></div><div class="line"><span class="comment"># 结果</span></div><div class="line"><span class="comment"># 99,999,999</span></div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>在显示大数字的时候，通常会每隔三位用逗号分隔开来显示，这样用户就会更加容易识别出数字的大小，这个可以用字]]>
+    </summary>
+    
+      <category term="千分位逗号分隔" scheme="http://moky.cc/tags/%E5%8D%83%E5%88%86%E4%BD%8D%E9%80%97%E5%8F%B7%E5%88%86%E9%9A%94/"/>
+    
+      <category term="格式化" scheme="http://moky.cc/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
+    
+      <category term="字符串" scheme="http://moky.cc/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    
+      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Qt重写paintEvent绘制窗体阴影]]></title>
@@ -54,7 +184,7 @@
     <link href="http://moky.cc/2015/05/11/%E8%87%AA%E5%AE%9A%E4%B9%89QScrollBar%E6%A0%B7%E5%BC%8F/"/>
     <id>http://moky.cc/2015/05/11/自定义QScrollBar样式/</id>
     <published>2015-05-11T04:36:25.000Z</published>
-    <updated>2015-05-11T05:43:54.000Z</updated>
+    <updated>2015-05-16T08:48:54.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
@@ -76,6 +206,8 @@
     
       <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
     
+      <category term="PyQt" scheme="http://moky.cc/categories/Qt/PyQt/"/>
+    
   </entry>
   
   <entry>
@@ -83,7 +215,7 @@
     <link href="http://moky.cc/2015/05/10/%E8%87%AA%E5%AE%9A%E4%B9%89QTabWidget%E6%A0%B7%E5%BC%8F/"/>
     <id>http://moky.cc/2015/05/10/自定义QTabWidget样式/</id>
     <published>2015-05-10T05:27:38.000Z</published>
-    <updated>2015-05-11T06:19:35.000Z</updated>
+    <updated>2015-05-16T08:48:46.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
@@ -105,6 +237,8 @@
       <category term="QTabWidget" scheme="http://moky.cc/tags/QTabWidget/"/>
     
       <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
+    
+      <category term="PyQt" scheme="http://moky.cc/categories/Qt/PyQt/"/>
     
   </entry>
   
@@ -696,6 +830,386 @@
   </entry>
   
   <entry>
+    <title><![CDATA[Python注释]]></title>
+    <link href="http://moky.cc/2015/05/03/Python%E6%B3%A8%E9%87%8A/"/>
+    <id>http://moky.cc/2015/05/03/Python注释/</id>
+    <published>2015-05-03T09:15:16.000Z</published>
+    <updated>2015-05-16T09:25:50.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/octobershiner/archive/2012/12/04/2801670.html" title="http://www.cnblogs.com/octobershiner/archive/2012/12/04/2801670.html" target="_blank" rel="external">http://www.cnblogs.com/octobershiner/archive/2012/12/04/2801670.html</a></p>
+</blockquote>
+<h2 id="单行注释">单行注释</h2>
+<p>python中单行注释采用<code>#</code>开头</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> <span class="string">'hello python'</span></div><div class="line"><span class="comment">#this is a comment</span></div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h2 id="多行注释">多行注释</h2>
+<p>然后python蛋疼的没有块注释，所以现在推荐的多行注释也是采用的<code>#</code>比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># comments start</span></div><div class="line"><span class="comment">#content</span></div><div class="line"><span class="comment">#comments end</span></div></pre></td></tr></table></figure>
+
+<p>不过这种风格和标准的Java注释很像</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="javadoc">/**</span></div><div class="line"></div><div class="line">*java注释</div><div class="line"></div><div class="line">*/</div></pre></td></tr></table></figure>
+
+<p>网上说的什么使用<code>&quot;&quot;&quot; if 0:</code>我个人觉得很不好。。。google python style 中也是采用的<code>#</code>来进行多行注释<br><br></p>
+<h2 id="代码间注释">代码间注释</h2>
+<p>这个就直接引用一段google的编程规范原文吧<br><img src="http://pic002.cnblogs.com/images/2012/321923/2012120417142993.png" alt=""><br>意思就是 不要去刻意对齐注释，后期维护代码会增加麻烦<br><br></p>
+<h2 id="特殊注释">特殊注释</h2>
+<p>比如<code>#! /usr/bin/python</code>这句注释的意思就是告诉LINUX/UNIX去找到python的翻译器，大部分文件都不需要这个，只在要求也执行的文件中添加。</p>
+<p>关于蛋疼的中文编码:<code># coding = utf-8</code>【注：这句代码蛋疼的必须放在第二行啊，而且多个空格都不行啊！】<br><br></p>
+<h2 id="python的福利！！">python的福利！！</h2>
+<p>python在注释中有一个非常有用的东西是<code>doc String</code>，它可以用于模块、函数和类的描述：（其实总结起来都是类）下面是一个标准的方法注释。<br><img src="http://pic002.cnblogs.com/images/2012/321923/2012120417151729.png" alt=""><br>他用<code>&quot;&quot;&quot;</code>三个引号标识，第一行大写开头，作简要概述，句号结尾，空一行开始详细的描述。他的好处是 这些注释保存在方法的<strong>doc</strong>属性中，可以打印显示。这个其实和java 的doc也很相似，还记得大明湖畔的<code>@</code>吗。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/octobershiner/archive/2012/12/04/28]]>
+    </summary>
+    
+      <category term="注释" scheme="http://moky.cc/tags/%E6%B3%A8%E9%87%8A/"/>
+    
+      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[shell编程中的date用法]]></title>
+    <link href="http://moky.cc/2015/05/02/shell%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84date%E7%94%A8%E6%B3%95/"/>
+    <id>http://moky.cc/2015/05/02/shell编程中的date用法/</id>
+    <published>2015-05-02T09:28:49.000Z</published>
+    <updated>2015-05-16T09:50:33.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html" title="http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html</a></p>
+</blockquote>
+<h2 id="date_—help">date —help</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">%%</td>
+<td style="text-align:left">输出%符号 a literal %</td>
+</tr>
+<tr>
+<td style="text-align:left">%a</td>
+<td style="text-align:left">当前域的星期缩写 locale’s abbreviated weekday name (Sun..Sat)</td>
+</tr>
+<tr>
+<td style="text-align:left">%A</td>
+<td style="text-align:left">当前域的星期全写 locale’s full weekday name, variable length (Sunday..Saturday)</td>
+</tr>
+<tr>
+<td style="text-align:left">%b</td>
+<td style="text-align:left">当前域的月份缩写 locale’s abbreviated month name (Jan..Dec)</td>
+</tr>
+<tr>
+<td style="text-align:left">%B</td>
+<td style="text-align:left">当前域的月份全称 locale’s full month name, variable length (January..December)</td>
+</tr>
+<tr>
+<td style="text-align:left">%c</td>
+<td style="text-align:left">当前域的默认时间格式 locale’s date and time (Sat Nov 04 12:02:33 EST 1989)</td>
+</tr>
+<tr>
+<td style="text-align:left">%C</td>
+<td style="text-align:left">n百年 century (year divided by 100 and truncated to an integer) [00-99]</td>
+</tr>
+<tr>
+<td style="text-align:left">%d</td>
+<td style="text-align:left">两位的天 day of month (01..31)</td>
+</tr>
+<tr>
+<td style="text-align:left">%D</td>
+<td style="text-align:left">短时间格式 date (mm/dd/yy)</td>
+</tr>
+<tr>
+<td style="text-align:left">%e</td>
+<td style="text-align:left">短格式天 day of month, blank padded ( 1..31)</td>
+</tr>
+<tr>
+<td style="text-align:left">%F</td>
+<td style="text-align:left">文件时间格式 same as %Y-%m-%d</td>
+</tr>
+<tr>
+<td style="text-align:left">%g</td>
+<td style="text-align:left">the 2-digit year corresponding to the %V week number</td>
+</tr>
+<tr>
+<td style="text-align:left">%G</td>
+<td style="text-align:left">the 4-digit year corresponding to the %V week number</td>
+</tr>
+<tr>
+<td style="text-align:left">%h</td>
+<td style="text-align:left">same as %b</td>
+</tr>
+<tr>
+<td style="text-align:left">%H</td>
+<td style="text-align:left">24小时制的小时 hour (00..23)</td>
+</tr>
+<tr>
+<td style="text-align:left">%I</td>
+<td style="text-align:left">12小时制的小时 hour (01..12)</td>
+</tr>
+<tr>
+<td style="text-align:left">%j</td>
+<td style="text-align:left">一年中的第几天 day of year (001..366)</td>
+</tr>
+<tr>
+<td style="text-align:left">%k</td>
+<td style="text-align:left">短格式24小时制的小时 hour ( 0..23)</td>
+</tr>
+<tr>
+<td style="text-align:left">%l</td>
+<td style="text-align:left">短格式12小时制的小时 hour ( 1..12)</td>
+</tr>
+<tr>
+<td style="text-align:left">%m</td>
+<td style="text-align:left">双位月份 month (01..12)</td>
+</tr>
+<tr>
+<td style="text-align:left">%M</td>
+<td style="text-align:left">双位分钟 minute (00..59)</td>
+</tr>
+<tr>
+<td style="text-align:left">%n</td>
+<td style="text-align:left">换行 a newline</td>
+</tr>
+<tr>
+<td style="text-align:left">%N</td>
+<td style="text-align:left">十亿分之一秒 nanoseconds (000000000..999999999)</td>
+</tr>
+<tr>
+<td style="text-align:left">%p</td>
+<td style="text-align:left">大写的当前域的上下午指示 locale’s upper case AM or PM indicator (blank in many locales)</td>
+</tr>
+<tr>
+<td style="text-align:left">%P</td>
+<td style="text-align:left">小写的当前域的上下午指示 locale’s lower case am or pm indicator (blank in many locales)</td>
+</tr>
+<tr>
+<td style="text-align:left">%r</td>
+<td style="text-align:left">12小时制的时间表示（时:分:秒,双位） time, 12-hour (hh:mm:ss [AP]M)</td>
+</tr>
+<tr>
+<td style="text-align:left">%R</td>
+<td style="text-align:left">24小时制的时间表示 （时:分,双位）time, 24-hour (hh:mm)</td>
+</tr>
+<tr>
+<td style="text-align:left">%s</td>
+<td style="text-align:left">自基础时间 1970-01-01 00:00:00 到当前时刻的秒数 seconds since `00:00:00 1970-01-01 UTC’ (a GNU extension)</td>
+</tr>
+<tr>
+<td style="text-align:left">%S</td>
+<td style="text-align:left">双位秒 second (00..60); the 60 is necessary to accommodate a leap second</td>
+</tr>
+<tr>
+<td style="text-align:left">%t</td>
+<td style="text-align:left">横向制表位(tab) a horizontal tab</td>
+</tr>
+<tr>
+<td style="text-align:left">%T</td>
+<td style="text-align:left">24小时制时间表示 time, 24-hour (hh:mm:ss)</td>
+</tr>
+<tr>
+<td style="text-align:left">%u</td>
+<td style="text-align:left">数字表示的星期（从星期一开始 1-7）day of week (1..7); 1 represents Monday</td>
+</tr>
+<tr>
+<td style="text-align:left">%U</td>
+<td style="text-align:left">一年中的第几周星期天为开始 week number of year with Sunday as first day of week (00..53)</td>
+</tr>
+<tr>
+<td style="text-align:left">%V</td>
+<td style="text-align:left">一年中的第几周星期一为开始 week number of year with Monday as first day of week (01..53)</td>
+</tr>
+<tr>
+<td style="text-align:left">%w</td>
+<td style="text-align:left">一周中的第几天 星期天为开始 0-6 day of week (0..6); 0 represents Sunday</td>
+</tr>
+<tr>
+<td style="text-align:left">%W</td>
+<td style="text-align:left">一年中的第几周星期一为开始 week number of year with Monday as first day of week (00..53)</td>
+</tr>
+<tr>
+<td style="text-align:left">%x</td>
+<td style="text-align:left">本地日期格式 locale’s date representation (mm/dd/yy)</td>
+</tr>
+<tr>
+<td style="text-align:left">%X</td>
+<td style="text-align:left">本地时间格式 locale’s time representation (%H:%M:%S)</td>
+</tr>
+<tr>
+<td style="text-align:left">%y</td>
+<td style="text-align:left">两位的年 last two digits of year (00..99)</td>
+</tr>
+<tr>
+<td style="text-align:left">%Y</td>
+<td style="text-align:left">年 year (1970…)</td>
+</tr>
+<tr>
+<td style="text-align:left">%z</td>
+<td style="text-align:left">RFC-2822 标准时间格式表示的域 RFC-2822 style numeric timezone (-0500) (a nonstandard extension)</td>
+</tr>
+<tr>
+<td style="text-align:left">%Z</td>
+<td style="text-align:left">时间域 time zone (e.g., EDT), or nothing if no time zone is determinable</td>
+</tr>
+</tbody>
+</table>
+<p>By default, date pads numeric fields with zeroes. GNU date recognizes<br>the following modifiers between `%’ and a numeric directive.<br><strong>‘-‘ (hyphen) do not pad the field<br>‘_’ (underscore) pad the field with spaces</strong></p>
+<p><br></p>
+<h2 id="一些用法">一些用法</h2>
+<h3 id="以yymmdd的格式输出43天前的当前时刻">以yymmdd的格式输出43天前的当前时刻</h3>
+<p><code>date +%Y%m%d --date=&#39;43 days ago&#39;</code><br><br></p>
+<h3 id="测试十亿分之一秒">测试十亿分之一秒</h3>
+<p><code>date +&#39;%Y%m%d %H:%M:%S.%N&#39;</code><br><br></p>
+<h3 id="创建以当前时间为文件名的目录">创建以当前时间为文件名的目录</h3>
+<p><code>mkdir `date +%Y%m%d` </code><br><br></p>
+<h3 id="备份以时间做为文件名的">备份以时间做为文件名的</h3>
+<p><code>tar -cvf ./htdocs`date +%Y%m%d`.tar ./*</code><br><br></p>
+<h3 id="显示时间后跳行，再显示目前日期">显示时间后跳行，再显示目前日期</h3>
+<p><code>date +%T%n%Y%m%d</code><br><br></p>
+<h3 id="只显示月份与日数">只显示月份与日数</h3>
+<p><code>date +%B%d</code><br><br></p>
+<h3 id="获取上周日期（day,month,year,hour）">获取上周日期（day,month,year,hour）</h3>
+<p><code>date -d &quot;-1 week&quot; +%Y%m%d</code><br><br></p>
+<h3 id="获取24小时前日期">获取24小时前日期</h3>
+<p><code>date --date=&quot;-24 hour&quot; +%Y%m%d</code><br><br></p>
+<h3 id="shell脚本里面赋给变量值">shell脚本里面赋给变量值</h3>
+<p><code>date_now=`date +%s` </code><br><br></p>
+<h3 id="计算执行一段sql脚本的运行时间">计算执行一段sql脚本的运行时间</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">TIME_BEGIN=$(date <span class="string">'+%s.%N'</span>)</div><div class="line"><span class="variable">$sqlcli</span> &lt; queries/q1.<span class="number">3</span>.sql <span class="number">1</span>&gt;&gt; <span class="variable">$FILE_RESULT</span>  <span class="number">2</span>&gt;&gt; <span class="variable">$FILE_ERROR</span></div><div class="line">TIME_END=$(date <span class="string">'+%s.%N'</span>)</div><div class="line">TIME_RUN=$(awk <span class="string">'BEGIN{print '</span><span class="variable">$TIME_END</span><span class="string">' - '</span><span class="variable">$TIME_BEGIN</span><span class="string">'}'</span>)</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h3 id="编写shell脚本计算离自己生日还有多少天？">编写shell脚本计算离自己生日还有多少天？</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">read</span> -p <span class="string">"Input your birthday(YYYYmmdd):"</span> date1</div><div class="line">m=`date --date=<span class="string">"<span class="variable">$date1</span>"</span> +%m`    <span class="comment">#得到生日的月</span></div><div class="line">d=`date --date=<span class="string">"<span class="variable">$date1</span>"</span> +%d`    <span class="comment">#得到生日的日</span></div><div class="line">date_now=`date +%s`             <span class="comment">#得到当前时间的秒值</span></div><div class="line">y=`date +%Y`                    <span class="comment">#得到当前时间的年</span></div><div class="line">birth=`date --date=<span class="string">"<span class="variable">$y</span><span class="variable">$m</span><span class="variable">$d</span>"</span> +%s`      <span class="comment">#得到今年的生日日期的秒值</span></div><div class="line">internal=$((<span class="variable">$birth</span>-<span class="variable">$date_now</span>))        <span class="comment">#计算今日到生日日期的间隔时间</span></div><div class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$internal</span>"</span> <span class="operator">-lt</span> <span class="string">"0"</span> ]; <span class="keyword">then</span>             <span class="comment">#判断今天的生日是否已过</span></div><div class="line">birth=`date --date=<span class="string">"<span class="variable">$(($y+1)</span>)<span class="variable">$m</span><span class="variable">$d</span>"</span> +%s`      <span class="comment">#得到明天的生日日期秒值</span></div><div class="line">internal=$((<span class="variable">$birth</span>-<span class="variable">$date_now</span>))               <span class="comment">#计算今天到下一个生日的间隔时间</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"There is :<span class="variable">$((einternal/60/60/24)</span>) days."</span>       <span class="comment">#输出结果，秒换算为天</span></div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h3 id="若是不以加号作为开头，则表示要设定时间">若是不以加号作为开头，则表示要设定时间</h3>
+<p>时间格式<code>MMDDhhmm[[CC]YY][.ss]</code><br><strong>MM</strong> 为月份，<br><strong>DD</strong> 为日，<br><strong>hh</strong> 为小时，<br><strong>mm</strong> 为分钟，<br><strong>CC</strong> 为年份前两位数字，<br><strong>YY</strong> 为年份后两位数字，<br><strong>ss</strong> 为秒数<br><br></p>
+<h3 id="显示目前的格林威治时间">显示目前的格林威治时间</h3>
+<p>也叫“世界时”。是英国的标准时间，也是世界各地时间的参考标准。中英两国的标准时差为8个小时，即英国的当地时间比中国的北京时间晚8小时。<br><code>date -u</code><br><em>Thu Sep 28 09:32:04 UTC 2006</em><br><br></p>
+<h3 id="修改时间">修改时间</h3>
+<p><code>date -s</code><br>按字符串方式修改时间<br>可以只修改日期,不修改时间,输入: <code>date -s 2007-08-03</code><br>只修改时间,输入:date -s 14:15:00<br>同时修改日期时间,注意要加双引号,日期与时间之间有一空格,输入:date -s “2007-08-03 14:15:00”</p>
+<p>修改完后,记得输入:<code>clock -w</code><br>把系统时间写入CMOS</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html" titl]]>
+    </summary>
+    
+      <category term="date" scheme="http://moky.cc/tags/date/"/>
+    
+      <category term="Linux" scheme="http://moky.cc/tags/Linux/"/>
+    
+      <category term="Shell" scheme="http://moky.cc/categories/Shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[shell中&&和||的使用方法]]></title>
+    <link href="http://moky.cc/2015/05/01/shell%E4%B8%AD-%E5%92%8C-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/"/>
+    <id>http://moky.cc/2015/05/01/shell中-和-的使用方法/</id>
+    <published>2015-05-01T09:51:31.000Z</published>
+    <updated>2015-05-16T10:58:57.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/a627088424/article/details/20360107" title="http://blog.csdn.net/a627088424/article/details/20360107" target="_blank" rel="external">http://blog.csdn.net/a627088424/article/details/20360107</a></p>
+</blockquote>
+<h2 id="&amp;&amp;运算符">&amp;&amp;运算符</h2>
+<p><code>command1  &amp;&amp; command2</code></p>
+<p>&amp;&amp;左边的命令（命令1）返回真(即返回0，成功被执行）后，&amp;&amp;右边的命令（命令2）才能够被执行；换句话说，“如果这个命令执行成功&amp;&amp;那么执行这个命令”。<br>语法格式如下：<br><code>command1 &amp;&amp; command2 [&amp;&amp; command3 ...]</code></p>
+<ol>
+<li>命令之间使用 &amp;&amp; 连接，实现逻辑与的功能。</li>
+<li>只有在 &amp;&amp; 左边的命令返回真（命令返回值 $? == 0），&amp;&amp; 右边的命令才会被执行。</li>
+<li>只要有一个命令返回假（命令返回值 $? == 1），后面的命令就不会被执行。</li>
+</ol>
+<p><strong>示例 1</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">malihou@ubuntu:~$ cp ~/Desktop/<span class="number">1</span>.txt ~/<span class="number">1</span>.txt && rm ~/Desktop/<span class="number">1</span>.txt && <span class="built_in">echo</span> <span class="string">"success"</span></div></pre></td></tr></table></figure>
+
+<p>示例 1 中的命令首先从 ~/Desktop 目录复制 1.txt 文件到 ~ 目录；执行成功后，使用 rm 删除源文件；如果删除成功则输出提示信息。<br><br></p>
+<h2 id="||运算符">||运算符</h2>
+<p><code>command1 || command2</code></p>
+<p>||则与&amp;&amp;相反。如果||左边的命令（命令1）未执行成功，那么就执行||右边的命令（命令2）；或者换句话说，“如果这个命令执行失败了||那么就执行这个命令。</p>
+<ol>
+<li>命令之间使用 || 连接，实现逻辑或的功能。</li>
+<li>只有在 || 左边的命令返回假（命令返回值 $? == 1），|| 右边的命令才会被执行。这和 c 语言中的逻辑或语法功能相同，即实现短路逻辑或操作。</li>
+<li>只要有一个命令返回真（命令返回值 $? == 0），后面的命令就不会被执行。</li>
+</ol>
+<p><strong>示例 2</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">malihou@ubuntu:~$ rm ~/Desktop/<span class="number">1</span>.txt || <span class="built_in">echo</span> <span class="string">"fail"</span></div></pre></td></tr></table></figure>
+
+<p>在示例 2 中，如果 ~/Desktop 目录下不存在文件 1.txt，将输出提示信息。</p>
+<p><strong>示例 3</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">malihou@ubuntu:~$ rm ~/Desktop/<span class="number">1</span>.txt && <span class="built_in">echo</span> <span class="string">"success"</span> || <span class="built_in">echo</span> <span class="string">"fail"</span></div></pre></td></tr></table></figure>
+
+<p>在示例 3 中，如果 ~/Desktop 目录下存在文件 1.txt，将输出 success 提示信息；否则输出 fail 提示信息。<br>如果希望把几个命令合在一起执行， shell提供了两种方法。既可以在当前shell也可以在子shell中执行一组命令。<br><br></p>
+<h2 id="()运算符">()运算符</h2>
+<p>为了在当前shell中执行一组命令，可以用命令分隔符(即”,”)隔开每一个命令，并把所有的命令用圆括号()括起来。<br>它的一般形式为：<br><code>( 命令；命令；命令… )</code></p>
+<ol>
+<li>一条命令需要独占一个物理行，如果需要将多条命令放在同一行，命令之间使用命令分隔符（;）分隔。执行的效果等同于多个独立的命令单独执行的效果。</li>
+<li>() 表示在当前 shell 中将多个命令作为一个整体执行。需要注意的是，使用 () 括起来的命令在执行前面都不会切换当前工作目录，也就是说命令组合都是在当前工作目录下被执行的，尽管命令中有切换目录的命令。</li>
+<li>命令组合常和命令执行控制结合起来使用。</li>
+</ol>
+<p><strong>示例 4</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">malihou@ubuntu:~$ rm ~/Desktop/<span class="number">1</span>.txt || (<span class="built_in">cd</span> ~/Desktop/;ls <span class="operator">-a</span>;<span class="built_in">echo</span> <span class="string">"fail"</span>)</div></pre></td></tr></table></figure>
+
+<p>在示例 4 中，如果目录 ~/Desktop 下不存在文件 1.txt，则执行命令组合。<br><br> </p>
+<h2 id="{}运算符">{}运算符</h2>
+<p>如果使用{}来代替()，那么相应的命令将在子shell而不是当前shell中作为一个整体被执行，只有在{}中所有命令的输出作为一个整体被重定向时，其中的命令才被放到子shell中执行，否则在当前shell执行。<br>它的一般形式为：<br><code>{ 命令；命令；命令… }</code><br>（注意：在使用{}时，{}与命令之间必须使用一个空格）</p>
+<p>测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">~$ A=<span class="number">1</span>;<span class="built_in">echo</span> <span class="variable">$A</span>;{ A=<span class="number">2</span>; };<span class="built_in">echo</span> <span class="variable">$A</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"></div><div class="line">~$ A=<span class="number">1</span>;<span class="built_in">echo</span> <span class="variable">$A</span>;( A=<span class="number">2</span>; );<span class="built_in">echo</span> <span class="variable">$A</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">1</span></div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/a627088424/article/details/20360107" ]]>
+    </summary>
+    
+      <category term="＆＆" scheme="http://moky.cc/tags/%EF%BC%86%EF%BC%86/"/>
+    
+      <category term="｜｜" scheme="http://moky.cc/tags/%EF%BD%9C%EF%BD%9C/"/>
+    
+      <category term="Shell" scheme="http://moky.cc/categories/Shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[关于Shell的补零，用printf来格式化数字列。]]></title>
+    <link href="http://moky.cc/2015/04/30/%E5%85%B3%E4%BA%8EShell%E7%9A%84%E8%A1%A5%E9%9B%B6%EF%BC%8C%E7%94%A8printf%E6%9D%A5%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%95%B0%E5%AD%97%E5%88%97%E3%80%82/"/>
+    <id>http://moky.cc/2015/04/30/关于Shell的补零，用printf来格式化数字列。/</id>
+    <published>2015-04-30T11:00:17.000Z</published>
+    <updated>2015-05-16T11:03:46.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.187299.com/archives/1680" title="http://www.187299.com/archives/1680" target="_blank" rel="external">http://www.187299.com/archives/1680</a></p>
+</blockquote>
+<p>解答论坛一个朋友关于获取01、02…10,而非1、2….10。<br>因为需要用flashget下载这样一些列的文件。自己了解这个应用，但是以前也没有处理过。还是有需要的。经过g后，测试得到。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[root@kook tmp]<span class="comment"># cat for.sh</span></div><div class="line"><span class="keyword">for</span> ((a=<span class="number">1</span>; a&lt;=<span class="number">10</span> ; a++))</div><div class="line"><span class="keyword">do</span></div><div class="line"><span class="built_in">printf</span> <span class="string">"%02d\n"</span> <span class="variable">$a</span></div><div class="line"><span class="keyword">done</span></div><div class="line">[root@kook tmp]<span class="comment"># ./for.sh</span></div><div class="line"><span class="number">01</span></div><div class="line"><span class="number">02</span></div><div class="line"><span class="number">03</span></div><div class="line"><span class="number">04</span></div><div class="line"><span class="number">05</span></div><div class="line"><span class="number">06</span></div><div class="line"><span class="number">07</span></div><div class="line"><span class="number">08</span></div><div class="line"><span class="number">09</span></div><div class="line"><span class="number">10</span></div></pre></td></tr></table></figure>
+
+<p><br><br>这么写，也可以。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@kook tmp]<span class="comment"># cat for.sh</span></div><div class="line"><span class="keyword">for</span> ((a=<span class="number">1</span>; a&lt;=<span class="number">10</span> ; a++))</div><div class="line"><span class="keyword">do</span></div><div class="line"><span class="built_in">printf</span> <span class="string">"%.2d\n"</span> <span class="variable">$a</span></div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
+
+<p><br><br>继续测试。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@kook tmp]<span class="comment"># printf "%04d\n" -3</span></div><div class="line">-<span class="number">003</span></div><div class="line">[root@kook tmp]<span class="comment"># printf "%.4d\n" -3</span></div><div class="line">-<span class="number">0003</span></div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.187299.com/archives/1680" title="http://www.187]]>
+    </summary>
+    
+      <category term="printf" scheme="http://moky.cc/tags/printf/"/>
+    
+      <category term="格式化" scheme="http://moky.cc/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
+    
+      <category term="补零" scheme="http://moky.cc/tags/%E8%A1%A5%E9%9B%B6/"/>
+    
+      <category term="Shell" scheme="http://moky.cc/categories/Shell/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Python分割路径与文件名分隔符]]></title>
     <link href="http://moky.cc/2015/04/27/Python%E5%88%86%E5%89%B2%E8%B7%AF%E5%BE%84%E4%B8%8E%E6%96%87%E4%BB%B6%E5%90%8D%E5%88%86%E9%9A%94%E7%AC%A6/"/>
     <id>http://moky.cc/2015/04/27/Python分割路径与文件名分隔符/</id>
@@ -824,437 +1338,6 @@
     </summary>
     
       <category term="lambda" scheme="http://moky.cc/tags/lambda/"/>
-    
-      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Python单例模式]]></title>
-    <link href="http://moky.cc/2015/04/19/Python%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://moky.cc/2015/04/19/Python单例模式/</id>
-    <published>2015-04-19T08:19:57.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/qq78292959/archive/2013/05/24/3097425.html" title="http://www.cnblogs.com/qq78292959/archive/2013/05/24/3097425.html" target="_blank" rel="external">http://www.cnblogs.com/qq78292959/archive/2013/05/24/3097425.html</a></p>
-</blockquote>
-<p><code>单例模式</code> 保证一个类仅有一个实例，并提供一个访问他的全局访问点。</p>
-<p>实现某个类只有一个实例的途径：</p>
-<ol>
-<li>让一个全局变量使得一个对象被访问，但是他不能防止外部实例化多个对象。</li>
-<li>让类自身保存他的唯一实例，这个类可以保证没有其他实例可以被创建。<br><code>多线程时的单例模式</code> 加锁-双重锁定<br><code>饿汉式单例类</code> 在类被加载时就将自己实例化（静态初始化）。其优点是躲避了多线程访问的安全性问题，缺点是提前占用系统资源。<br><code>懒汉式单例类</code> 在第一次被引用时，才将自己实例化。避免开始时占用系统资源，但是有多线程访问安全性问题。</li>
-</ol>
-<p><strong>实例</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#encoding=utf-8</span></div><div class="line"><span class="comment">#单例模式</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">PrintInfo</span><span class="params">(info)</span>:</span></div><div class="line"><span class="comment">#    print unicode(info,'utf-8').decode('gbk')</span></div><div class="line">    <span class="keyword">print</span> info.decode(<span class="string">'utf-8'</span>).encode(<span class="string">'utf-8'</span>)  </div><div class="line"><span class="keyword">import</span> threading</div><div class="line"><span class="comment">#单例类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span><span class="params">()</span>:</span></div><div class="line">    instance=<span class="keyword">None</span></div><div class="line">    mutex=threading.Lock()</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line">    <span class="decorator">@staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetInstance</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">if</span>(Singleton.instance==<span class="keyword">None</span>):</div><div class="line">            Singleton.mutex.acquire()</div><div class="line">            <span class="keyword">if</span>(Singleton.instance==<span class="keyword">None</span>):</div><div class="line">                PrintInfo(<span class="string">'初始化实例'</span>)</div><div class="line">                Singleton.instance=Singleton()</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                PrintInfo(<span class="string">'单例已经实例化'</span>)</div><div class="line">            Singleton.mutex.release()</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            PrintInfo(<span class="string">'单例已经实例化'</span>)</div><div class="line">           </div><div class="line">        <span class="keyword">return</span> Singleton.instance</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">clientUI</span><span class="params">()</span>:</span></div><div class="line">    Singleton.GetInstance()</div><div class="line">    Singleton.GetInstance()</div><div class="line">    Singleton.GetInstance()</div><div class="line">   </div><div class="line">    <span class="keyword">return</span></div><div class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</div><div class="line">    clientUI();</div></pre></td></tr></table></figure>
-
-<p><strong>结果</strong>：<br>初始化实例 单例已经实例化 单例已经实例化<br>追加解释<code>@staticmethod</code>在 Python中提到 classmethod 就要提到 staticmethod，不是因为二者有什么关系，而是为了让用户区分以便更清楚地写代码。在C++中，我们了解直接通过类名访问的函数称为类的静态函数，即static修饰的函数，可见C++中classmethod和staticmethod是一个概念。 那么python中二者有什么区别呢？先来看下二者如何在python代码中声明</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>:</span></div><div class="line"> ...</div><div class="line"> </div><div class="line">  <span class="decorator">@classmethod  # classmethod的修饰符</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">class_method</span><span class="params">(cls, arg1, arg2, ...)</span>:</span></div><div class="line">   ...</div><div class="line">  <span class="decorator">@staticmethod  # staticmethod的修饰符</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">static_method</span><span class="params">(arg1, arg2, ...)</span>:</span></div><div class="line">   ...</div></pre></td></tr></table></figure>
-
-<p>对于classmethod的参数，需要隐式地传递类名，而staticmethod参数中则不需要传递类名，其实这就是二者最大的区别。<br>二者都可以通过类名或者类实例对象来调用，因为强调的是classmethod和staticmethod，所以在写代码的时候最好使用类名，良好的编程习惯吧。<br>对于staticmethod就是为了要在类中定义而设置的，一般来说很少这样使用，可以使用模块级(module-level)的函数来替代它。既然要把它定义在类中，想必有作者的考虑。<br>对于classmethod，可以通过子类来进行重定义。<br>提到类级别的函数，也顺带提及类级别的变量</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>:</span></div><div class="line"> </div><div class="line"> i = <span class="number">123</span> <span class="comment"># class-level variable</span></div><div class="line"> </div><div class="line"> <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">  self.i = <span class="number">456</span> <span class="comment"># object-level variable</span></div><div class="line">  ...</div></pre></td></tr></table></figure>
-
-<p>为了清晰地区分上面两个i，最好的办法就是考虑到python中的一切都是object，所以i=123属于class object的，i=456属于class instance object</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/qq78292959/archive/2013/05/24/30974]]>
-    </summary>
-    
-      <category term="单例模式" scheme="http://moky.cc/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
-    
-      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Python使用UUID库生成唯一ID]]></title>
-    <link href="http://moky.cc/2015/04/01/Python%E4%BD%BF%E7%94%A8UUID%E5%BA%93%E7%94%9F%E6%88%90%E5%94%AF%E4%B8%80ID/"/>
-    <id>http://moky.cc/2015/04/01/Python使用UUID库生成唯一ID/</id>
-    <published>2015-04-01T08:12:28.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/dkblog/archive/2011/10/10/2205200.html" title="http://www.cnblogs.com/dkblog/archive/2011/10/10/2205200.html" target="_blank" rel="external">http://www.cnblogs.com/dkblog/archive/2011/10/10/2205200.html</a><br><a href="http://docs.python.org/library/uuid.html" title="http://docs.python.org/library/uuid.html" target="_blank" rel="external">http://docs.python.org/library/uuid.html</a><br><a href="http://www.ietf.org/rfc/rfc4122.txt" title="http://www.ietf.org/rfc/rfc4122.txt" target="_blank" rel="external">http://www.ietf.org/rfc/rfc4122.txt</a></p>
-</blockquote>
-<p>概述：</p>
-<p>UUID是128位的全局唯一标识符，通常由32字节的字符串表示。<br>它可以保证时间和空间的唯一性，也称为GUID，全称为：<br><code>UUID</code> —— Universally Unique IDentifier      Python 中叫 UUID<br><code>GUID</code> —— Globally Unique IDentifier         C#  中叫 GUID</p>
-<p>它通过MAC地址、时间戳、命名空间、随机数、伪随机数来保证生成ID的唯一性。<br>UUID主要有五个算法，也就是五种方法来实现：<br>1、<code>uuid1()</code> 基于时间戳<br>由MAC地址、当前时间戳、随机数生成。可以保证全球范围内的唯一性，<br>但MAC的使用同时带来安全性问题，局域网中可以使用IP来代替MAC。</p>
-<p>2、<code>uuid2()</code> 基于分布式计算环境DCE（Python中没有这个函数）<br>算法与uuid1相同，不同的是把时间戳的前4位置换为POSIX的UID。<br>实际中很少用到该方法。</p>
-<p>3、<code>uuid3()</code> 基于名字的MD5散列值<br>通过计算名字和命名空间的MD5散列值得到，保证了同一命名空间中不同名字的唯一性，<br>和不同命名空间的唯一性，但同一命名空间的同一名字生成相同的uuid。    </p>
-<p>4、<code>uuid4()</code> 基于随机数<br>由伪随机数得到，有一定的重复概率，该概率可以计算出来。</p>
-<p>5、<code>uuid5()</code> 基于名字的SHA-1散列值<br>算法与uuid3相同，不同的是使用 Secure Hash Algorithm 1 算法</p>
-<p>使用方面：<br>首先，<code>Python</code>中没有基于<code>DCE</code>的，所以<code>uuid2</code>可以忽略；<br>其次，<code>uuid4</code>存在概率性重复，由无映射性，最好不用；<br>再次，若在<code>Global</code>的分布式计算环境下，最好用<code>uuid1</code>；<br>最后，若有名字的唯一性要求，最好用<code>uuid3</code>或<code>uuid5</code>。</p>
-<p>编码方法：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> uuid</div><div class="line"></div><div class="line">name = <span class="string">"test_name"</span></div><div class="line">namespace = <span class="string">"test_namespace"</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> uuid.uuid1()  <span class="comment"># 带参的方法参见Python Doc</span></div><div class="line"><span class="keyword">print</span> uuid.uuid3(namespace, name)</div><div class="line"><span class="keyword">print</span> uuid.uuid4()</div><div class="line"><span class="keyword">print</span> uuid.uuid5(namespace, name)</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/dkblog/archive/2011/10/10/2205200.h]]>
-    </summary>
-    
-      <category term="uuid" scheme="http://moky.cc/tags/uuid/"/>
-    
-      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[关于Python文件操作]]></title>
-    <link href="http://moky.cc/2015/03/20/%E5%85%B3%E4%BA%8EPython%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"/>
-    <id>http://moky.cc/2015/03/20/关于Python文件操作/</id>
-    <published>2015-03-20T09:53:30.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/rollenholt/archive/2012/04/23/2466179.html" title="http://www.cnblogs.com/rollenholt/archive/2012/04/23/2466179.html" target="_blank" rel="external">http://www.cnblogs.com/rollenholt/archive/2012/04/23/2466179.html</a></p>
-</blockquote>
-<p>总是记不住API。昨晚写的时候用到了这些，但是没记住，于是就索性整理一下吧：</p>
-<h2 id="os模块和shutil模块">os模块和shutil模块</h2>
-<p>得到当前工作目录，即当前Python脚本工作的目录路径: <code>os.getcwd()</code><br>返回指定目录下的所有文件和目录名: <code>os.listdir()</code><br>函数用来删除一个文件: <code>os.remove()</code><br>删除多个目录: <code>os.removedirs（r“c：\python”）</code><br>检验给出的路径是否是一个文件: <code>os.path.isfile()</code><br>检验给出的路径是否是一个目录: <code>os.path.isdir()</code><br>判断是否是绝对路径: <code>os.path.isabs()</code><br>检验给出的路径是否真地存: <code>os.path.exists()</code><br>返回一个路径的目录名和文件名: <code>os.path.split()</code><br>分离扩展名: <code>os.path.splitext()</code><br>获取路径名: <code>os.path.dirname()</code><br>获取文件名: <code>os.path.basename()</code><br>运行shell命令: <code>os.system()</code><br>读取和设置环境变量: <code>os.getenv()</code> 与 <code>os.putenv()</code><br>给出当前平台使用的行终止符: <code>os.linesep</code> (Windows使用’\r\n’，Linux使用’\n’而Mac使用’\r’)<br>指示你正在使用的平台: <code>os.name</code> (对于Windows，它是’nt’，而对于Linux/Unix用户，它是’posix’)<br>重命名: <code>os.rename（old, new）</code><br>创建多级目录: <code>os.makedirs（r“c：\python\test”）</code><br>创建单个目录: <code>os.mkdir（“test”）</code><br>获取文件属性: <code>os.stat（file）</code><br>修改文件权限与时间戳: <code>os.chmod（file）</code><br>终止当前进程: <code>os.exit（）</code><br>获取文件大小: <code>os.path.getsize（filename）</code></p>
-<p><br></p>
-<h2 id="文件操作">文件操作</h2>
-<p><code>os.mknod(&quot;test.txt&quot;)</code> 创建空文件<br><code>fp = open(&quot;test.txt&quot;,w)</code> 直接打开一个文件，如果文件不存在则创建文件</p>
-<p>关于open 模式：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left"></th>
-<th style="text-align:left"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">w</td>
-<td style="text-align:left">以写方式打开</td>
-</tr>
-<tr>
-<td style="text-align:left">a</td>
-<td style="text-align:left">以追加模式打开 (从 EOF 开始, 必要时创建新文件)</td>
-</tr>
-<tr>
-<td style="text-align:left">r+</td>
-<td style="text-align:left">以读写模式打开</td>
-</tr>
-<tr>
-<td style="text-align:left">w+</td>
-<td style="text-align:left">以读写模式打开 (参见 w )</td>
-</tr>
-<tr>
-<td style="text-align:left">a+</td>
-<td style="text-align:left">以读写模式打开 (参见 a )</td>
-</tr>
-<tr>
-<td style="text-align:left">rb</td>
-<td style="text-align:left">以二进制读模式打开</td>
-</tr>
-<tr>
-<td style="text-align:left">wb</td>
-<td style="text-align:left">以二进制写模式打开 (参见 w )</td>
-</tr>
-<tr>
-<td style="text-align:left">ab</td>
-<td style="text-align:left">以二进制追加模式打开 (参见 a )</td>
-</tr>
-<tr>
-<td style="text-align:left">rb+</td>
-<td style="text-align:left">以二进制读写模式打开 (参见 r+ )</td>
-</tr>
-<tr>
-<td style="text-align:left">wb+</td>
-<td style="text-align:left">以二进制读写模式打开 (参见 w+ )</td>
-</tr>
-<tr>
-<td style="text-align:left">ab+</td>
-<td style="text-align:left">以二进制读写模式打开 (参见 a+ )</td>
-</tr>
-</tbody>
-</table>
-<p><code>fp.read([size])</code> #size为读取的长度，以byte为单位<br><code>fp.readline([size])</code> #读一行，如果定义了size，有可能返回的只是一行的一部分<br><code>fp.readlines([size])</code> #把文件每一行作为一个list的一个成员，并返回这个list。其实它的内部是通过循环调用readline()来实现的。如果提供size参数，size是表示读取内容的总长，也就是说可能只读到文件的一部分。<br><code>fp.write(str)</code> #把str写到文件中，write()并不会在str后加上一个换行符<br><code>fp.writelines(seq)</code> #把seq的内容全部写到文件中(多行一次性写入)。这个函数也只是忠实地写入，不会在每行后面加上任何东西。<br><code>fp.close()</code> #关闭文件。python会在一个文件不用后自动关闭文件，不过这一功能没有保证，最好还是养成自己关闭的习惯。  如果一个文件在关闭后还对其进行操作会产生ValueError<br><code>fp.flush()</code> #把缓冲区的内容写入硬盘<br><code>fp.fileno()</code> #返回一个长整型的”文件标签“<br><code>fp.isatty()</code> #文件是否是一个终端设备文件（unix系统中的）<br><code>fp.tell()</code> #返回文件操作标记的当前位置，以文件的开头为原点<br><code>fp.next()</code> #返回下一行，并将文件操作标记位移到下一行。把一个file用于for … in file这样的语句时，就是调用next()函数来实现遍历的。<br><code>fp.seek(offset[,whence])</code> #将文件打操作标记移到offset的位置。这个offset一般是相对于文件的开头来计算的，一般为正数。但如果提供了whence参数就不一定了，whence可以为0表示从头开始计算，1表示以当前位置为原点计算。2表示以文件末尾为原点进行计算。需要注意，如果文件以a或a+的模式打开，每次进行写操作时，文件操作标记会自动返回到文件末尾。<br><code>fp.truncate([size])</code> #把文件裁成规定的大小，默认的是裁到当前文件操作标记的位置。如果size比文件的大小还要大，依据系统的不同可能是不改变文件，也可能是用0把文件补到相应的大小，也可能是以一些随机的内容加上去。</p>
-<p><br></p>
-<h2 id="目录操作">目录操作</h2>
-<p>创建目录 <code>os.mkdir(&quot;file&quot;)</code><br>复制文件:<br><code>shutil.copyfile(&quot;oldfile&quot;,&quot;newfile&quot;)</code> oldfile和newfile都只能是文件<br><code>shutil.copy(&quot;oldfile&quot;,&quot;newfile&quot;)</code> oldfile只能是文件夹，newfile可以是文件，也可以是目标目录<br>复制文件夹 <code>shutil.copytree(&quot;olddir&quot;,&quot;newdir&quot;)</code> olddir和newdir都只能是目录，且newdir必须不存在<br>重命名文件（目录） <code>os.rename(&quot;oldname&quot;,&quot;newname&quot;)</code> 文件或目录都是使用这条命令<br>移动文件（目录） <code>shutil.move(&quot;oldpos&quot;,&quot;newpos&quot;)</code><br>删除文件 <code>os.remove(&quot;file&quot;)</code><br>删除目录:<br><code>os.rmdir(&quot;dir&quot;)</code> 只能删除空目录<br><code>shutil.rmtree(&quot;dir&quot;)</code> 空目录、有内容的目录都可以删<br>转换目录 <code>os.chdir(&quot;path&quot;)</code></p>
-<p><br></p>
-<h2 id="相关例子">相关例子</h2>
-<p><strong>将文件夹下所有图片名称加上’_fc’</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="comment">#str.split(string)分割字符串</span></div><div class="line"><span class="comment">#'连接符'.join(list) 将列表组成字符串</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">change_name</span><span class="params">(path)</span>:</span></div><div class="line">    <span class="keyword">global</span> i</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(path) <span class="keyword">and</span> <span class="keyword">not</span> os.path.isfile(path):</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    <span class="keyword">if</span> os.path.isfile(path):</div><div class="line">        file_path = os.path.split(path) <span class="comment">#分割出目录与文件</span></div><div class="line">        lists = file_path[<span class="number">1</span>].split(<span class="string">'.'</span>) <span class="comment">#分割出文件与文件扩展名</span></div><div class="line">        file_ext = lists[-<span class="number">1</span>] <span class="comment">#取出后缀名(列表切片操作)</span></div><div class="line">        img_ext = [<span class="string">'bmp'</span>,<span class="string">'jpeg'</span>,<span class="string">'gif'</span>,<span class="string">'psd'</span>,<span class="string">'png'</span>,<span class="string">'jpg'</span>]</div><div class="line">        <span class="keyword">if</span> file_ext <span class="keyword">in</span> img_ext:</div><div class="line">            os.rename(path,file_path[<span class="number">0</span>]+<span class="string">'/'</span>+lists[<span class="number">0</span>]+<span class="string">'_fc.'</span>+file_ext)</div><div class="line">            i+=<span class="number">1</span> <span class="comment">#注意这里的i是一个陷阱</span></div><div class="line">        <span class="comment">#或者</span></div><div class="line">        <span class="comment">#img_ext = 'bmp|jpeg|gif|psd|png|jpg'</span></div><div class="line">        <span class="comment">#if file_ext in img_ext:</span></div><div class="line">        <span class="comment">#    print('ok---'+file_ext)</span></div><div class="line">    <span class="keyword">elif</span> os.path.isdir(path):</div><div class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> os.listdir(path):</div><div class="line">            change_name(os.path.join(path,x)) <span class="comment">#os.path.join()在路径处理上很有用</span></div><div class="line"></div><div class="line"></div><div class="line">img_dir = <span class="string">'D:\\xx\\xx\\images'</span></div><div class="line">img_dir = img_dir.replace(<span class="string">'\\'</span>,<span class="string">'/'</span>)</div><div class="line">start = time.time()</div><div class="line">i = <span class="number">0</span></div><div class="line">change_name(img_dir)</div><div class="line">c = time.time() - start</div><div class="line">print(<span class="string">'程序运行耗时:%0.2f'</span>%(c))</div><div class="line">print(<span class="string">'总共处理了 %s 张图片'</span>%(i))</div></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">程序运行耗时<span class="pseudo">:0</span><span class="class">.11</span></div><div class="line">总共处理了 109 张图片</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/rollenholt/archive/2012/04/23/24661]]>
-    </summary>
-    
-      <category term="文件操作" scheme="http://moky.cc/tags/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"/>
-    
-      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[QLabel中html标签的使用]]></title>
-    <link href="http://moky.cc/2015/03/19/QLabel%E4%B8%ADhtml%E6%A0%87%E7%AD%BE%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-    <id>http://moky.cc/2015/03/19/QLabel中html标签的使用/</id>
-    <published>2015-03-19T08:02:41.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/imxiangzi/article/details/7749529" title="http://blog.csdn.net/imxiangzi/article/details/7749529" target="_blank" rel="external">http://blog.csdn.net/imxiangzi/article/details/7749529</a></p>
-</blockquote>
-<p>QLabel中显示的字符串是支持HTML标签的。如果应用好的话会达到很多方便快捷的效果。</p>
-<p>举几个例子如下：<br>（1） 作为标题：<br>用一个QLabel对象，使其字体加大、加粗、居中，使用如下三个标签即可。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new QLabel("<span class="tag">&lt;<span class="title">font</span> <span class="attribute">size</span>=<span class="value">'+1'</span>&gt;</span><span class="tag">&lt;<span class="title">b</span>&gt;</span><span class="tag">&lt;<span class="title">p</span> <span class="attribute">align</span>=<span class="value">'center'</span>&gt;</span>标题<span class="tag">&lt;/<span class="title">p</span>&gt;</span><span class="tag">&lt;/<span class="title">b</span>&gt;</span><span class="tag">&lt;/<span class="title">font</span>&gt;</span>", this, "title")</div></pre></td></tr></table></figure>
-
-<p>（2） 加下划线：<br>使用<code>&lt;u&gt;&lt;/u&gt;</code>即可实现。</p>
-<p>（3） 给局部加样式<br>还可以对text的部分内容添加标签，以使个别内容使用不同字体、样式，并且不影响整体字体。如，给字加颜色、大小、字体等。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">font</span> <span class="attribute">color</span>=<span class="value">'#5500ff'</span> <span class="attribute">size</span>=<span class="value">'+1'</span> <span class="attribute">face</span>=<span class="value">'Sans'</span>&gt;</span>被设置了字体<span class="tag">&lt;/<span class="title">font</span>&gt;</span></div></pre></td></tr></table></figure>
-
-<p>（4） 画横线<br>使用<code>&lt;hr&gt;</code>即可实现。</p>
-<p>完整代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;qlayout.h&gt;   </span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;qframe.h&gt;   </span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;qlabel.h&gt;   </span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;qfont.h&gt;   </span></div><div class="line">QVBoxLayout *vBox = <span class="keyword">new</span> QVBoxLayout(<span class="keyword">this</span>);  </div><div class="line">vBox-&gt;addWidget(<span class="keyword">new</span> QLabel(<span class="string">"&lt;font size='+1'&gt;&lt;b&gt;&lt;p align='center'&gt;标题&lt;/p&gt;&lt;/b&gt;&lt;/font&gt;"</span>, <span class="keyword">this</span>));<span class="comment">//标题   </span></div><div class="line">vBox-&gt;addWidget(<span class="keyword">new</span> QLabel(<span class="string">"&lt;hr&gt;"</span>, <span class="keyword">this</span>, <span class="string">"hr"</span>));<span class="comment">//在标题下面画一道横线   </span></div><div class="line"><span class="comment">/* </span></div><div class="line">//或是用下面的方法 </div><div class="line">QFrame *lbHr = new QFrame( this, "line4" ); </div><div class="line">lbHr-&gt;setGeometry( QRect( 1, 20, width()-2, 16 ) ); </div><div class="line">//lbHr-&gt;setPaletteBackgroundColor( QColor( 222, 199, 241 ) ); </div><div class="line">lbHr-&gt;setFrameShape( QFrame::HLine ); </div><div class="line">lbHr-&gt;setFrameShadow( QFrame::Sunken ); </div><div class="line">lbHr-&gt;setFrameShape( QFrame::HLine ); </div><div class="line">vBox-&gt;addWidget(lbHr);//横线 </div><div class="line">*/  </div><div class="line">vBox-&gt;addStretch(<span class="number">1</span>);  </div><div class="line">vBox-&gt;addWidget(<span class="keyword">new</span> QLabel(<span class="string">"&lt;u&gt;带下划线的label&lt;/u&gt;"</span>, <span class="keyword">this</span>));  </div><div class="line">QLabel *label = <span class="keyword">new</span> QLabel(<span class="string">"设置字体：&lt;font color='#5500ff' size='+1' face='Sans'&gt;被设置了字体&lt;/font&gt;"</span>, <span class="keyword">this</span>);  </div><div class="line"><span class="comment">//字体加粗，被设置字体部分同样加粗   </span></div><div class="line">QFont font = label-&gt;font();  </div><div class="line">font.setBold(<span class="keyword">true</span>);  </div><div class="line">label-&gt;setFont(font);  </div><div class="line">vBox-&gt;addWidget(label);  </div><div class="line">QLabel *label2 = <span class="keyword">new</span> QLabel(<span class="string">"设置字体未加粗：&lt;font color='#5500ff' size='+1' face='Sans'&gt;被设置了字体&lt;/font&gt;"</span>, <span class="keyword">this</span>);  </div><div class="line">vBox-&gt;addWidget(label2);</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/imxiangzi/article/details/7749529" ti]]>
-    </summary>
-    
-      <category term="Qt" scheme="http://moky.cc/tags/Qt/"/>
-    
-      <category term="QLabel" scheme="http://moky.cc/tags/QLabel/"/>
-    
-      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Python中计算字符串中某个字符个数的4种方法]]></title>
-    <link href="http://moky.cc/2015/03/18/Python%E4%B8%AD%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%AA%E6%95%B0%E7%9A%844%E7%A7%8D%E6%96%B9%E6%B3%95/"/>
-    <id>http://moky.cc/2015/03/18/Python中计算字符串中某个字符个数的4种方法/</id>
-    <published>2015-03-18T02:40:30.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<h4 id="方法一">方法一</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">s = <span class="string">"abacad"</span></div><div class="line"><span class="keyword">print</span> s.count(<span class="string">"a"</span>)</div></pre></td></tr></table></figure>
-
-<p><br></p>
-<h4 id="方法二">方法二</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line">count = len(re.findall(<span class="string">"a"</span>,<span class="string">"abacad"</span>))</div><div class="line">print(count)</div></pre></td></tr></table></figure>
-
-<p><br></p>
-<h4 id="方法三">方法三</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</div><div class="line">s = <span class="string">"abacad"</span></div><div class="line">c = Counter(s)</div><div class="line"><span class="keyword">print</span> c[<span class="string">'a'</span>]</div></pre></td></tr></table></figure>
-
-<p><br></p>
-<h4 id="方法四">方法四</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> len([ele <span class="keyword">for</span> ele <span class="keyword">in</span> <span class="string">'abacad'</span> <span class="keyword">if</span> ele == <span class="string">'a'</span>])</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<h4 id="方法一">方法一</h4>
-<figure class="highlight python">]]>
-    </summary>
-    
-      <category term="字符个数" scheme="http://moky.cc/tags/%E5%AD%97%E7%AC%A6%E4%B8%AA%E6%95%B0/"/>
-    
-      <category term="字符串" scheme="http://moky.cc/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
-    
-      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[绘制支持富文本带阴影自适应大小的Tooltips]]></title>
-    <link href="http://moky.cc/2015/03/17/%E7%BB%98%E5%88%B6%E6%94%AF%E6%8C%81%E5%AF%8C%E6%96%87%E6%9C%AC%E5%B8%A6%E9%98%B4%E5%BD%B1%E8%87%AA%E9%80%82%E5%BA%94%E5%A4%A7%E5%B0%8F%E7%9A%84Tooltips/"/>
-    <id>http://moky.cc/2015/03/17/绘制支持富文本带阴影自适应大小的Tooltips/</id>
-    <published>2015-03-17T13:32:27.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>在日常开发中，我们经常会用到<code>Qt</code>的<code>Tooltips</code>，但是默认的样式不够美观，而且不支持富文本，于是一般情况都会重写<code>Tooltips</code>。</p>
-<p>以下是我的实现，用了<code>QSS</code>样式表，所以不需要任何美术资源。阴影部分也是用<code>QtGui.QPainter</code>绘制的，可调节XY偏移值。富文本显示使用<code>html</code>标签，所以换行需要手动输入<code>&lt;br&gt;</code>，<code>Tooltips</code>会自动适应大小。</p>
-<p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> math</div><div class="line"><span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtCore, QtGui</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tooltips</span><span class="params">(QtGui.QMainWindow)</span>:</span></div><div class="line">    TOOLTIPS_LINE_HEIGHT = <span class="number">18</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent)</span>:</span></div><div class="line">        super(Tooltips, self).__init__(parent)</div><div class="line">        self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)</div><div class="line">        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)</div><div class="line">        self.setAttribute(QtCore.Qt.WA_DontCreateNativeAncestors)</div><div class="line">        self.setAttribute(QtCore.Qt.WA_ShowWithoutActivating)</div><div class="line">        self.hide()</div><div class="line">        self.setStyleSheet(<span class="string">'Tooltips &gt; QLabel {border: 1px solid #f56133; border-radius: 4px; background: #ffffff; font: normal 12px '</span>Microsoft Yahei<span class="string">'; padding: 8px;}'</span>)</div><div class="line"></div><div class="line">        self._actualWidth = <span class="number">150</span></div><div class="line">        self._actualHeight = <span class="number">50</span></div><div class="line">        self._offsetXShadow = <span class="number">5</span></div><div class="line">        self._offsetYShadow = <span class="number">5</span></div><div class="line"></div><div class="line">        self._labelText = QtGui.QLabel(self)</div><div class="line">        self._labelText.setWordWrap(<span class="keyword">True</span>)</div><div class="line">        self._labelText.move(<span class="number">0</span>, <span class="number">0</span>)</div><div class="line">        self._labelText.setText(<span class="string">u''</span>)</div><div class="line">        self._labelText.setAlignment(QtCore.Qt.AlignVCenter)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setText</span><span class="params">(self, str_text)</span>:</span></div><div class="line">        self._labelText.setText(str_text)</div><div class="line">        self.adjustSize()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">text</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self._labelText.text()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">resize</span><span class="params">(self, *__args)</span>:</span></div><div class="line">        <span class="keyword">if</span> len(__args) == <span class="number">1</span>:</div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> isinstance(__args[<span class="number">0</span>], QtCore.QSize):</div><div class="line">                <span class="keyword">return</span></div><div class="line">            self._actualWidth = __args[<span class="number">0</span>].width()</div><div class="line">            self._actualHeight = __args[<span class="number">0</span>].height()</div><div class="line">            super(Tooltips, self).resize(__args[<span class="number">0</span>] + QtCore.QSize(self._offsetXShadow, self._offsetYShadow))</div><div class="line">        <span class="keyword">elif</span> len(__args) == <span class="number">2</span>:</div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> isinstance(self._actualWidth, int):</div><div class="line">                <span class="keyword">return</span></div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> isinstance(self._actualHeight, int):</div><div class="line">                <span class="keyword">return</span></div><div class="line">            self._actualWidth = __args[<span class="number">0</span>]</div><div class="line">            self._actualHeight = __args[<span class="number">1</span>]</div><div class="line">            super(Tooltips, self).resize(self._actualWidth + self._offsetXShadow,</div><div class="line">                                         self._actualHeight + self._offsetYShadow)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">resizeEvent</span><span class="params">(self, event)</span>:</span></div><div class="line">        self._labelText.resize(event.size() - QtCore.QSize(self._offsetXShadow, self._offsetYShadow))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">paintEvent</span><span class="params">(self, event)</span>:</span></div><div class="line">        painter = QtGui.QPainter(self)</div><div class="line">        painter.setRenderHint(QtGui.QPainter.Antialiasing, <span class="keyword">True</span>)</div><div class="line">        color = QtGui.QColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>):</div><div class="line">            path = QtGui.QPainterPath()</div><div class="line">            path.setFillRule(QtCore.Qt.WindingFill)</div><div class="line">            path.addRect(<span class="number">10</span> - i, <span class="number">10</span> - i, super(Tooltips, self).width() - (<span class="number">10</span> - i) * <span class="number">2</span>,</div><div class="line">                         super(Tooltips, self).height() - (<span class="number">10</span> - i) * <span class="number">2</span>)</div><div class="line">            color.setAlpha(<span class="number">150</span> - math.sqrt(i) * <span class="number">50</span>)</div><div class="line">            painter.setPen(color)</div><div class="line">            painter.drawPath(path)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">width</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self._actualWidth</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">height</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self._actualHeight</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">size</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> QtCore.QSize(self._actualWidth, self._actualHeight)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">adjustSize</span><span class="params">(self)</span>:</span></div><div class="line">        orgText = self.text()</div><div class="line">        countLF = orgText.count(<span class="string">'&lt;br&gt;'</span>) + <span class="number">1</span></div><div class="line">        plainText = orgText.replace(<span class="string">'&lt;br&gt;'</span>, <span class="string">'\n'</span>).replace(QtCore.QRegExp(<span class="string">'&lt;[^&gt;]+&gt;'</span>), <span class="string">''</span>).replace(<span class="string">'&nbsp;'</span>, <span class="string">' '</span>)</div><div class="line">        tgtWidth = self._maxLineWidth(plainText)</div><div class="line">        tgtRect = QtCore.QSize(tgtWidth, Tooltips.TOOLTIPS_LINE_HEIGHT * countLF + <span class="number">19</span>)</div><div class="line">        <span class="keyword">if</span> self.width() != tgtRect.width() <span class="keyword">or</span> self.height() != tgtRect.height():</div><div class="line">            self.resize(tgtRect)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_maxLineWidth</span><span class="params">(self, text)</span>:</span></div><div class="line">        maxLineWidth = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> text.split(<span class="string">'\n'</span>):</div><div class="line">            <span class="keyword">if</span> line == <span class="string">''</span>:</div><div class="line">                <span class="keyword">continue</span></div><div class="line">            tmpWidth = self._labelText.fontMetrics().width(line) + <span class="number">24</span></div><div class="line">            <span class="keyword">if</span> tmpWidth &gt; maxLineWidth:</div><div class="line">                maxLineWidth = tmpWidth</div><div class="line">        <span class="keyword">return</span> maxLineWidth</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setShadowOffset</span><span class="params">(self, int_offsetX, int_offsetY)</span>:</span></div><div class="line">        self._offsetXShadow = int_offsetX</div><div class="line">        self._offsetYShadow = int_offsetY</div><div class="line">        self.resize(self._actualWidth, self._actualHeight)</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>在日常开发中，我们经常会用到<code>Qt</code>的<code>Tooltips</code>，]]>
-    </summary>
-    
-      <category term="Qt" scheme="http://moky.cc/tags/Qt/"/>
-    
-      <category term="Tooltips" scheme="http://moky.cc/tags/Tooltips/"/>
-    
-      <category term="富文本" scheme="http://moky.cc/tags/%E5%AF%8C%E6%96%87%E6%9C%AC/"/>
-    
-      <category term="阴影" scheme="http://moky.cc/tags/%E9%98%B4%E5%BD%B1/"/>
-    
-      <category term="自适应" scheme="http://moky.cc/tags/%E8%87%AA%E9%80%82%E5%BA%94/"/>
-    
-      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Qt之正则表达式]]></title>
-    <link href="http://moky.cc/2015/03/16/Qt%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    <id>http://moky.cc/2015/03/16/Qt之正则表达式/</id>
-    <published>2015-03-16T13:00:07.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/phay/article/details/7304455" title="http://blog.csdn.net/phay/article/details/7304455" target="_blank" rel="external">http://blog.csdn.net/phay/article/details/7304455</a></p>
-</blockquote>
-<p>QRegExp是Qt的正则表达式类.<br>Qt中有两个不同类的正则表达式.<br>第一类为元字符.它表示一个或多个常量表达式.<br>令一类为 转义字符,它代表一个特殊字符.</p>
-<p><strong>一.元字符</strong><br>.  匹配任意单个字符.例如, 1.3 可能是1. 后面跟任意字符,再跟3<br>^ 匹配字符串首. 例如, ^12可能是123,但不能是312<br>$  配字符串尾. 例如, 12$可以是312, 当不能是 123<br>[] 匹配括号内输入的任意字符.[123]可以为1, 2 或3<br>*  匹配任意数量的前导字符. 例如, 1*2可以为任意数量个1(甚至没有), 后面跟一个2<br>+ 匹配至少一个前导字符. 例如, 1+2必须为一个或多个1, 后跟一个2<br>?  匹配一个前导字符或为空. 例如 1?2可以为2或这12</p>
-<p><strong>二.统配模式</strong><br>通过 QRegExp::setPatternSyntax(QRegExp::Wildcard);可以将元字符设置为统配模式.在统配模式下,只有3个元字 符可以使用.他们的功能没有变化.<br>? 匹配任意单个字符, 例如, 1?2可以为1,后面跟任意单个字符, 再跟2<br>* 匹配任意一个字符序列. 例如, 1*2, 可以为1, 后面跟任意数量的字符, 再跟一个2<br>[] 匹配一个定义的字符集合. 例如, [a-zA-Z.]可以匹配 a到z之间任意一个字符和.  [^a]匹配出小写a以外的字符.</p>
-<p><strong>三.转义序列</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:left"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">\.</td>
-<td style="text-align:left">匹配”.”</td>
-</tr>
-<tr>
-<td style="text-align:center">\^</td>
-<td style="text-align:left">匹配”^”</td>
-</tr>
-<tr>
-<td style="text-align:center">\$</td>
-<td style="text-align:left">匹配”$”</td>
-</tr>
-<tr>
-<td style="text-align:center">\[</td>
-<td style="text-align:left">匹配”[“</td>
-</tr>
-<tr>
-<td style="text-align:center">\]</td>
-<td style="text-align:left">匹配”]”</td>
-</tr>
-<tr>
-<td style="text-align:center">\*</td>
-<td style="text-align:left">匹配”*”</td>
-</tr>
-<tr>
-<td style="text-align:center">\+</td>
-<td style="text-align:left">匹配”+”</td>
-</tr>
-<tr>
-<td style="text-align:center">\?</td>
-<td style="text-align:left">匹配”?”</td>
-</tr>
-<tr>
-<td style="text-align:center">\b</td>
-<td style="text-align:left">匹配响铃字符,使计算机发出嘟的一声.</td>
-</tr>
-<tr>
-<td style="text-align:center">\t</td>
-<td style="text-align:left">制表符号</td>
-</tr>
-<tr>
-<td style="text-align:center">\n</td>
-<td style="text-align:left">换行符号</td>
-</tr>
-<tr>
-<td style="text-align:center">\r</td>
-<td style="text-align:left">回车符鉿</td>
-</tr>
-<tr>
-<td style="text-align:center">\s</td>
-<td style="text-align:left">任意空格</td>
-</tr>
-<tr>
-<td style="text-align:center">\xnn</td>
-<td style="text-align:left">匹配16进制为nn的字符</td>
-</tr>
-<tr>
-<td style="text-align:center">\0nn</td>
-<td style="text-align:left">匹配8进制的nn字符</td>
-</tr>
-</tbody>
-</table>
-<p>这些表达式均以\开始, 与C++的转义字符相同,所以为了定义QRegExp中的一个转义序列,<br>需要在前面添加两个\<br><br></p>
-<ul>
-<li><strong>用正则表达式验证文本有效性</strong></li>
-</ul>
-<p>你可以使用QRegExp::exactMatch来判断一个字符串是否符合一个pattern。</p>
-<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="literal">void</span> testRegexMatch()</div><div class="line">{</div><div class="line">    QString pattern(“<span class="built_in">.</span><span class="subst">*=</span><span class="built_in">.</span><span class="subst">*</span>”);</div><div class="line">    QRegExp <span class="literal">rx</span>(pattern);</div><div class="line"></div><div class="line">    bool <span class="keyword">match</span> <span class="subst">=</span> <span class="literal">rx</span><span class="built_in">.</span>exactMatch(“a<span class="subst">=</span><span class="number">3</span>″);</div><div class="line">    qDebug() <span class="subst">&lt;&lt;</span> <span class="keyword">match</span>;                      <span class="comment">// True</span></div><div class="line"></div><div class="line">    <span class="keyword">match</span> <span class="subst">=</span> <span class="literal">rx</span><span class="built_in">.</span>exactMatch(“a/<span class="number">2</span>″);</div><div class="line">    qDebug() <span class="subst">&lt;&lt;</span> <span class="keyword">match</span>;                      <span class="comment">// False</span></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><br></p>
-<ul>
-<li><strong>用正则表达式提取数据</strong></li>
-</ul>
-<p>你可以利用利用正则表达式从一个字符串里提取特定的字段或数据。例如，你可以用以下代码从”a=100″里提取”a”和”100″。</p>
-<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="literal">void</span> testRegexCapture()</div><div class="line">{</div><div class="line">    QString pattern(“(<span class="built_in">.</span><span class="subst">*</span>)<span class="subst">=</span>(<span class="built_in">.</span><span class="subst">*</span>)”);</div><div class="line">    QRegExp <span class="literal">rx</span>(pattern);</div><div class="line"></div><div class="line">    QString str(“a<span class="subst">=</span><span class="number">100</span>″);</div><div class="line">    int pos <span class="subst">=</span> str<span class="built_in">.</span>indexOf(<span class="literal">rx</span>);              <span class="comment">// 0, position of the first match.</span></div><div class="line">                                            <span class="comment">// Returns -1 if str is not found.</span></div><div class="line">                                            <span class="comment">// You can also use rx.indexIn(str);</span></div><div class="line">    qDebug() <span class="subst">&lt;&lt;</span> pos;</div><div class="line">    <span class="keyword">if</span> ( pos <span class="subst">&gt;=</span> <span class="number">0</span> )</div><div class="line">    {</div><div class="line">        qDebug() <span class="subst">&lt;&lt;</span> <span class="literal">rx</span><span class="built_in">.</span>matchedLength();     <span class="comment">// 5, length of the last matched string</span></div><div class="line">                                            <span class="comment">// or -1 if there was no match</span></div><div class="line">        qDebug() <span class="subst">&lt;&lt;</span> <span class="literal">rx</span><span class="built_in">.</span>capturedTexts();     <span class="comment">// QStringList(“a=100″, ”a”, ”100″),</span></div><div class="line">                                            <span class="comment">//   0: text matching pattern</span></div><div class="line">                                            <span class="comment">//   1: text captured by the 1st ()</span></div><div class="line">                                            <span class="comment">//   2: text captured by the 2nd ()</span></div><div class="line"></div><div class="line">        qDebug() <span class="subst">&lt;&lt;</span> <span class="literal">rx</span><span class="built_in">.</span>cap(<span class="number">0</span>);              <span class="comment">// a=100, text matching pattern</span></div><div class="line">        qDebug() <span class="subst">&lt;&lt;</span> <span class="literal">rx</span><span class="built_in">.</span>cap(<span class="number">1</span>);              <span class="comment">// a, text captured by the nth ()</span></div><div class="line">        qDebug() <span class="subst">&lt;&lt;</span> <span class="literal">rx</span><span class="built_in">.</span>cap(<span class="number">2</span>);              <span class="comment">// 100,</span></div><div class="line"></div><div class="line">        qDebug() <span class="subst">&lt;&lt;</span> <span class="literal">rx</span><span class="built_in">.</span>pos(<span class="number">0</span>);              <span class="comment">// 0, position of the nth captured text</span></div><div class="line">        qDebug() <span class="subst">&lt;&lt;</span> <span class="literal">rx</span><span class="built_in">.</span>pos(<span class="number">1</span>);              <span class="comment">// 0</span></div><div class="line">        qDebug() <span class="subst">&lt;&lt;</span> <span class="literal">rx</span><span class="built_in">.</span>pos(<span class="number">2</span>);              <span class="comment">// 2</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><br></p>
-<ul>
-<li><strong>用正则表达式修改文本</strong></li>
-</ul>
-<p>你可以把字符串中匹配的字符串替换成”一般字符串”</p>
-<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">QString <span class="variable">s =</span> ”<span class="variable">a=</span><span class="number">100</span>″;</div><div class="line">s.replace(QRegExp(“(.*)=”), ”<span class="variable">b=</span>”);</div><div class="line">qDebug() &lt;&lt; s;                          // <span class="variable">b=</span><span class="number">100</span></div></pre></td></tr></table></figure>
-
-<p>或是把字符串中匹配的字符串替换”提取的字符串”</p>
-<figure class="highlight cplusplus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag"><span class="attribute">QString</span> <span class="attribute">s</span> = ”<span class="attribute">a</span>=<span class="value">100″;</span></span></span></div><div class="line"><span class="attribute">s.replace</span>(<span class="attribute">QRegExp</span>(“(<span class="attribute">.</span>*)=<span class="value">(.*)”),</span> ”\\<span class="attribute">1</span>\\<span class="attribute">2</span>=<span class="value">\\2″);</span>  // \<span class="attribute">1</span> <span class="attribute">is</span> <span class="attribute">rx.cap</span>(<span class="attribute">1</span>), \<span class="attribute">2</span> <span class="attribute">is</span> <span class="attribute">rx.cap</span>(<span class="attribute">2</span>)</div><div class="line"><span class="attribute">qDebug</span>() &lt;&lt; <span class="attribute">s</span>;                                  // <span class="attribute">a100</span>=<span class="value">100</span></div></pre></td></tr></table></figure>
-
-<p><br></p>
-<ul>
-<li><strong>把正则表达式转换成C/C++ string的小工具</strong></li>
-</ul>
-<p>没有Python的”””或是C#的@。标准的正则表达式因为出现一些特殊字符，在C/C++代码里使用时，必须进行转换。例如：”(\S+)\s<em>=\s</em>(\S<em>)”必须转换成”(\S+)\s</em>=\s<em>(\S</em>)”</p>
-<p>Qt的SDK里包含一个很帮的GUI工具，可以方便我们进行这类转换并测试你的表达式。在Linux下，它的路径是/usr/local/Trolltech/Qt-4.5.3/examples/tools/regexp/regexp </p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/phay/article/details/7304455" title="]]>
-    </summary>
-    
-      <category term="Qt" scheme="http://moky.cc/tags/Qt/"/>
-    
-      <category term="正则表达式" scheme="http://moky.cc/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    
-      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Python使用正则表达式获得html标签数据]]></title>
-    <link href="http://moky.cc/2015/03/15/Python%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%8E%B7%E5%BE%97html%E6%A0%87%E7%AD%BE%E6%95%B0%E6%8D%AE/"/>
-    <id>http://moky.cc/2015/03/15/Python使用正则表达式获得html标签数据/</id>
-    <published>2015-03-15T12:33:00.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>记录一下，获取html标签里面的<code>14℃</code>，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment">#-*- coding: utf8 -*-</span></div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">html = <span class="string">'&lt;div class="w-number"&gt;&lt;span class="tpte"&gt;14℃&lt;/span&gt;&lt;/div&gt;'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    p = re.compile(<span class="string">'&lt;[^&gt;]+&gt;'</span>)</div><div class="line">    <span class="keyword">print</span> p.sub(<span class="string">''</span>, html)</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>记录一下，获取html标签里面的<code>14℃</code>，代码如下：</p>
-<figure c]]>
-    </summary>
-    
-      <category term="正则表达式" scheme="http://moky.cc/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    
-      <category term="获得html标签数据" scheme="http://moky.cc/tags/%E8%8E%B7%E5%BE%97html%E6%A0%87%E7%AD%BE%E6%95%B0%E6%8D%AE/"/>
     
       <category term="Python" scheme="http://moky.cc/categories/Python/"/>
     

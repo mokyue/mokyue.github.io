@@ -1,0 +1,643 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>shell编程中的date用法 | One Night in Mok&#39;s Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Moky">
+    
+    <meta name="description" content="【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html
+
+date —help
+
+
+
+
+
+
+
+
+
+%%
+输出%符号 a literal %
+
+
+">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml" title="One Night in Mok&#39;s Studio" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="One Night in Mok&#39;s Studio" title="One Night in Mok&#39;s Studio"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="One Night in Mok&#39;s Studio">One Night in Mok&#39;s Studio</a></h1>
+				<h2 class="blog-motto">Life is a beautiful struggle.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:moky.cc">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/02/shell编程中的date用法/" title="shell编程中的date用法" itemprop="url">shell编程中的date用法</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://moky.cc" title="Moky">Moky</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-05-02T09:28:49.000Z" itemprop="datePublished">May 2 2015</time>
+    Updated:<time datetime="2015-05-16T09:50:33.000Z" itemprop="dateModified">May 16 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#date_—help"><span class="toc-number">1.</span> <span class="toc-text">date —help</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些用法"><span class="toc-number">2.</span> <span class="toc-text">一些用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#以yymmdd的格式输出43天前的当前时刻"><span class="toc-number">2.1.</span> <span class="toc-text">以yymmdd的格式输出43天前的当前时刻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试十亿分之一秒"><span class="toc-number">2.2.</span> <span class="toc-text">测试十亿分之一秒</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建以当前时间为文件名的目录"><span class="toc-number">2.3.</span> <span class="toc-text">创建以当前时间为文件名的目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#备份以时间做为文件名的"><span class="toc-number">2.4.</span> <span class="toc-text">备份以时间做为文件名的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示时间后跳行，再显示目前日期"><span class="toc-number">2.5.</span> <span class="toc-text">显示时间后跳行，再显示目前日期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只显示月份与日数"><span class="toc-number">2.6.</span> <span class="toc-text">只显示月份与日数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取上周日期（day,month,year,hour）"><span class="toc-number">2.7.</span> <span class="toc-text">获取上周日期（day,month,year,hour）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取24小时前日期"><span class="toc-number">2.8.</span> <span class="toc-text">获取24小时前日期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shell脚本里面赋给变量值"><span class="toc-number">2.9.</span> <span class="toc-text">shell脚本里面赋给变量值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算执行一段sql脚本的运行时间"><span class="toc-number">2.10.</span> <span class="toc-text">计算执行一段sql脚本的运行时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写shell脚本计算离自己生日还有多少天？"><span class="toc-number">2.11.</span> <span class="toc-text">编写shell脚本计算离自己生日还有多少天？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#若是不以加号作为开头，则表示要设定时间"><span class="toc-number">2.12.</span> <span class="toc-text">若是不以加号作为开头，则表示要设定时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示目前的格林威治时间"><span class="toc-number">2.13.</span> <span class="toc-text">显示目前的格林威治时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改时间"><span class="toc-number">2.14.</span> <span class="toc-text">修改时间</span></a></li></ol></li></ol>
+		</div>
+		
+		<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html" title="http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html</a></p>
+</blockquote>
+<h2 id="date_—help">date —help</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">%%</td>
+<td style="text-align:left">输出%符号 a literal %</td>
+</tr>
+<tr>
+<td style="text-align:left">%a</td>
+<td style="text-align:left">当前域的星期缩写 locale’s abbreviated weekday name (Sun..Sat)</td>
+</tr>
+<tr>
+<td style="text-align:left">%A</td>
+<td style="text-align:left">当前域的星期全写 locale’s full weekday name, variable length (Sunday..Saturday)</td>
+</tr>
+<tr>
+<td style="text-align:left">%b</td>
+<td style="text-align:left">当前域的月份缩写 locale’s abbreviated month name (Jan..Dec)</td>
+</tr>
+<tr>
+<td style="text-align:left">%B</td>
+<td style="text-align:left">当前域的月份全称 locale’s full month name, variable length (January..December)</td>
+</tr>
+<tr>
+<td style="text-align:left">%c</td>
+<td style="text-align:left">当前域的默认时间格式 locale’s date and time (Sat Nov 04 12:02:33 EST 1989)</td>
+</tr>
+<tr>
+<td style="text-align:left">%C</td>
+<td style="text-align:left">n百年 century (year divided by 100 and truncated to an integer) [00-99]</td>
+</tr>
+<tr>
+<td style="text-align:left">%d</td>
+<td style="text-align:left">两位的天 day of month (01..31)</td>
+</tr>
+<tr>
+<td style="text-align:left">%D</td>
+<td style="text-align:left">短时间格式 date (mm/dd/yy)</td>
+</tr>
+<tr>
+<td style="text-align:left">%e</td>
+<td style="text-align:left">短格式天 day of month, blank padded ( 1..31)</td>
+</tr>
+<tr>
+<td style="text-align:left">%F</td>
+<td style="text-align:left">文件时间格式 same as %Y-%m-%d</td>
+</tr>
+<tr>
+<td style="text-align:left">%g</td>
+<td style="text-align:left">the 2-digit year corresponding to the %V week number</td>
+</tr>
+<tr>
+<td style="text-align:left">%G</td>
+<td style="text-align:left">the 4-digit year corresponding to the %V week number</td>
+</tr>
+<tr>
+<td style="text-align:left">%h</td>
+<td style="text-align:left">same as %b</td>
+</tr>
+<tr>
+<td style="text-align:left">%H</td>
+<td style="text-align:left">24小时制的小时 hour (00..23)</td>
+</tr>
+<tr>
+<td style="text-align:left">%I</td>
+<td style="text-align:left">12小时制的小时 hour (01..12)</td>
+</tr>
+<tr>
+<td style="text-align:left">%j</td>
+<td style="text-align:left">一年中的第几天 day of year (001..366)</td>
+</tr>
+<tr>
+<td style="text-align:left">%k</td>
+<td style="text-align:left">短格式24小时制的小时 hour ( 0..23)</td>
+</tr>
+<tr>
+<td style="text-align:left">%l</td>
+<td style="text-align:left">短格式12小时制的小时 hour ( 1..12)</td>
+</tr>
+<tr>
+<td style="text-align:left">%m</td>
+<td style="text-align:left">双位月份 month (01..12)</td>
+</tr>
+<tr>
+<td style="text-align:left">%M</td>
+<td style="text-align:left">双位分钟 minute (00..59)</td>
+</tr>
+<tr>
+<td style="text-align:left">%n</td>
+<td style="text-align:left">换行 a newline</td>
+</tr>
+<tr>
+<td style="text-align:left">%N</td>
+<td style="text-align:left">十亿分之一秒 nanoseconds (000000000..999999999)</td>
+</tr>
+<tr>
+<td style="text-align:left">%p</td>
+<td style="text-align:left">大写的当前域的上下午指示 locale’s upper case AM or PM indicator (blank in many locales)</td>
+</tr>
+<tr>
+<td style="text-align:left">%P</td>
+<td style="text-align:left">小写的当前域的上下午指示 locale’s lower case am or pm indicator (blank in many locales)</td>
+</tr>
+<tr>
+<td style="text-align:left">%r</td>
+<td style="text-align:left">12小时制的时间表示（时:分:秒,双位） time, 12-hour (hh:mm:ss [AP]M)</td>
+</tr>
+<tr>
+<td style="text-align:left">%R</td>
+<td style="text-align:left">24小时制的时间表示 （时:分,双位）time, 24-hour (hh:mm)</td>
+</tr>
+<tr>
+<td style="text-align:left">%s</td>
+<td style="text-align:left">自基础时间 1970-01-01 00:00:00 到当前时刻的秒数 seconds since `00:00:00 1970-01-01 UTC’ (a GNU extension)</td>
+</tr>
+<tr>
+<td style="text-align:left">%S</td>
+<td style="text-align:left">双位秒 second (00..60); the 60 is necessary to accommodate a leap second</td>
+</tr>
+<tr>
+<td style="text-align:left">%t</td>
+<td style="text-align:left">横向制表位(tab) a horizontal tab</td>
+</tr>
+<tr>
+<td style="text-align:left">%T</td>
+<td style="text-align:left">24小时制时间表示 time, 24-hour (hh:mm:ss)</td>
+</tr>
+<tr>
+<td style="text-align:left">%u</td>
+<td style="text-align:left">数字表示的星期（从星期一开始 1-7）day of week (1..7); 1 represents Monday</td>
+</tr>
+<tr>
+<td style="text-align:left">%U</td>
+<td style="text-align:left">一年中的第几周星期天为开始 week number of year with Sunday as first day of week (00..53)</td>
+</tr>
+<tr>
+<td style="text-align:left">%V</td>
+<td style="text-align:left">一年中的第几周星期一为开始 week number of year with Monday as first day of week (01..53)</td>
+</tr>
+<tr>
+<td style="text-align:left">%w</td>
+<td style="text-align:left">一周中的第几天 星期天为开始 0-6 day of week (0..6); 0 represents Sunday</td>
+</tr>
+<tr>
+<td style="text-align:left">%W</td>
+<td style="text-align:left">一年中的第几周星期一为开始 week number of year with Monday as first day of week (00..53)</td>
+</tr>
+<tr>
+<td style="text-align:left">%x</td>
+<td style="text-align:left">本地日期格式 locale’s date representation (mm/dd/yy)</td>
+</tr>
+<tr>
+<td style="text-align:left">%X</td>
+<td style="text-align:left">本地时间格式 locale’s time representation (%H:%M:%S)</td>
+</tr>
+<tr>
+<td style="text-align:left">%y</td>
+<td style="text-align:left">两位的年 last two digits of year (00..99)</td>
+</tr>
+<tr>
+<td style="text-align:left">%Y</td>
+<td style="text-align:left">年 year (1970…)</td>
+</tr>
+<tr>
+<td style="text-align:left">%z</td>
+<td style="text-align:left">RFC-2822 标准时间格式表示的域 RFC-2822 style numeric timezone (-0500) (a nonstandard extension)</td>
+</tr>
+<tr>
+<td style="text-align:left">%Z</td>
+<td style="text-align:left">时间域 time zone (e.g., EDT), or nothing if no time zone is determinable</td>
+</tr>
+</tbody>
+</table>
+<p>By default, date pads numeric fields with zeroes. GNU date recognizes<br>the following modifiers between `%’ and a numeric directive.<br><strong>‘-‘ (hyphen) do not pad the field<br>‘_’ (underscore) pad the field with spaces</strong></p>
+<p><br></p>
+<h2 id="一些用法">一些用法</h2>
+<h3 id="以yymmdd的格式输出43天前的当前时刻">以yymmdd的格式输出43天前的当前时刻</h3>
+<p><code>date +%Y%m%d --date=&#39;43 days ago&#39;</code><br><br></p>
+<h3 id="测试十亿分之一秒">测试十亿分之一秒</h3>
+<p><code>date +&#39;%Y%m%d %H:%M:%S.%N&#39;</code><br><br></p>
+<h3 id="创建以当前时间为文件名的目录">创建以当前时间为文件名的目录</h3>
+<p><code>mkdir `date +%Y%m%d` </code><br><br></p>
+<h3 id="备份以时间做为文件名的">备份以时间做为文件名的</h3>
+<p><code>tar -cvf ./htdocs`date +%Y%m%d`.tar ./*</code><br><br></p>
+<h3 id="显示时间后跳行，再显示目前日期">显示时间后跳行，再显示目前日期</h3>
+<p><code>date +%T%n%Y%m%d</code><br><br></p>
+<h3 id="只显示月份与日数">只显示月份与日数</h3>
+<p><code>date +%B%d</code><br><br></p>
+<h3 id="获取上周日期（day,month,year,hour）">获取上周日期（day,month,year,hour）</h3>
+<p><code>date -d &quot;-1 week&quot; +%Y%m%d</code><br><br></p>
+<h3 id="获取24小时前日期">获取24小时前日期</h3>
+<p><code>date --date=&quot;-24 hour&quot; +%Y%m%d</code><br><br></p>
+<h3 id="shell脚本里面赋给变量值">shell脚本里面赋给变量值</h3>
+<p><code>date_now=`date +%s` </code><br><br></p>
+<h3 id="计算执行一段sql脚本的运行时间">计算执行一段sql脚本的运行时间</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">TIME_BEGIN=$(date <span class="string">'+%s.%N'</span>)</div><div class="line"><span class="variable">$sqlcli</span> &lt; queries/q1.<span class="number">3</span>.sql <span class="number">1</span>&gt;&gt; <span class="variable">$FILE_RESULT</span>  <span class="number">2</span>&gt;&gt; <span class="variable">$FILE_ERROR</span></div><div class="line">TIME_END=$(date <span class="string">'+%s.%N'</span>)</div><div class="line">TIME_RUN=$(awk <span class="string">'BEGIN{print '</span><span class="variable">$TIME_END</span><span class="string">' - '</span><span class="variable">$TIME_BEGIN</span><span class="string">'}'</span>)</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h3 id="编写shell脚本计算离自己生日还有多少天？">编写shell脚本计算离自己生日还有多少天？</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">read</span> -p <span class="string">"Input your birthday(YYYYmmdd):"</span> date1</div><div class="line">m=`date --date=<span class="string">"<span class="variable">$date1</span>"</span> +%m`    <span class="comment">#得到生日的月</span></div><div class="line">d=`date --date=<span class="string">"<span class="variable">$date1</span>"</span> +%d`    <span class="comment">#得到生日的日</span></div><div class="line">date_now=`date +%s`             <span class="comment">#得到当前时间的秒值</span></div><div class="line">y=`date +%Y`                    <span class="comment">#得到当前时间的年</span></div><div class="line">birth=`date --date=<span class="string">"<span class="variable">$y</span><span class="variable">$m</span><span class="variable">$d</span>"</span> +%s`      <span class="comment">#得到今年的生日日期的秒值</span></div><div class="line">internal=$((<span class="variable">$birth</span>-<span class="variable">$date_now</span>))        <span class="comment">#计算今日到生日日期的间隔时间</span></div><div class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$internal</span>"</span> <span class="operator">-lt</span> <span class="string">"0"</span> ]; <span class="keyword">then</span>             <span class="comment">#判断今天的生日是否已过</span></div><div class="line">birth=`date --date=<span class="string">"<span class="variable">$(($y+1)</span>)<span class="variable">$m</span><span class="variable">$d</span>"</span> +%s`      <span class="comment">#得到明天的生日日期秒值</span></div><div class="line">internal=$((<span class="variable">$birth</span>-<span class="variable">$date_now</span>))               <span class="comment">#计算今天到下一个生日的间隔时间</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"There is :<span class="variable">$((einternal/60/60/24)</span>) days."</span>       <span class="comment">#输出结果，秒换算为天</span></div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h3 id="若是不以加号作为开头，则表示要设定时间">若是不以加号作为开头，则表示要设定时间</h3>
+<p>时间格式<code>MMDDhhmm[[CC]YY][.ss]</code><br><strong>MM</strong> 为月份，<br><strong>DD</strong> 为日，<br><strong>hh</strong> 为小时，<br><strong>mm</strong> 为分钟，<br><strong>CC</strong> 为年份前两位数字，<br><strong>YY</strong> 为年份后两位数字，<br><strong>ss</strong> 为秒数<br><br></p>
+<h3 id="显示目前的格林威治时间">显示目前的格林威治时间</h3>
+<p>也叫“世界时”。是英国的标准时间，也是世界各地时间的参考标准。中英两国的标准时差为8个小时，即英国的当地时间比中国的北京时间晚8小时。<br><code>date -u</code><br><em>Thu Sep 28 09:32:04 UTC 2006</em><br><br></p>
+<h3 id="修改时间">修改时间</h3>
+<p><code>date -s</code><br>按字符串方式修改时间<br>可以只修改日期,不修改时间,输入: <code>date -s 2007-08-03</code><br>只修改时间,输入:date -s 14:15:00<br>同时修改日期时间,注意要加双引号,日期与时间之间有一空格,输入:date -s “2007-08-03 14:15:00”</p>
+<p>修改完后,记得输入:<code>clock -w</code><br>把系统时间写入CMOS</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/date/">date</a><a href="/tags/Linux/">Linux</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Shell/">Shell</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  
+<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到linkedin" href="#" class="bds_linkedin" data-cmd="linkedin"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到Facebook" href="#" class="bds_fbook" data-cmd="fbook"></a><a title="分享到Twitter" href="#" class="bds_twi" data-cmd="twi"></a><a title="分享到有道云笔记" href="#" class="bds_youdao" data-cmd="youdao"></a><a title="分享到飞信" href="#" class="bds_fx" data-cmd="fx"></a><a title="分享到复制网址" href="#" class="bds_copy" data-cmd="copy"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"],"viewText":" ","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/05/03/Python注释/" title="Python注释">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Python注释</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/05/01/shell中-和-的使用方法/"  title="shell中&amp;&amp;和||的使用方法">
+ <strong>NEXT:</strong><br/> 
+ <span>shell中&amp;&amp;和||的使用方法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#date_—help"><span class="toc-number">1.</span> <span class="toc-text">date —help</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些用法"><span class="toc-number">2.</span> <span class="toc-text">一些用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#以yymmdd的格式输出43天前的当前时刻"><span class="toc-number">2.1.</span> <span class="toc-text">以yymmdd的格式输出43天前的当前时刻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试十亿分之一秒"><span class="toc-number">2.2.</span> <span class="toc-text">测试十亿分之一秒</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建以当前时间为文件名的目录"><span class="toc-number">2.3.</span> <span class="toc-text">创建以当前时间为文件名的目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#备份以时间做为文件名的"><span class="toc-number">2.4.</span> <span class="toc-text">备份以时间做为文件名的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示时间后跳行，再显示目前日期"><span class="toc-number">2.5.</span> <span class="toc-text">显示时间后跳行，再显示目前日期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只显示月份与日数"><span class="toc-number">2.6.</span> <span class="toc-text">只显示月份与日数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取上周日期（day,month,year,hour）"><span class="toc-number">2.7.</span> <span class="toc-text">获取上周日期（day,month,year,hour）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取24小时前日期"><span class="toc-number">2.8.</span> <span class="toc-text">获取24小时前日期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shell脚本里面赋给变量值"><span class="toc-number">2.9.</span> <span class="toc-text">shell脚本里面赋给变量值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算执行一段sql脚本的运行时间"><span class="toc-number">2.10.</span> <span class="toc-text">计算执行一段sql脚本的运行时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写shell脚本计算离自己生日还有多少天？"><span class="toc-number">2.11.</span> <span class="toc-text">编写shell脚本计算离自己生日还有多少天？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#若是不以加号作为开头，则表示要设定时间"><span class="toc-number">2.12.</span> <span class="toc-text">若是不以加号作为开头，则表示要设定时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示目前的格林威治时间"><span class="toc-number">2.13.</span> <span class="toc-text">显示目前的格林威治时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改时间"><span class="toc-number">2.14.</span> <span class="toc-text">修改时间</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
+		
+			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Qt/PyQt/" title="PyQt">PyQt<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Python/" title="Python">Python<sup>22</sup></a></li>
+		
+			<li><a href="/categories/Qt/" title="Qt">Qt<sup>22</sup></a></li>
+		
+			<li><a href="/categories/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		
+			<li><a href="/categories/杂类/" title="杂类">杂类<sup>2</sup></a></li>
+		
+			<li><a href="/categories/猿人日常/" title="猿人日常">猿人日常<sup>4</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/ASCII/" title="ASCII">ASCII<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Branch/" title="Branch">Branch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Notepad/" title="Notepad++">Notepad++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyChecker/" title="PyChecker">PyChecker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyQt/" title="PyQt">PyQt<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+		
+			<li><a href="/tags/QFontMetrics/" title="QFontMetrics">QFontMetrics<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QLabel/" title="QLabel">QLabel<sup>3</sup></a></li>
+		
+			<li><a href="/tags/QSS/" title="QSS">QSS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QScrollBar/" title="QScrollBar">QScrollBar<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QTabWidget/" title="QTabWidget">QTabWidget<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QThread/" title="QThread">QThread<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QTimer/" title="QTimer">QTimer<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QWebView/" title="QWebView">QWebView<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Qt/" title="Qt">Qt<sup>15</sup></a></li>
+		
+			<li><a href="/tags/QtWebKit/" title="QtWebKit">QtWebKit<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+    
+    <div class="line">
+        <span></span>
+
+        <div class="author"></div>
+    </div>
+    
+    
+    <section class="info">
+        <p> Hi, I&#39;m Moky. <br/>
+            I wanna share all my stuffs with u ~</p>
+    </section>
+    
+    <div class="social-font clearfix">
+        
+        <a href="http://weibo.com/218889128" target="_blank" title="weibo"></a>
+        
+        
+        
+        <a href="https://github.com/mokyue" target="_blank" title="github"></a>
+        
+        
+        
+        <a href="https://www.linkedin.com/pub/matthew-mok/69/9a3/641" target="_blank" title="linkedin"></a>
+        
+    </div>
+    <p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a> and themed by <a
+                href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a>
+        © 2015
+        
+        <a href="http://moky.cc" target="_blank" title="Moky">Moky</a>
+        
+        <br>
+        <a class="icp" href="http://www.miitbeian.gov.cn/" target="_blank"
+           title="粤ICP备15013592号">粤ICP备15013592号</a>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank" title="中华人民共和国工业和信息化部">
+            <img src="/img/copy_right.png" alt="中华人民共和国工业和信息化部"/>
+        </a>
+    </p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mokyue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<div id="to_top" style="position: fixed; bottom: 80px; right: 7.5%; cursor: pointer;">
+    <a title="返回顶部" style="display: block; line-height: 25px !important; text-align: center; box-shadow: 2px 4px 5px rgba(3, 3, 3, 0.2); width: 28px; height: 28px; border-radius: 50%; font: normal 28px 'FontAwesome'; background-color: #ea6753; color: #ffffff"></a>
+</div>
+
+<script src="/js/to_top.js"></script>
+
+  </body>
+</html>
