@@ -11,8 +11,8 @@
     
     <meta name="description" content="原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。
 
-在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断得很不友好，一般的交互处理是在即将截断的文本后面显示省略号，以下为Qt的实现：
-123# 根">
+在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断得很不友好，一般的交互处理是在即将截断的文本后面显示省略号，以下为PyQt的实现：
+123#">
     
     
     
@@ -79,7 +79,7 @@
     </p>
   <p class="article-time">
     <time datetime="2015-05-16T08:22:06.000Z" itemprop="datePublished">May 16 2015</time>
-    Updated:<time datetime="2015-05-16T08:52:25.000Z" itemprop="dateModified">May 16 2015</time>
+    Updated:<time datetime="2015-05-27T08:17:43.000Z" itemprop="dateModified">May 27 2015</time>
     
   </p>
 </header>
@@ -94,7 +94,7 @@
 		<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
-<p>在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断得很不友好，一般的交互处理是在即将截断的文本后面显示省略号，以下为Qt的实现：</p>
+<p>在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断得很不友好，一般的交互处理是在即将截断的文本后面显示省略号，以下为PyQt的实现：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 根据label截断文本</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_truncatedText</span><span class="params">(self, str_text, label)</span>:</span></div><div class="line">    <span class="keyword">return</span> QtGui.QFontMetrics(label.font()).elidedText(str_text, QtCore.Qt.ElideRight, label.width())</div></pre></td></tr></table></figure>
 
 <p>或者</p>
@@ -106,13 +106,13 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/截断文字/">截断文字</a>
+  <span></span> <a href="/tags/Qt/">Qt</a><a href="/tags/截断文字/">截断文字</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Qt/">Qt</a>►<a class="article-category-link" href="/categories/Qt/PyQt/">PyQt</a>
+  <a class="article-category-link" href="/categories/PyQt/">PyQt</a>
 </div>
 
 
@@ -167,13 +167,11 @@
 		
 			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
 		
-			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>4</sup></a></li>
-		
-			<li><a href="/categories/Qt/PyQt/" title="PyQt">PyQt<sup>4</sup></a></li>
+			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>6</sup></a></li>
 		
 			<li><a href="/categories/Python/" title="Python">Python<sup>22</sup></a></li>
 		
-			<li><a href="/categories/Qt/" title="Qt">Qt<sup>22</sup></a></li>
+			<li><a href="/categories/Qt/" title="Qt">Qt<sup>20</sup></a></li>
 		
 			<li><a href="/categories/SVN/" title="SVN">SVN<sup>1</sup></a></li>
 		
@@ -208,7 +206,7 @@
 		
 			<li><a href="/tags/PyChecker/" title="PyChecker">PyChecker<sup>1</sup></a></li>
 		
-			<li><a href="/tags/PyQt/" title="PyQt">PyQt<sup>3</sup></a></li>
+			<li><a href="/tags/PyQt/" title="PyQt">PyQt<sup>5</sup></a></li>
 		
 			<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
 		
@@ -228,7 +226,7 @@
 		
 			<li><a href="/tags/QWebView/" title="QWebView">QWebView<sup>1</sup></a></li>
 		
-			<li><a href="/tags/Qt/" title="Qt">Qt<sup>15</sup></a></li>
+			<li><a href="/tags/Qt/" title="Qt">Qt<sup>17</sup></a></li>
 		
 			<li><a href="/tags/QtWebKit/" title="QtWebKit">QtWebKit<sup>1</sup></a></li>
 		

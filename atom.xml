@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Life is a beautiful struggle.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://moky.cc/"/>
-  <updated>2015-05-16T11:45:00.937Z</updated>
+  <updated>2015-05-27T08:21:04.080Z</updated>
   <id>http://moky.cc/</id>
   
   <author>
@@ -19,11 +19,11 @@
     <link href="http://moky.cc/2015/05/16/Qt%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E6%98%BE%E7%A4%BA%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
     <id>http://moky.cc/2015/05/16/Qt字符串显示不全显示省略号的实现/</id>
     <published>2015-05-16T08:22:06.000Z</published>
-    <updated>2015-05-16T08:52:25.000Z</updated>
+    <updated>2015-05-27T08:17:43.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
-<p>在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断得很不友好，一般的交互处理是在即将截断的文本后面显示省略号，以下为Qt的实现：</p>
+<p>在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断得很不友好，一般的交互处理是在即将截断的文本后面显示省略号，以下为PyQt的实现：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 根据label截断文本</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_truncatedText</span><span class="params">(self, str_text, label)</span>:</span></div><div class="line">    <span class="keyword">return</span> QtGui.QFontMetrics(label.font()).elidedText(str_text, QtCore.Qt.ElideRight, label.width())</div></pre></td></tr></table></figure>
 
 <p>或者</p>
@@ -37,11 +37,11 @@
 <p>在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断]]>
     </summary>
     
+      <category term="Qt" scheme="http://moky.cc/tags/Qt/"/>
+    
       <category term="截断文字" scheme="http://moky.cc/tags/%E6%88%AA%E6%96%AD%E6%96%87%E5%AD%97/"/>
     
-      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
-    
-      <category term="PyQt" scheme="http://moky.cc/categories/Qt/PyQt/"/>
+      <category term="PyQt" scheme="http://moky.cc/categories/PyQt/"/>
     
   </entry>
   
@@ -149,7 +149,7 @@
     <link href="http://moky.cc/2015/05/12/Qt%E9%87%8D%E5%86%99paintEvent%E7%BB%98%E5%88%B6%E7%AA%97%E4%BD%93%E9%98%B4%E5%BD%B1/"/>
     <id>http://moky.cc/2015/05/12/Qt重写paintEvent绘制窗体阴影/</id>
     <published>2015-05-12T13:57:44.000Z</published>
-    <updated>2015-05-12T14:19:51.000Z</updated>
+    <updated>2015-05-27T08:18:05.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
@@ -169,13 +169,13 @@
 <p>Qt窗体做阴影效果的方法有很多种，有直接使用带阴影效果美术资源的，这里就不详说这种方法了，还有一种方法就]]>
     </summary>
     
+      <category term="Qt" scheme="http://moky.cc/tags/Qt/"/>
+    
       <category term="paintEvent" scheme="http://moky.cc/tags/paintEvent/"/>
     
       <category term="绘制阴影" scheme="http://moky.cc/tags/%E7%BB%98%E5%88%B6%E9%98%B4%E5%BD%B1/"/>
     
-      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
-    
-      <category term="PyQt" scheme="http://moky.cc/categories/Qt/PyQt/"/>
+      <category term="PyQt" scheme="http://moky.cc/categories/PyQt/"/>
     
   </entry>
   
@@ -184,7 +184,7 @@
     <link href="http://moky.cc/2015/05/11/%E8%87%AA%E5%AE%9A%E4%B9%89QScrollBar%E6%A0%B7%E5%BC%8F/"/>
     <id>http://moky.cc/2015/05/11/自定义QScrollBar样式/</id>
     <published>2015-05-11T04:36:25.000Z</published>
-    <updated>2015-05-16T08:48:54.000Z</updated>
+    <updated>2015-05-27T08:18:34.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
@@ -200,13 +200,13 @@
 <p>QScrollBar是Qt日常开发里使用得比较频繁的一个控件，默认的系统样式已经无法满足开发需求，所以我]]>
     </summary>
     
+      <category term="PyQt" scheme="http://moky.cc/tags/PyQt/"/>
+    
       <category term="QSS" scheme="http://moky.cc/tags/QSS/"/>
     
       <category term="QScrollBar" scheme="http://moky.cc/tags/QScrollBar/"/>
     
       <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
-    
-      <category term="PyQt" scheme="http://moky.cc/categories/Qt/PyQt/"/>
     
   </entry>
   
@@ -215,7 +215,7 @@
     <link href="http://moky.cc/2015/05/10/%E8%87%AA%E5%AE%9A%E4%B9%89QTabWidget%E6%A0%B7%E5%BC%8F/"/>
     <id>http://moky.cc/2015/05/10/自定义QTabWidget样式/</id>
     <published>2015-05-10T05:27:38.000Z</published>
-    <updated>2015-05-16T08:48:46.000Z</updated>
+    <updated>2015-05-27T08:19:01.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
@@ -232,13 +232,13 @@
 <p>记录一下如果用<code>QSS</code>实现如下效果的<code>QTabWidget</code]]>
     </summary>
     
+      <category term="PyQt" scheme="http://moky.cc/tags/PyQt/"/>
+    
       <category term="QSS" scheme="http://moky.cc/tags/QSS/"/>
     
       <category term="QTabWidget" scheme="http://moky.cc/tags/QTabWidget/"/>
     
       <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
-    
-      <category term="PyQt" scheme="http://moky.cc/categories/Qt/PyQt/"/>
     
   </entry>
   
