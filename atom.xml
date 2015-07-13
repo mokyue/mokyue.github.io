@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Life is a beautiful struggle.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://moky.cc/"/>
-  <updated>2015-05-27T08:25:38.302Z</updated>
+  <updated>2015-07-13T01:39:05.836Z</updated>
   <id>http://moky.cc/</id>
   
   <author>
@@ -13,6 +13,227 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[C++中获取系统变量的几种方法]]></title>
+    <link href="http://moky.cc/2015/07/13/C-%E4%B8%AD%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/"/>
+    <id>http://moky.cc/2015/07/13/C-中获取系统变量的几种方法/</id>
+    <published>2015-07-13T01:15:11.000Z</published>
+    <updated>2015-07-13T01:33:23.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<h2 id="使用Qt里的QProcessEnvironment::systemEnvironment()">使用<code>Qt</code>里的<code>QProcessEnvironment::systemEnvironment()</code></h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QProcessEnvironment::systemEnvironment().value(<span class="string">"APPDATA"</span>)</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h2 id="使用stdlib里的getenv()">使用<code>stdlib</code>里的<code>getenv()</code></h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdlib.h&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></div><div class="line"> </div><div class="line"><span class="keyword">int</span> main(<span class="keyword">void</span>)</div><div class="line">{</div><div class="line">    <span class="keyword">char</span> *pathvar;</div><div class="line">    pathvar = getenv(<span class="string">"PATH"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"pathvar=%s"</span>,pathvar);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<h2 id="使用winapi里的GetEnvironmentVariable()">使用<code>winapi</code>里的<code>GetEnvironmentVariable()</code></h2>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">DWORD</span> WINAPI GetEnvironmentVariable(</div><div class="line">  _In_opt_  LPCTSTR lpName,</div><div class="line">  _Out_opt_ LPTSTR  lpBuffer,</div><div class="line">  _In_      <span class="preprocessor">DWORD</span>   nSize</div><div class="line">)<span class="comment">;</span></div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<h2 id="使用Qt里的QProcessEnvironment::systemEnvironment()"]]>
+    </summary>
+    
+      <category term="系统变量" scheme="http://moky.cc/tags/%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F/"/>
+    
+      <category term="C++" scheme="http://moky.cc/categories/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[自定义QScrollBar实例]]></title>
+    <link href="http://moky.cc/2015/07/12/%E8%87%AA%E5%AE%9A%E4%B9%89QScrollBar%E5%AE%9E%E4%BE%8B/"/>
+    <id>http://moky.cc/2015/07/12/自定义QScrollBar实例/</id>
+    <published>2015-07-12T08:22:51.000Z</published>
+    <updated>2015-07-12T08:22:51.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Python单例模式实例]]></title>
+    <link href="http://moky.cc/2015/07/12/Python%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E5%AE%9E%E4%BE%8B/"/>
+    <id>http://moky.cc/2015/07/12/Python单例模式实例/</id>
+    <published>2015-07-12T07:19:17.000Z</published>
+    <updated>2015-07-12T07:56:17.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<h2 id="定义">定义</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># singleton.py</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">singleton</span><span class="params">(cls, *args, **kw)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">        单列模式</div><div class="line">    """</div><div class="line">    instances = {}</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_singleton</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">if</span> cls <span class="keyword">not</span> <span class="keyword">in</span> instances:</div><div class="line">            instances[cls] = cls(*args, **kw)</div><div class="line">        <span class="keyword">return</span> instances[cls]</div><div class="line">    <span class="keyword">return</span> _singleton</div></pre></td></tr></table></figure>
+
+<h2 id="实例">实例</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> singleton  <span class="comment"># 导入上面的定义</span></div><div class="line"><span class="decorator">@singleton</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyController</span><span class="params">()</span>:</span></div><div class="line">    ...</div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<h2 id="定义">定义</h2>
+<figure class="highlight python"><t]]>
+    </summary>
+    
+      <category term="单例模式" scheme="http://moky.cc/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
+    
+      <category term="singleton" scheme="http://moky.cc/tags/singleton/"/>
+    
+      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Python中计算一个整形的位数]]></title>
+    <link href="http://moky.cc/2015/07/11/Python%E4%B8%AD%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E6%95%B4%E5%BD%A2%E7%9A%84%E4%BD%8D%E6%95%B0/"/>
+    <id>http://moky.cc/2015/07/11/Python中计算一个整形的位数/</id>
+    <published>2015-07-11T07:58:02.000Z</published>
+    <updated>2015-07-12T08:02:46.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">input = <span class="number">8985315</span></div><div class="line">digits = <span class="number">0</span></div><div class="line">i = <span class="number">1</span></div><div class="line"><span class="keyword">while</span> input / i &gt; <span class="number">0</span>:</div><div class="line">    digits += <span class="number">1</span></div><div class="line">    i *= <span class="number">10</span></div><div class="line"><span class="keyword">print</span> digits</div><div class="line"><span class="comment"># result: 7</span></div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="]]>
+    </summary>
+    
+      <category term="计算位数" scheme="http://moky.cc/tags/%E8%AE%A1%E7%AE%97%E4%BD%8D%E6%95%B0/"/>
+    
+      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Qt里使QTooltips显示禁用Html支持]]></title>
+    <link href="http://moky.cc/2015/07/10/Qt%E9%87%8C%E4%BD%BFQTooltips%E6%98%BE%E7%A4%BA%E7%A6%81%E7%94%A8Html%E6%94%AF%E6%8C%81/"/>
+    <id>http://moky.cc/2015/07/10/Qt里使QTooltips显示禁用Html支持/</id>
+    <published>2015-07-10T03:05:19.000Z</published>
+    <updated>2015-07-12T08:21:12.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">info = <span class="string">"&lt;p&gt;text&lt;/p&gt;"</span></div><div class="line">labelInfo.setToolTip(info.replace(<span class="string">"&lt;"</span>, <span class="string">"&amp;lt;"</span>))</div></pre></td></tr></table></figure>
+
+<p><br><br>还有个小窍门，默认的QTooltips如果显示宋体，而你想把它设置为微软雅黑的话，可以用下面的方法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">info = <span class="string">"&lt;p&gt;text&lt;/p&gt;"</span></div><div class="line">labelInfo.setToolTip(<span class="string">"&lt;pre style=\"font-family: \'Microsoft Yahei\';\"&gt;%s&lt;/pre&gt;"</span> % info.replace(<span class="string">"&lt;"</span>, <span class="string">"&amp;lt;"</span>))</div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="]]>
+    </summary>
+    
+      <category term="QTooltips" scheme="http://moky.cc/tags/QTooltips/"/>
+    
+      <category term="禁用Html支持" scheme="http://moky.cc/tags/%E7%A6%81%E7%94%A8Html%E6%94%AF%E6%8C%81/"/>
+    
+      <category term="PyQt" scheme="http://moky.cc/categories/PyQt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[自定义窗口淡出淡入动画效果]]></title>
+    <link href="http://moky.cc/2015/07/09/%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E6%B7%A1%E5%87%BA%E6%B7%A1%E5%85%A5%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/"/>
+    <id>http://moky.cc/2015/07/09/自定义窗口淡出淡入动画效果/</id>
+    <published>2015-07-09T08:29:21.000Z</published>
+    <updated>2015-07-12T08:35:57.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>把下面代码加到你自定义的Widget里面即可:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">class MyWidget(QtGui<span class="built_in">.</span>QWidget):</div><div class="line">    def __init__(<span class="built_in">self</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_visible <span class="subst">=</span> <span class="literal">False</span></div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeInAniFinished <span class="subst">=</span> <span class="literal">True</span></div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAniFinished <span class="subst">=</span> <span class="literal">True</span></div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeInAni <span class="subst">=</span> <span class="literal">None</span></div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAni <span class="subst">=</span> <span class="literal">None</span></div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_initAni()</div><div class="line"> </div><div class="line">    def _initAni(<span class="built_in">self</span>):</div><div class="line">        <span class="string">""</span><span class="string">"</span></div><div class="line">        初始化动画效果</div><div class="line">        :return:</div><div class="line">        "<span class="string">""</span></div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeInAni <span class="subst">=</span> QtCore<span class="built_in">.</span>QPropertyAnimation(<span class="built_in">self</span>, <span class="string">"windowOpacity"</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeInAni<span class="built_in">.</span>setDuration(<span class="number">100</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeInAni<span class="built_in">.</span>setStartValue(<span class="number">0</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeInAni<span class="built_in">.</span>setEndValue(<span class="number">1</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeInAni<span class="built_in">.</span>finished<span class="built_in">.</span>connect(<span class="built_in">self</span><span class="built_in">.</span>_setFadeInAniFinished)</div><div class="line"> </div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAni <span class="subst">=</span> QtCore<span class="built_in">.</span>QPropertyAnimation(<span class="built_in">self</span>, <span class="string">"windowOpacity"</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAni<span class="built_in">.</span>setDuration(<span class="number">150</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAni<span class="built_in">.</span>setStartValue(<span class="number">1</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAni<span class="built_in">.</span>setEndValue(<span class="number">0</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAni<span class="built_in">.</span>finished<span class="built_in">.</span>connect(<span class="built_in">self</span><span class="built_in">.</span>_setFadeOutAniFinished)</div><div class="line"> </div><div class="line">    def setVisible(<span class="built_in">self</span>, bool_visible):</div><div class="line">        <span class="string">""</span><span class="string">"</span></div><div class="line">        设置是否可见</div><div class="line">        :param bool_visible:</div><div class="line">        :return:</div><div class="line">        "<span class="string">""</span></div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_visible <span class="subst">=</span> bool_visible</div><div class="line">        <span class="keyword">if</span> bool_visible:</div><div class="line">            <span class="keyword">if</span> <span class="literal">not</span> <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAniFinished:</div><div class="line">                <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAni<span class="built_in">.</span>stop()</div><div class="line">                <span class="built_in">self</span><span class="built_in">.</span>_setFadeOutAniFinished()</div><div class="line">            <span class="keyword">if</span> <span class="literal">not</span> <span class="built_in">self</span><span class="built_in">.</span>_fadeInAniFinished:</div><div class="line">                <span class="keyword">return</span></div><div class="line">            <span class="built_in">self</span><span class="built_in">.</span>_fadeInAniFinished <span class="subst">=</span> <span class="literal">False</span></div><div class="line">            super(TipsWindow, <span class="built_in">self</span>)<span class="built_in">.</span>setVisible(<span class="literal">True</span>)</div><div class="line">            <span class="built_in">self</span><span class="built_in">.</span>_fadeInAni<span class="built_in">.</span>start()</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">if</span> <span class="literal">not</span> <span class="built_in">self</span><span class="built_in">.</span>_fadeInAniFinished:</div><div class="line">                <span class="built_in">self</span><span class="built_in">.</span>_fadeInAni<span class="built_in">.</span>stop()</div><div class="line">                <span class="built_in">self</span><span class="built_in">.</span>_setFadeInAniFinished()</div><div class="line">            <span class="keyword">if</span> <span class="literal">not</span> <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAniFinished:</div><div class="line">                <span class="keyword">return</span></div><div class="line">            <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAniFinished <span class="subst">=</span> <span class="literal">False</span></div><div class="line">            <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAni<span class="built_in">.</span>start()</div><div class="line"> </div><div class="line">    def isVisible(<span class="built_in">self</span>):</div><div class="line">        <span class="string">""</span><span class="string">"</span></div><div class="line">        是否可见</div><div class="line">        :return:</div><div class="line">        "<span class="string">""</span></div><div class="line">        <span class="keyword">return</span> <span class="built_in">self</span><span class="built_in">.</span>_visible</div><div class="line"> </div><div class="line">    def _setFadeInAniFinished(<span class="built_in">self</span>):</div><div class="line">        <span class="string">""</span><span class="string">"</span></div><div class="line">        淡入动画结束</div><div class="line">        :return:</div><div class="line">        "<span class="string">""</span></div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeInAniFinished <span class="subst">=</span> <span class="literal">True</span></div><div class="line"> </div><div class="line">    def _setFadeOutAniFinished(<span class="built_in">self</span>):</div><div class="line">        <span class="string">""</span><span class="string">"</span></div><div class="line">        淡出动画结束</div><div class="line">        :return:</div><div class="line">        "<span class="string">""</span></div><div class="line">        super(TipsWindow, <span class="built_in">self</span>)<span class="built_in">.</span>setVisible(<span class="literal">False</span>)</div><div class="line">        <span class="built_in">self</span><span class="built_in">.</span>_fadeOutAniFinished <span class="subst">=</span> <span class="literal">True</span></div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<p>把下面代码加到你自定义的Widget里面即可:</p>
+<figure class="highlight]]>
+    </summary>
+    
+      <category term="淡出淡入" scheme="http://moky.cc/tags/%E6%B7%A1%E5%87%BA%E6%B7%A1%E5%85%A5/"/>
+    
+      <category term="动画" scheme="http://moky.cc/tags/%E5%8A%A8%E7%94%BB/"/>
+    
+      <category term="PyQt" scheme="http://moky.cc/categories/PyQt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[PyQt中利用winapi禁用系统默认阴影]]></title>
+    <link href="http://moky.cc/2015/07/08/PyQt%E4%B8%AD%E5%88%A9%E7%94%A8winapi%E7%A6%81%E7%94%A8%E7%B3%BB%E7%BB%9F%E9%BB%98%E8%AE%A4%E9%98%B4%E5%BD%B1/"/>
+    <id>http://moky.cc/2015/07/08/PyQt中利用winapi禁用系统默认阴影/</id>
+    <published>2015-07-08T08:48:48.000Z</published>
+    <updated>2015-07-12T08:49:50.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">enableWindowShadow</span><span class="params">(hWnd, bool_enabled)</span>:</span></div><div class="line">    <span class="keyword">import</span> ctypes</div><div class="line">    GCL_STYLE = (-<span class="number">26</span>)</div><div class="line">    CS_DROPSHADOW = <span class="number">0x00020000</span></div><div class="line">    hWnd = ctypes.c_long(self.winId())</div><div class="line">    class_style = ctypes.windll.user32.GetClassLongA(hWnd, GCL_STYLE)</div><div class="line">    <span class="keyword">if</span> bool_enabled:</div><div class="line">        class_style |= CS_DROPSHADOW</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        class_style &= ~CS_DROPSHADOW</div><div class="line">    ctypes.windll.user32.SetClassLongA(hWnd, GCL_STYLE, class_style)</div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"]]>
+    </summary>
+    
+      <category term="winapi" scheme="http://moky.cc/tags/winapi/"/>
+    
+      <category term="禁用阴影" scheme="http://moky.cc/tags/%E7%A6%81%E7%94%A8%E9%98%B4%E5%BD%B1/"/>
+    
+      <category term="PyQt" scheme="http://moky.cc/categories/PyQt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Python中判断是否为Windows7或更高版本]]></title>
+    <link href="http://moky.cc/2015/07/07/Python%E4%B8%AD%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E4%B8%BAWindows7%E6%88%96%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC/"/>
+    <id>http://moky.cc/2015/07/07/Python中判断是否为Windows7或更高版本/</id>
+    <published>2015-07-07T08:52:20.000Z</published>
+    <updated>2015-07-12T08:53:17.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_windows7_orlater</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">import</span> platform</div><div class="line"> </div><div class="line">    <span class="keyword">if</span> platform.system() != <span class="string">"Windows"</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    version = platform.win32_ver()</div><div class="line">    version_num = version[<span class="number">1</span>]</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        num = int(version_num[<span class="number">0</span>]) * <span class="number">10</span> + int(version_num[<span class="number">2</span>])</div><div class="line">    <span class="keyword">except</span> ValueError:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line"> </div><div class="line">    <span class="keyword">if</span> num &gt;= <span class="number">61</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">False</span></div></pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"]]>
+    </summary>
+    
+      <category term="系统版本判断" scheme="http://moky.cc/tags/%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E5%88%A4%E6%96%AD/"/>
+    
+      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Qt字符串显示不全显示省略号的实现]]></title>
@@ -184,7 +405,7 @@
     <link href="http://moky.cc/2015/05/11/%E8%87%AA%E5%AE%9A%E4%B9%89QScrollBar%E6%A0%B7%E5%BC%8F/"/>
     <id>http://moky.cc/2015/05/11/自定义QScrollBar样式/</id>
     <published>2015-05-11T04:36:25.000Z</published>
-    <updated>2015-05-27T08:18:34.000Z</updated>
+    <updated>2015-07-12T08:27:16.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
@@ -192,6 +413,10 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="tag">QScrollBar</span></div><div class="line"><span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> transparent</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">8px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#6c7bad</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">4px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:hover</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#6a7fc5</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:pressed</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#5b75cb</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::add-line</span>, <span class="tag">QScrollBar</span><span class="pseudo">::sub-line</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> transparent</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::add-page</span>, <span class="tag">QScrollBar</span><span class="pseudo">::sub-page</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> transparent</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::up-arrow</span>, <span class="tag">QScrollBar</span><span class="pseudo">::down-arrow</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> transparent</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
 
 <p>运行结果：<br><img src="QScrollBar-qss.png" alt="QScrollBar-qss.png"></p>
+<p><br><br>还有一种是半透明效果的:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">100</span>)</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">10px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">180</span>)</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">min-height</span>:<span class="value"> <span class="number">70px</span></span></span>;</div><div class="line">	<span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">5px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:vertical</span><span class="pseudo">:hover</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:vertical</span><span class="pseudo">:pressed</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">200</span>)</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::add-line</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> none</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::sub-line</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> none</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::add-page</span><span class="pseudo">:vertical</span>,</div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::sub-page</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> none</span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
+
+<p>运行结果：<br><img src="QScrollBar-qss2.png" alt="QScrollBar-qss2.png"></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -215,7 +440,7 @@
     <link href="http://moky.cc/2015/05/10/%E8%87%AA%E5%AE%9A%E4%B9%89QTabWidget%E6%A0%B7%E5%BC%8F/"/>
     <id>http://moky.cc/2015/05/10/自定义QTabWidget样式/</id>
     <published>2015-05-10T05:27:38.000Z</published>
-    <updated>2015-05-27T08:19:01.000Z</updated>
+    <updated>2015-07-12T08:40:12.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
 </blockquote>
@@ -224,6 +449,10 @@
 
 <p>图片资源: <code>PS: 图片资源右边有一条浅灰色的竖线以区分每个Tab，可以调整QTabWidget宽度使最后一个Tab不显示这条竖线 :)</code><br><img src="tab-normal.png" alt="tab-normal.png"></p>
 <p><img src="tab-selected.png" alt="tab-selected.png"></p>
+<p><br><br>还有另外一种半透明效果的:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">QTabWidget</span><span class="pseudo">:pane</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">border</span>:<span class="value"> none</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QTabBar</span><span class="pseudo">:tab</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">120</span>)</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#a59400</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">128px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">19px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">border-top-left-radius</span>:<span class="value"> <span class="number">3px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">border-top-right-radius</span>:<span class="value"> <span class="number">3px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">margin-right</span>:<span class="value"> <span class="number">2px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QTabBar</span><span class="pseudo">:tab</span><span class="pseudo">:selected</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">166</span>)</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#fae119</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QTabBar</span><span class="pseudo">:tab</span><span class="pseudo">:hover</span>:!<span class="tag">selected</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">156</span>)</span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
+
+<p><img src="result2.png" alt="效果图"></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
@@ -779,565 +1008,6 @@
     </summary>
     
       <category term="py2exe" scheme="http://moky.cc/tags/py2exe/"/>
-    
-      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Qt剪贴板操作]]></title>
-    <link href="http://moky.cc/2015/05/04/Qt%E5%89%AA%E8%B4%B4%E6%9D%BF%E6%93%8D%E4%BD%9C/"/>
-    <id>http://moky.cc/2015/05/04/Qt剪贴板操作/</id>
-    <published>2015-05-04T09:32:37.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://devbean.blog.51cto.com/448512/292229" title="http://devbean.blog.51cto.com/448512/292229" target="_blank" rel="external">http://devbean.blog.51cto.com/448512/292229</a></p>
-</blockquote>
-<p>剪贴板的操作经常和前面所说的拖放技术在一起使用，因此我们现在先来说说剪贴板的相关操作。</p>
-<p>大家对剪贴板都很熟悉。我们可以简单的把它理解成一个数据的存储池，可以把外面的数据放置进去，也可以把里面的数据取出来。剪贴板是由操作系统维护的，所以这提供了跨应用程序数据交互的一种方式。Qt 已经为我们封装好很多关于剪贴板的操作，因此我们可以在自己的应用中很容易的实现。下面还是从代码开始:<br><strong>clipboarddemo.h</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef CLIPBOARDDEMO_H  </span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> CLIPBOARDDEMO_H  </span></div><div class="line"> </div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QtGui/QWidget&gt;  </span></div><div class="line"> </div><div class="line"><span class="keyword">class</span> ClipboardDemo : <span class="keyword">public</span> QWidget  </div><div class="line">{  </div><div class="line">    Q_OBJECT  </div><div class="line"> </div><div class="line"><span class="keyword">public</span>:  </div><div class="line">    ClipboardDemo(QWidget *parent = <span class="number">0</span>);  </div><div class="line"> </div><div class="line"><span class="keyword">private</span> slots:  </div><div class="line">    <span class="keyword">void</span> setClipboard();  </div><div class="line">    <span class="keyword">void</span> getClipboard();  </div><div class="line">};  </div><div class="line"> </div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span> <span class="comment">// CLIPBOARDDEMO_H</span></span></div></pre></td></tr></table></figure>
-
-<p><strong>clipboarddemo.cpp</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QtGui&gt;  </span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "clipboarddemo.h"  </span></div><div class="line"> </div><div class="line">ClipboardDemo::ClipboardDemo(QWidget *parent)  </div><div class="line">    : QWidget(parent)  </div><div class="line">{  </div><div class="line">    QVBoxLayout *mainLayout = <span class="keyword">new</span> QVBoxLayout(<span class="keyword">this</span>);  </div><div class="line">    QHBoxLayout *northLayout = <span class="keyword">new</span> QHBoxLayout;  </div><div class="line">    QHBoxLayout *southLayout = <span class="keyword">new</span> QHBoxLayout;  </div><div class="line"> </div><div class="line">    QTextEdit *editor = <span class="keyword">new</span> QTextEdit;  </div><div class="line">    QLabel *label = <span class="keyword">new</span> QLabel;  </div><div class="line">    label-&gt;setText(<span class="string">"Text Input: "</span>);  </div><div class="line">    label-&gt;setBuddy(editor);  </div><div class="line">    QPushButton *copyButton = <span class="keyword">new</span> QPushButton;  </div><div class="line">    copyButton-&gt;setText(<span class="string">"Set Clipboard"</span>);  </div><div class="line">    QPushButton *pasteButton = <span class="keyword">new</span> QPushButton;  </div><div class="line">    pasteButton-&gt;setText(<span class="string">"Get Clipboard"</span>);  </div><div class="line"> </div><div class="line">    northLayout-&gt;addWidget(label);  </div><div class="line">    northLayout-&gt;addWidget(editor);  </div><div class="line">    southLayout-&gt;addWidget(copyButton);  </div><div class="line">    southLayout-&gt;addWidget(pasteButton);  </div><div class="line">    mainLayout-&gt;addLayout(northLayout);  </div><div class="line">    mainLayout-&gt;addLayout(southLayout);  </div><div class="line"> </div><div class="line">    connect(copyButton, SIGNAL(clicked()), <span class="keyword">this</span>, SLOT(setClipboard()));  </div><div class="line">    connect(pasteButton, SIGNAL(clicked()), <span class="keyword">this</span>, SLOT(getClipboard()));  </div><div class="line">}  </div><div class="line"> </div><div class="line"><span class="keyword">void</span> ClipboardDemo::setClipboard()  </div><div class="line">{  </div><div class="line">    QClipboard *board = QApplication::clipboard();  </div><div class="line">    board-&gt;setText(<span class="string">"Text from Qt Application"</span>);  </div><div class="line">}  </div><div class="line"> </div><div class="line"><span class="keyword">void</span> ClipboardDemo::getClipboard()  </div><div class="line">{  </div><div class="line">    QClipboard *board = QApplication::clipboard();  </div><div class="line">    QString str = board-&gt;text();  </div><div class="line">    QMessageBox::information(NULL, <span class="string">"From clipboard"</span>, str);  </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>main.cpp</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "clipboarddemo.h"  </span></div><div class="line"> </div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QtGui&gt;  </span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QApplication&gt;  </span></div><div class="line"> </div><div class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])  </div><div class="line">{  </div><div class="line">    QApplication a(argc, argv);  </div><div class="line">    ClipboardDemo w;  </div><div class="line">    w.show();  </div><div class="line">    <span class="keyword">return</span> a.exec();  </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>main() 函数很简单，就是把我们的 ClipboardDemo 类显示了出来。我们重点来看 ClipboardDemo 中的代码。</p>
-<p>构造函数同样没什么复杂的内容，我们把一个label。一个 textedit 和两个 button摆放到窗口中。这些代码已经能够很轻易的写出来了；然后进行了信号槽的连接。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> ClipboardDemo::setClipboard()  </div><div class="line">{  </div><div class="line">    QClipboard *board = QApplication::clipboard();  </div><div class="line">    board-&gt;setText(<span class="string">"Text from Qt Application"</span>);  </div><div class="line">}  </div><div class="line"> </div><div class="line"><span class="keyword">void</span> ClipboardDemo::getClipboard()  </div><div class="line">{  </div><div class="line">    QClipboard *board = QApplication::clipboard();  </div><div class="line">    QString str = board-&gt;text();  </div><div class="line">    QMessageBox::information(NULL, <span class="string">"From clipboard"</span>, str);  </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>在 slot 函数中，我们使用 QApplication::clipboard() 函数访问到系统剪贴板。这个函数的返回值是 QClipboard 的指针。我们可以从这个类的 API 中看到，通过 setText()，setImage() 或者 setPixmap() 函数可以将数据放置到剪贴板内，也就是通常所说的剪贴或者复制的操作；使用 text()，image() 或者 pixmap() 函数则可以从剪贴板获得数据，也就是粘贴。</p>
-<p>另外值得说的是，通过上面的例子可以看出，QTextEdit 默认就是支持 Ctrl+C, Ctrl+V 等快捷键操作的。不仅如此，很多 Qt 的组件都提供了很方便的操作，因此我们需要从文档中获取具体的信息，从而避免自己重新去发明轮子。</p>
-<p>QClipboard 提供的数据类型很少，如果需要，我们可以继承 QMimeData 类，通过调用 setMimeData() 函数让剪贴板能够支持我们自己的数据类型。</p>
-<p>在 X11 系统中，鼠标中键(一般就是滚轮)可以支持剪贴操作的。为了实现这一功能，我们需要向 QClipboard::text() 函数传递 QClipboard::Selection 参数。例如，我们在鼠标按键释放的事件中进行如下处理：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> MyTextEditor::mouseReleaseEvent(QMouseEvent *event)  </div><div class="line">{  </div><div class="line">    QClipboard *clipboard = QApplication::clipboard();  </div><div class="line">    <span class="keyword">if</span> (event-&gt;button() == Qt::MidButton  </div><div class="line">            && clipboard-&gt;supportsSelection()) {  </div><div class="line">        QString text = clipboard-&gt;text(QClipboard::Selection);  </div><div class="line">        pasteText(text);  </div><div class="line">    }  </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>这里的 supportsSelection() 在 X11 平台返回 true，其余平台都是返回 false 的。</p>
-<p>另外，QClipboard 提供了 dataChanged() 信号，以便监听剪贴板数据变化。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://devbean.blog.51cto.com/448512/292229" title="http:/]]>
-    </summary>
-    
-      <category term="剪贴板" scheme="http://moky.cc/tags/%E5%89%AA%E8%B4%B4%E6%9D%BF/"/>
-    
-      <category term="复制到剪贴板" scheme="http://moky.cc/tags/%E5%A4%8D%E5%88%B6%E5%88%B0%E5%89%AA%E8%B4%B4%E6%9D%BF/"/>
-    
-      <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Python注释]]></title>
-    <link href="http://moky.cc/2015/05/03/Python%E6%B3%A8%E9%87%8A/"/>
-    <id>http://moky.cc/2015/05/03/Python注释/</id>
-    <published>2015-05-03T09:15:16.000Z</published>
-    <updated>2015-05-16T09:25:50.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/octobershiner/archive/2012/12/04/2801670.html" title="http://www.cnblogs.com/octobershiner/archive/2012/12/04/2801670.html" target="_blank" rel="external">http://www.cnblogs.com/octobershiner/archive/2012/12/04/2801670.html</a></p>
-</blockquote>
-<h2 id="单行注释">单行注释</h2>
-<p>python中单行注释采用<code>#</code>开头</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> <span class="string">'hello python'</span></div><div class="line"><span class="comment">#this is a comment</span></div></pre></td></tr></table></figure>
-
-<p><br></p>
-<h2 id="多行注释">多行注释</h2>
-<p>然后python蛋疼的没有块注释，所以现在推荐的多行注释也是采用的<code>#</code>比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># comments start</span></div><div class="line"><span class="comment">#content</span></div><div class="line"><span class="comment">#comments end</span></div></pre></td></tr></table></figure>
-
-<p>不过这种风格和标准的Java注释很像</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="javadoc">/**</span></div><div class="line"></div><div class="line">*java注释</div><div class="line"></div><div class="line">*/</div></pre></td></tr></table></figure>
-
-<p>网上说的什么使用<code>&quot;&quot;&quot; if 0:</code>我个人觉得很不好。。。google python style 中也是采用的<code>#</code>来进行多行注释<br><br></p>
-<h2 id="代码间注释">代码间注释</h2>
-<p>这个就直接引用一段google的编程规范原文吧<br><img src="http://pic002.cnblogs.com/images/2012/321923/2012120417142993.png" alt=""><br>意思就是 不要去刻意对齐注释，后期维护代码会增加麻烦<br><br></p>
-<h2 id="特殊注释">特殊注释</h2>
-<p>比如<code>#! /usr/bin/python</code>这句注释的意思就是告诉LINUX/UNIX去找到python的翻译器，大部分文件都不需要这个，只在要求也执行的文件中添加。</p>
-<p>关于蛋疼的中文编码:<code># coding = utf-8</code>【注：这句代码蛋疼的必须放在第二行啊，而且多个空格都不行啊！】<br><br></p>
-<h2 id="python的福利！！">python的福利！！</h2>
-<p>python在注释中有一个非常有用的东西是<code>doc String</code>，它可以用于模块、函数和类的描述：（其实总结起来都是类）下面是一个标准的方法注释。<br><img src="http://pic002.cnblogs.com/images/2012/321923/2012120417151729.png" alt=""><br>他用<code>&quot;&quot;&quot;</code>三个引号标识，第一行大写开头，作简要概述，句号结尾，空一行开始详细的描述。他的好处是 这些注释保存在方法的<strong>doc</strong>属性中，可以打印显示。这个其实和java 的doc也很相似，还记得大明湖畔的<code>@</code>吗。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/octobershiner/archive/2012/12/04/28]]>
-    </summary>
-    
-      <category term="注释" scheme="http://moky.cc/tags/%E6%B3%A8%E9%87%8A/"/>
-    
-      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[shell编程中的date用法]]></title>
-    <link href="http://moky.cc/2015/05/02/shell%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84date%E7%94%A8%E6%B3%95/"/>
-    <id>http://moky.cc/2015/05/02/shell编程中的date用法/</id>
-    <published>2015-05-02T09:28:49.000Z</published>
-    <updated>2015-05-16T09:50:33.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html" title="http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html</a></p>
-</blockquote>
-<h2 id="date_—help">date —help</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:left"></th>
-<th style="text-align:left"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">%%</td>
-<td style="text-align:left">输出%符号 a literal %</td>
-</tr>
-<tr>
-<td style="text-align:left">%a</td>
-<td style="text-align:left">当前域的星期缩写 locale’s abbreviated weekday name (Sun..Sat)</td>
-</tr>
-<tr>
-<td style="text-align:left">%A</td>
-<td style="text-align:left">当前域的星期全写 locale’s full weekday name, variable length (Sunday..Saturday)</td>
-</tr>
-<tr>
-<td style="text-align:left">%b</td>
-<td style="text-align:left">当前域的月份缩写 locale’s abbreviated month name (Jan..Dec)</td>
-</tr>
-<tr>
-<td style="text-align:left">%B</td>
-<td style="text-align:left">当前域的月份全称 locale’s full month name, variable length (January..December)</td>
-</tr>
-<tr>
-<td style="text-align:left">%c</td>
-<td style="text-align:left">当前域的默认时间格式 locale’s date and time (Sat Nov 04 12:02:33 EST 1989)</td>
-</tr>
-<tr>
-<td style="text-align:left">%C</td>
-<td style="text-align:left">n百年 century (year divided by 100 and truncated to an integer) [00-99]</td>
-</tr>
-<tr>
-<td style="text-align:left">%d</td>
-<td style="text-align:left">两位的天 day of month (01..31)</td>
-</tr>
-<tr>
-<td style="text-align:left">%D</td>
-<td style="text-align:left">短时间格式 date (mm/dd/yy)</td>
-</tr>
-<tr>
-<td style="text-align:left">%e</td>
-<td style="text-align:left">短格式天 day of month, blank padded ( 1..31)</td>
-</tr>
-<tr>
-<td style="text-align:left">%F</td>
-<td style="text-align:left">文件时间格式 same as %Y-%m-%d</td>
-</tr>
-<tr>
-<td style="text-align:left">%g</td>
-<td style="text-align:left">the 2-digit year corresponding to the %V week number</td>
-</tr>
-<tr>
-<td style="text-align:left">%G</td>
-<td style="text-align:left">the 4-digit year corresponding to the %V week number</td>
-</tr>
-<tr>
-<td style="text-align:left">%h</td>
-<td style="text-align:left">same as %b</td>
-</tr>
-<tr>
-<td style="text-align:left">%H</td>
-<td style="text-align:left">24小时制的小时 hour (00..23)</td>
-</tr>
-<tr>
-<td style="text-align:left">%I</td>
-<td style="text-align:left">12小时制的小时 hour (01..12)</td>
-</tr>
-<tr>
-<td style="text-align:left">%j</td>
-<td style="text-align:left">一年中的第几天 day of year (001..366)</td>
-</tr>
-<tr>
-<td style="text-align:left">%k</td>
-<td style="text-align:left">短格式24小时制的小时 hour ( 0..23)</td>
-</tr>
-<tr>
-<td style="text-align:left">%l</td>
-<td style="text-align:left">短格式12小时制的小时 hour ( 1..12)</td>
-</tr>
-<tr>
-<td style="text-align:left">%m</td>
-<td style="text-align:left">双位月份 month (01..12)</td>
-</tr>
-<tr>
-<td style="text-align:left">%M</td>
-<td style="text-align:left">双位分钟 minute (00..59)</td>
-</tr>
-<tr>
-<td style="text-align:left">%n</td>
-<td style="text-align:left">换行 a newline</td>
-</tr>
-<tr>
-<td style="text-align:left">%N</td>
-<td style="text-align:left">十亿分之一秒 nanoseconds (000000000..999999999)</td>
-</tr>
-<tr>
-<td style="text-align:left">%p</td>
-<td style="text-align:left">大写的当前域的上下午指示 locale’s upper case AM or PM indicator (blank in many locales)</td>
-</tr>
-<tr>
-<td style="text-align:left">%P</td>
-<td style="text-align:left">小写的当前域的上下午指示 locale’s lower case am or pm indicator (blank in many locales)</td>
-</tr>
-<tr>
-<td style="text-align:left">%r</td>
-<td style="text-align:left">12小时制的时间表示（时:分:秒,双位） time, 12-hour (hh:mm:ss [AP]M)</td>
-</tr>
-<tr>
-<td style="text-align:left">%R</td>
-<td style="text-align:left">24小时制的时间表示 （时:分,双位）time, 24-hour (hh:mm)</td>
-</tr>
-<tr>
-<td style="text-align:left">%s</td>
-<td style="text-align:left">自基础时间 1970-01-01 00:00:00 到当前时刻的秒数 seconds since `00:00:00 1970-01-01 UTC’ (a GNU extension)</td>
-</tr>
-<tr>
-<td style="text-align:left">%S</td>
-<td style="text-align:left">双位秒 second (00..60); the 60 is necessary to accommodate a leap second</td>
-</tr>
-<tr>
-<td style="text-align:left">%t</td>
-<td style="text-align:left">横向制表位(tab) a horizontal tab</td>
-</tr>
-<tr>
-<td style="text-align:left">%T</td>
-<td style="text-align:left">24小时制时间表示 time, 24-hour (hh:mm:ss)</td>
-</tr>
-<tr>
-<td style="text-align:left">%u</td>
-<td style="text-align:left">数字表示的星期（从星期一开始 1-7）day of week (1..7); 1 represents Monday</td>
-</tr>
-<tr>
-<td style="text-align:left">%U</td>
-<td style="text-align:left">一年中的第几周星期天为开始 week number of year with Sunday as first day of week (00..53)</td>
-</tr>
-<tr>
-<td style="text-align:left">%V</td>
-<td style="text-align:left">一年中的第几周星期一为开始 week number of year with Monday as first day of week (01..53)</td>
-</tr>
-<tr>
-<td style="text-align:left">%w</td>
-<td style="text-align:left">一周中的第几天 星期天为开始 0-6 day of week (0..6); 0 represents Sunday</td>
-</tr>
-<tr>
-<td style="text-align:left">%W</td>
-<td style="text-align:left">一年中的第几周星期一为开始 week number of year with Monday as first day of week (00..53)</td>
-</tr>
-<tr>
-<td style="text-align:left">%x</td>
-<td style="text-align:left">本地日期格式 locale’s date representation (mm/dd/yy)</td>
-</tr>
-<tr>
-<td style="text-align:left">%X</td>
-<td style="text-align:left">本地时间格式 locale’s time representation (%H:%M:%S)</td>
-</tr>
-<tr>
-<td style="text-align:left">%y</td>
-<td style="text-align:left">两位的年 last two digits of year (00..99)</td>
-</tr>
-<tr>
-<td style="text-align:left">%Y</td>
-<td style="text-align:left">年 year (1970…)</td>
-</tr>
-<tr>
-<td style="text-align:left">%z</td>
-<td style="text-align:left">RFC-2822 标准时间格式表示的域 RFC-2822 style numeric timezone (-0500) (a nonstandard extension)</td>
-</tr>
-<tr>
-<td style="text-align:left">%Z</td>
-<td style="text-align:left">时间域 time zone (e.g., EDT), or nothing if no time zone is determinable</td>
-</tr>
-</tbody>
-</table>
-<p>By default, date pads numeric fields with zeroes. GNU date recognizes<br>the following modifiers between `%’ and a numeric directive.<br><strong>‘-‘ (hyphen) do not pad the field<br>‘_’ (underscore) pad the field with spaces</strong></p>
-<p><br></p>
-<h2 id="一些用法">一些用法</h2>
-<h3 id="以yymmdd的格式输出43天前的当前时刻">以yymmdd的格式输出43天前的当前时刻</h3>
-<p><code>date +%Y%m%d --date=&#39;43 days ago&#39;</code><br><br></p>
-<h3 id="测试十亿分之一秒">测试十亿分之一秒</h3>
-<p><code>date +&#39;%Y%m%d %H:%M:%S.%N&#39;</code><br><br></p>
-<h3 id="创建以当前时间为文件名的目录">创建以当前时间为文件名的目录</h3>
-<p><code>mkdir `date +%Y%m%d` </code><br><br></p>
-<h3 id="备份以时间做为文件名的">备份以时间做为文件名的</h3>
-<p><code>tar -cvf ./htdocs`date +%Y%m%d`.tar ./*</code><br><br></p>
-<h3 id="显示时间后跳行，再显示目前日期">显示时间后跳行，再显示目前日期</h3>
-<p><code>date +%T%n%Y%m%d</code><br><br></p>
-<h3 id="只显示月份与日数">只显示月份与日数</h3>
-<p><code>date +%B%d</code><br><br></p>
-<h3 id="获取上周日期（day,month,year,hour）">获取上周日期（day,month,year,hour）</h3>
-<p><code>date -d &quot;-1 week&quot; +%Y%m%d</code><br><br></p>
-<h3 id="获取24小时前日期">获取24小时前日期</h3>
-<p><code>date --date=&quot;-24 hour&quot; +%Y%m%d</code><br><br></p>
-<h3 id="shell脚本里面赋给变量值">shell脚本里面赋给变量值</h3>
-<p><code>date_now=`date +%s` </code><br><br></p>
-<h3 id="计算执行一段sql脚本的运行时间">计算执行一段sql脚本的运行时间</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">TIME_BEGIN=$(date <span class="string">'+%s.%N'</span>)</div><div class="line"><span class="variable">$sqlcli</span> &lt; queries/q1.<span class="number">3</span>.sql <span class="number">1</span>&gt;&gt; <span class="variable">$FILE_RESULT</span>  <span class="number">2</span>&gt;&gt; <span class="variable">$FILE_ERROR</span></div><div class="line">TIME_END=$(date <span class="string">'+%s.%N'</span>)</div><div class="line">TIME_RUN=$(awk <span class="string">'BEGIN{print '</span><span class="variable">$TIME_END</span><span class="string">' - '</span><span class="variable">$TIME_BEGIN</span><span class="string">'}'</span>)</div></pre></td></tr></table></figure>
-
-<p><br></p>
-<h3 id="编写shell脚本计算离自己生日还有多少天？">编写shell脚本计算离自己生日还有多少天？</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">read</span> -p <span class="string">"Input your birthday(YYYYmmdd):"</span> date1</div><div class="line">m=`date --date=<span class="string">"<span class="variable">$date1</span>"</span> +%m`    <span class="comment">#得到生日的月</span></div><div class="line">d=`date --date=<span class="string">"<span class="variable">$date1</span>"</span> +%d`    <span class="comment">#得到生日的日</span></div><div class="line">date_now=`date +%s`             <span class="comment">#得到当前时间的秒值</span></div><div class="line">y=`date +%Y`                    <span class="comment">#得到当前时间的年</span></div><div class="line">birth=`date --date=<span class="string">"<span class="variable">$y</span><span class="variable">$m</span><span class="variable">$d</span>"</span> +%s`      <span class="comment">#得到今年的生日日期的秒值</span></div><div class="line">internal=$((<span class="variable">$birth</span>-<span class="variable">$date_now</span>))        <span class="comment">#计算今日到生日日期的间隔时间</span></div><div class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$internal</span>"</span> <span class="operator">-lt</span> <span class="string">"0"</span> ]; <span class="keyword">then</span>             <span class="comment">#判断今天的生日是否已过</span></div><div class="line">birth=`date --date=<span class="string">"<span class="variable">$(($y+1)</span>)<span class="variable">$m</span><span class="variable">$d</span>"</span> +%s`      <span class="comment">#得到明天的生日日期秒值</span></div><div class="line">internal=$((<span class="variable">$birth</span>-<span class="variable">$date_now</span>))               <span class="comment">#计算今天到下一个生日的间隔时间</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"There is :<span class="variable">$((einternal/60/60/24)</span>) days."</span>       <span class="comment">#输出结果，秒换算为天</span></div></pre></td></tr></table></figure>
-
-<p><br></p>
-<h3 id="若是不以加号作为开头，则表示要设定时间">若是不以加号作为开头，则表示要设定时间</h3>
-<p>时间格式<code>MMDDhhmm[[CC]YY][.ss]</code><br><strong>MM</strong> 为月份，<br><strong>DD</strong> 为日，<br><strong>hh</strong> 为小时，<br><strong>mm</strong> 为分钟，<br><strong>CC</strong> 为年份前两位数字，<br><strong>YY</strong> 为年份后两位数字，<br><strong>ss</strong> 为秒数<br><br></p>
-<h3 id="显示目前的格林威治时间">显示目前的格林威治时间</h3>
-<p>也叫“世界时”。是英国的标准时间，也是世界各地时间的参考标准。中英两国的标准时差为8个小时，即英国的当地时间比中国的北京时间晚8小时。<br><code>date -u</code><br><em>Thu Sep 28 09:32:04 UTC 2006</em><br><br></p>
-<h3 id="修改时间">修改时间</h3>
-<p><code>date -s</code><br>按字符串方式修改时间<br>可以只修改日期,不修改时间,输入: <code>date -s 2007-08-03</code><br>只修改时间,输入:date -s 14:15:00<br>同时修改日期时间,注意要加双引号,日期与时间之间有一空格,输入:date -s “2007-08-03 14:15:00”</p>
-<p>修改完后,记得输入:<code>clock -w</code><br>把系统时间写入CMOS</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_61c006ea0100mgxe.html" titl]]>
-    </summary>
-    
-      <category term="date" scheme="http://moky.cc/tags/date/"/>
-    
-      <category term="Linux" scheme="http://moky.cc/tags/Linux/"/>
-    
-      <category term="Shell" scheme="http://moky.cc/categories/Shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[shell中&&和||的使用方法]]></title>
-    <link href="http://moky.cc/2015/05/01/shell%E4%B8%AD-%E5%92%8C-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/"/>
-    <id>http://moky.cc/2015/05/01/shell中-和-的使用方法/</id>
-    <published>2015-05-01T09:51:31.000Z</published>
-    <updated>2015-05-16T10:58:57.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/a627088424/article/details/20360107" title="http://blog.csdn.net/a627088424/article/details/20360107" target="_blank" rel="external">http://blog.csdn.net/a627088424/article/details/20360107</a></p>
-</blockquote>
-<h2 id="&amp;&amp;运算符">&amp;&amp;运算符</h2>
-<p><code>command1  &amp;&amp; command2</code></p>
-<p>&amp;&amp;左边的命令（命令1）返回真(即返回0，成功被执行）后，&amp;&amp;右边的命令（命令2）才能够被执行；换句话说，“如果这个命令执行成功&amp;&amp;那么执行这个命令”。<br>语法格式如下：<br><code>command1 &amp;&amp; command2 [&amp;&amp; command3 ...]</code></p>
-<ol>
-<li>命令之间使用 &amp;&amp; 连接，实现逻辑与的功能。</li>
-<li>只有在 &amp;&amp; 左边的命令返回真（命令返回值 $? == 0），&amp;&amp; 右边的命令才会被执行。</li>
-<li>只要有一个命令返回假（命令返回值 $? == 1），后面的命令就不会被执行。</li>
-</ol>
-<p><strong>示例 1</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">malihou@ubuntu:~$ cp ~/Desktop/<span class="number">1</span>.txt ~/<span class="number">1</span>.txt && rm ~/Desktop/<span class="number">1</span>.txt && <span class="built_in">echo</span> <span class="string">"success"</span></div></pre></td></tr></table></figure>
-
-<p>示例 1 中的命令首先从 ~/Desktop 目录复制 1.txt 文件到 ~ 目录；执行成功后，使用 rm 删除源文件；如果删除成功则输出提示信息。<br><br></p>
-<h2 id="||运算符">||运算符</h2>
-<p><code>command1 || command2</code></p>
-<p>||则与&amp;&amp;相反。如果||左边的命令（命令1）未执行成功，那么就执行||右边的命令（命令2）；或者换句话说，“如果这个命令执行失败了||那么就执行这个命令。</p>
-<ol>
-<li>命令之间使用 || 连接，实现逻辑或的功能。</li>
-<li>只有在 || 左边的命令返回假（命令返回值 $? == 1），|| 右边的命令才会被执行。这和 c 语言中的逻辑或语法功能相同，即实现短路逻辑或操作。</li>
-<li>只要有一个命令返回真（命令返回值 $? == 0），后面的命令就不会被执行。</li>
-</ol>
-<p><strong>示例 2</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">malihou@ubuntu:~$ rm ~/Desktop/<span class="number">1</span>.txt || <span class="built_in">echo</span> <span class="string">"fail"</span></div></pre></td></tr></table></figure>
-
-<p>在示例 2 中，如果 ~/Desktop 目录下不存在文件 1.txt，将输出提示信息。</p>
-<p><strong>示例 3</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">malihou@ubuntu:~$ rm ~/Desktop/<span class="number">1</span>.txt && <span class="built_in">echo</span> <span class="string">"success"</span> || <span class="built_in">echo</span> <span class="string">"fail"</span></div></pre></td></tr></table></figure>
-
-<p>在示例 3 中，如果 ~/Desktop 目录下存在文件 1.txt，将输出 success 提示信息；否则输出 fail 提示信息。<br>如果希望把几个命令合在一起执行， shell提供了两种方法。既可以在当前shell也可以在子shell中执行一组命令。<br><br></p>
-<h2 id="()运算符">()运算符</h2>
-<p>为了在当前shell中执行一组命令，可以用命令分隔符(即”,”)隔开每一个命令，并把所有的命令用圆括号()括起来。<br>它的一般形式为：<br><code>( 命令；命令；命令… )</code></p>
-<ol>
-<li>一条命令需要独占一个物理行，如果需要将多条命令放在同一行，命令之间使用命令分隔符（;）分隔。执行的效果等同于多个独立的命令单独执行的效果。</li>
-<li>() 表示在当前 shell 中将多个命令作为一个整体执行。需要注意的是，使用 () 括起来的命令在执行前面都不会切换当前工作目录，也就是说命令组合都是在当前工作目录下被执行的，尽管命令中有切换目录的命令。</li>
-<li>命令组合常和命令执行控制结合起来使用。</li>
-</ol>
-<p><strong>示例 4</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">malihou@ubuntu:~$ rm ~/Desktop/<span class="number">1</span>.txt || (<span class="built_in">cd</span> ~/Desktop/;ls <span class="operator">-a</span>;<span class="built_in">echo</span> <span class="string">"fail"</span>)</div></pre></td></tr></table></figure>
-
-<p>在示例 4 中，如果目录 ~/Desktop 下不存在文件 1.txt，则执行命令组合。<br><br> </p>
-<h2 id="{}运算符">{}运算符</h2>
-<p>如果使用{}来代替()，那么相应的命令将在子shell而不是当前shell中作为一个整体被执行，只有在{}中所有命令的输出作为一个整体被重定向时，其中的命令才被放到子shell中执行，否则在当前shell执行。<br>它的一般形式为：<br><code>{ 命令；命令；命令… }</code><br>（注意：在使用{}时，{}与命令之间必须使用一个空格）</p>
-<p>测试：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">~$ A=<span class="number">1</span>;<span class="built_in">echo</span> <span class="variable">$A</span>;{ A=<span class="number">2</span>; };<span class="built_in">echo</span> <span class="variable">$A</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"></div><div class="line">~$ A=<span class="number">1</span>;<span class="built_in">echo</span> <span class="variable">$A</span>;( A=<span class="number">2</span>; );<span class="built_in">echo</span> <span class="variable">$A</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">1</span></div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/a627088424/article/details/20360107" ]]>
-    </summary>
-    
-      <category term="＆＆" scheme="http://moky.cc/tags/%EF%BC%86%EF%BC%86/"/>
-    
-      <category term="｜｜" scheme="http://moky.cc/tags/%EF%BD%9C%EF%BD%9C/"/>
-    
-      <category term="Shell" scheme="http://moky.cc/categories/Shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[关于Shell的补零，用printf来格式化数字列。]]></title>
-    <link href="http://moky.cc/2015/04/30/%E5%85%B3%E4%BA%8EShell%E7%9A%84%E8%A1%A5%E9%9B%B6%EF%BC%8C%E7%94%A8printf%E6%9D%A5%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%95%B0%E5%AD%97%E5%88%97%E3%80%82/"/>
-    <id>http://moky.cc/2015/04/30/关于Shell的补零，用printf来格式化数字列。/</id>
-    <published>2015-04-30T11:00:17.000Z</published>
-    <updated>2015-05-16T11:03:46.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.187299.com/archives/1680" title="http://www.187299.com/archives/1680" target="_blank" rel="external">http://www.187299.com/archives/1680</a></p>
-</blockquote>
-<p>解答论坛一个朋友关于获取01、02…10,而非1、2….10。<br>因为需要用flashget下载这样一些列的文件。自己了解这个应用，但是以前也没有处理过。还是有需要的。经过g后，测试得到。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[root@kook tmp]<span class="comment"># cat for.sh</span></div><div class="line"><span class="keyword">for</span> ((a=<span class="number">1</span>; a&lt;=<span class="number">10</span> ; a++))</div><div class="line"><span class="keyword">do</span></div><div class="line"><span class="built_in">printf</span> <span class="string">"%02d\n"</span> <span class="variable">$a</span></div><div class="line"><span class="keyword">done</span></div><div class="line">[root@kook tmp]<span class="comment"># ./for.sh</span></div><div class="line"><span class="number">01</span></div><div class="line"><span class="number">02</span></div><div class="line"><span class="number">03</span></div><div class="line"><span class="number">04</span></div><div class="line"><span class="number">05</span></div><div class="line"><span class="number">06</span></div><div class="line"><span class="number">07</span></div><div class="line"><span class="number">08</span></div><div class="line"><span class="number">09</span></div><div class="line"><span class="number">10</span></div></pre></td></tr></table></figure>
-
-<p><br><br>这么写，也可以。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@kook tmp]<span class="comment"># cat for.sh</span></div><div class="line"><span class="keyword">for</span> ((a=<span class="number">1</span>; a&lt;=<span class="number">10</span> ; a++))</div><div class="line"><span class="keyword">do</span></div><div class="line"><span class="built_in">printf</span> <span class="string">"%.2d\n"</span> <span class="variable">$a</span></div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
-
-<p><br><br>继续测试。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@kook tmp]<span class="comment"># printf "%04d\n" -3</span></div><div class="line">-<span class="number">003</span></div><div class="line">[root@kook tmp]<span class="comment"># printf "%.4d\n" -3</span></div><div class="line">-<span class="number">0003</span></div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.187299.com/archives/1680" title="http://www.187]]>
-    </summary>
-    
-      <category term="printf" scheme="http://moky.cc/tags/printf/"/>
-    
-      <category term="格式化" scheme="http://moky.cc/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
-    
-      <category term="补零" scheme="http://moky.cc/tags/%E8%A1%A5%E9%9B%B6/"/>
-    
-      <category term="Shell" scheme="http://moky.cc/categories/Shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Python分割路径与文件名分隔符]]></title>
-    <link href="http://moky.cc/2015/04/27/Python%E5%88%86%E5%89%B2%E8%B7%AF%E5%BE%84%E4%B8%8E%E6%96%87%E4%BB%B6%E5%90%8D%E5%88%86%E9%9A%94%E7%AC%A6/"/>
-    <id>http://moky.cc/2015/04/27/Python分割路径与文件名分隔符/</id>
-    <published>2015-04-27T09:39:38.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os.path</div><div class="line"></div><div class="line">spath=<span class="string">"D:/360Downloads/testFile1/folder2/testFile1.txt"</span></div><div class="line"><span class="comment">#case 1:</span></div><div class="line">p,f=os.path.split(spath);</div><div class="line">print(<span class="string">"dir is:"</span> + p)</div><div class="line">print(<span class="string">"file is:"</span> + f)</div><div class="line"></div><div class="line"><span class="comment">#case 2:</span></div><div class="line">drv,left=os.path.splitdrive(spath);</div><div class="line">print(<span class="string">"drive is:"</span> + drv)</div><div class="line">print(<span class="string">"left is:"</span> + left)</div><div class="line"></div><div class="line"><span class="comment">#case 3:</span></div><div class="line">f,ext = os.path.splitext(spath);</div><div class="line">print(<span class="string">"f is:"</span> + f)</div><div class="line">print(<span class="string">"ext is:"</span> + ext)</div></pre></td></tr></table></figure>
-
-<p>Python中os.path常用模块：<br><code>os.path.sep</code> 路径分隔符 linux下就用这个了’/’<br><code>os.path.altsep</code> 根目录<br><code>os.path.curdir</code> 当前目录<br><code>os.path.pardir</code> 父目录<br><code>os.path.abspath(path)</code> 绝对路径<br><code>os.path.join()</code> 常用来链接路径<br><code>os.path.split(path)</code> 把path分为目录和文件两个部分，以列表返回</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">[GCC 4.4.5] on linux2</span></span></div><div class="line">Type "help", "copyright", "credits" or "license" for more information.</div><div class="line">&gt;&gt;&gt; import os</div><div class="line"><span class="input"><span class="prompt">&gt;&gt;&gt;</span> help(<span class="string">'os.path.sep'</span>)</span></div><div class="line"><span class="input"><span class="prompt"></span></span></div><div class="line">&gt;&gt;&gt; print os.path.sep</div><div class="line"><span class="input"><span class="prompt">/</span></span></div><div class="line">&gt;&gt;&gt; print os.path.altsep</div><div class="line"><span class="input"><span class="prompt">None</span></span></div><div class="line">&gt;&gt;&gt; print os.path.curdir</div><div class="line"><span class="input"><span class="prompt">.</span></span></div><div class="line">&gt;&gt;&gt; print os.path.abspath(<span class="string">'/root'</span>)</div><div class="line"><span class="input"><span class="prompt">/root</span></span></div><div class="line">&gt;&gt;&gt; print os.path.abspath(<span class="string">'/root/pp'</span>)</div><div class="line"><span class="input"><span class="prompt">/root/pp</span></span></div><div class="line">&gt;&gt;&gt; print os.path.abspath(<span class="string">'/root/pp/f.c'</span>)</div><div class="line"><span class="input"><span class="prompt">/root/pp/f.c</span></span></div><div class="line">&gt;&gt;&gt; print os.path.split(<span class="string">'/root/pp/f.c'</span>)</div><div class="line">(<span class="string">'/root/pp'</span>, <span class="string">'f.c'</span>)</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="]]>
-    </summary>
-    
-      <category term="文件名分隔符" scheme="http://moky.cc/tags/%E6%96%87%E4%BB%B6%E5%90%8D%E5%88%86%E9%9A%94%E7%AC%A6/"/>
-    
-      <category term="分割路径" scheme="http://moky.cc/tags/%E5%88%86%E5%89%B2%E8%B7%AF%E5%BE%84/"/>
-    
-      <category term="Python" scheme="http://moky.cc/categories/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[CSS禁止选择文本功能（兼容IE,火狐等浏览器）]]></title>
-    <link href="http://moky.cc/2015/04/25/CSS%E7%A6%81%E6%AD%A2%E9%80%89%E6%8B%A9%E6%96%87%E6%9C%AC%E5%8A%9F%E8%83%BD%EF%BC%88%E5%85%BC%E5%AE%B9IE-%E7%81%AB%E7%8B%90%E7%AD%89%E6%B5%8F%E8%A7%88%E5%99%A8%EF%BC%89/"/>
-    <id>http://moky.cc/2015/04/25/CSS禁止选择文本功能（兼容IE-火狐等浏览器）/</id>
-    <published>2015-04-25T02:43:06.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.javascript100.com/?p=455" title="http://www.javascript100.com/?p=455" target="_blank" rel="external">http://www.javascript100.com/?p=455</a></p>
-</blockquote>
-<p>有时候，我们为了用户体验，需要禁用选择文本功能。<br>这需要用到一个CSS属性：user-select，user-select的文档点这里</p>
-<p><em>user-select</em> 有两个值：<br><code>none</code> 用户不能选择文本<br><code>text</code> 用户可以选择文本</p>
-<p>需要注意的是：user-select并不是一个W3C的CSS标准属性，浏览器支持的不完整，需要对每种浏览器进行调整</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">body</span><span class="rules">{</span></div><div class="line">   <span class="rule"><span class="attribute">-moz-user-select</span>:<span class="value"> none</span></span>; <span class="comment">/*火狐*/</span></div><div class="line">   <span class="rule"><span class="attribute">-webkit-user-select</span>:<span class="value"> none</span></span>;  <span class="comment">/*webkit浏览器*/</span></div><div class="line">   <span class="rule"><span class="attribute">-ms-user-select</span>:<span class="value"> none</span></span>;   <span class="comment">/*IE10*/</span></div><div class="line">   <span class="rule"><span class="attribute">-khtml-user-select</span>:<span class="value"> none</span></span>; <span class="comment">/*早期浏览器*/</span></div><div class="line">   <span class="rule"><span class="attribute">user-select</span>:<span class="value"> none</span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
-
-<p>IE6-9还没发现相关的CSS属性，只能通过JS来实现</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//IE6-9</span></div><div class="line"><span class="built_in">document</span>.body.onselectstart = <span class="built_in">document</span>.body.ondrag = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>这样我们就可以结合CSS和JS的方法来禁用浏览器的文本选择功能了</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.javascript100.com/?p=455" title="http://www.jav]]>
-    </summary>
-    
-      <category term="禁止选择文本" scheme="http://moky.cc/tags/%E7%A6%81%E6%AD%A2%E9%80%89%E6%8B%A9%E6%96%87%E6%9C%AC/"/>
-    
-      <category term="CSS" scheme="http://moky.cc/categories/CSS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Python的lambda匿名函数]]></title>
-    <link href="http://moky.cc/2015/04/20/Python%E7%9A%84lambda%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0/"/>
-    <id>http://moky.cc/2015/04/20/Python的lambda匿名函数/</id>
-    <published>2015-04-20T04:26:59.000Z</published>
-    <updated>2015-05-11T01:14:08.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/coderzh/archive/2010/04/30/python-cookbook-lambda.html" title="http://www.cnblogs.com/coderzh/archive/2010/04/30/python-cookbook-lambda.html" target="_blank" rel="external">http://www.cnblogs.com/coderzh/archive/2010/04/30/python-cookbook-lambda.html</a></p>
-</blockquote>
-<h2 id="介绍">介绍</h2>
-<p>lambda函数也叫匿名函数，即，函数没有具体的名称。先来看一个最简单例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="keyword">return</span> x**<span class="number">2</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> f(<span class="number">4</span>)</div></pre></td></tr></table></figure>
-
-<p>Python中使用lambda的话，写成这样</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">g = <span class="keyword">lambda</span> x : x**<span class="number">2</span></div><div class="line"><span class="keyword">print</span> g(<span class="number">4</span>)</div></pre></td></tr></table></figure>
-
-<p>lambda表达式在很多编程语言都有对应的实现。比如C#：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> g = x =&gt; x**<span class="number">2</span></div><div class="line">Console.WriteLine(g(<span class="number">4</span>))</div></pre></td></tr></table></figure>
-
-<p>那么，lambda表达式有什么用处呢？很多人提出了质疑，lambda和普通的函数相比，就是省去了函数名称而已，同时这样的匿名函数，又不能共享在别的地方调用。其实说的没错，lambda在Python这种动态的语言中确实没有起到什么惊天动地的作用，因为有很多别的方法能够代替lambda。同时，使用lambda的写法有时显得并没有那么pythonic。甚至有人提出之后的Python版本要取消lambda。<br>回过头来想想，Python中的lambda真的没有用武之地吗？其实不是的，至少我能想到的点，主要有：</p>
-<ol>
-<li>使用Python写一些执行脚本时，使用lambda可以省去定义函数的过程，让代码更加精简。</li>
-<li>对于一些抽象的，不会别的地方再复用的函数，有时候给函数起个名字也是个难题，使用lambda不需要考虑命名的问题。</li>
-<li>使用lambda在某些时候让代码更容易理解。</li>
-</ol>
-<p><br></p>
-<h2 id="lambda基础">lambda基础</h2>
-<p>lambda语句中，冒号前是参数，可以有多个，用逗号隔开，冒号右边的返回值。lambda语句构建的其实是一个函数对象，见证一下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">g = <span class="keyword">lambda</span> x : x**<span class="number">2</span></div><div class="line"><span class="keyword">print</span> g</div><div class="line"></div><div class="line">&lt;function &lt;<span class="keyword">lambda</span>&gt; at <span class="number">0x00AFAAF0</span>&gt;</div></pre></td></tr></table></figure>
-
-<p>C#3.0开始，也有了lambda表达式，省去了使用delegate的麻烦写法。C#中的lambda表达式关键字是=&gt;，看下面的一个例子：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="keyword">int</span>[] {<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>};</div><div class="line"><span class="keyword">var</span> result = array.Where(n =&gt; n &gt; <span class="number">3</span>); <span class="comment">// [5, 6, 9]</span></div></pre></td></tr></table></figure>
-
-<p>C#使用了扩展方法，才使得数组对象拥有了像Where,Sum之类方便的方法。Python中，也有几个定义好的全局函数方便使用的，他们就是filter, map, reduce。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="input"><span class="prompt">&gt;&gt;&gt;</span> foo = [<span class="number">2</span>, <span class="number">18</span>, <span class="number">9</span>, <span class="number">22</span>, <span class="number">17</span>, <span class="number">24</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">27</span>]</span></div><div class="line">&gt;&gt;&gt;</div><div class="line"><span class="input"><span class="prompt">&gt;&gt;&gt;</span> print filter(lambda <span class="symbol">x:</span> x % <span class="number">3</span> == <span class="number">0</span>, foo)</span></div><div class="line">[<span class="number">18</span>, <span class="number">9</span>, <span class="number">24</span>, <span class="number">12</span>, <span class="number">27</span>]</div><div class="line">&gt;&gt;&gt;</div><div class="line"><span class="input"><span class="prompt">&gt;&gt;&gt;</span> print map(lambda <span class="symbol">x:</span> x * <span class="number">2</span> + <span class="number">10</span>, foo)</span></div><div class="line">[<span class="number">14</span>, <span class="number">46</span>, <span class="number">28</span>, <span class="number">54</span>, <span class="number">44</span>, <span class="number">58</span>, <span class="number">26</span>, <span class="number">34</span>, <span class="number">64</span>]</div><div class="line">&gt;&gt;&gt;</div><div class="line"><span class="input"><span class="prompt">&gt;&gt;&gt;</span> print reduce(lambda x, <span class="symbol">y:</span> x + y, foo)</span></div><div class="line"><span class="number">139</span></div></pre></td></tr></table></figure>
-
-<p><br></p>
-<h2 id="非lambda不可？">非lambda不可？</h2>
-<p>上面例子中的map的作用，和C#的Where扩展方法一样，非常简单方便。但是，Python是否非要使用lambda才能做到这样的简洁程度呢？在对象遍历处理方面，其实Python的for..in..if语法已经很强大，并且在易读上胜过了lambda。比如上面map的例子，可以写成：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> [x * <span class="number">2</span> + <span class="number">10</span> <span class="keyword">for</span> x <span class="keyword">in</span> foo]</div></pre></td></tr></table></figure>
-
-<p>非常的简洁，易懂。filter的例子可以写成：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> [x <span class="keyword">for</span> x <span class="keyword">in</span> foo <span class="keyword">if</span> x % <span class="number">3</span> == <span class="number">0</span>]</div></pre></td></tr></table></figure>
-
-<p>同样也是比lambda的方式更容易理解。<br>所以，什么时候使用lambda，什么时候不用，需要具体情况具体分析，只要表达的意图清晰就好。一般情况下，如果for..in..if能做的，我都不会选择lambda。</p>
-<p><br></p>
-<h2 id="lambda_broken?">lambda broken?</h2>
-<p>在数学教学中，经常会使用到lambda，比如有一位老兄就遇到这样一个问题。他想创建一个函数数组<code>fs=[f0,...,f9] where fi(n)=i+n</code>，于是乎，就定义了这么一个lambda函数：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fs = [(<span class="keyword">lambda</span> n: i + n) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>)]</div></pre></td></tr></table></figure>
-
-<p>但是，奇怪的是，</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; fs[<span class="link_label">3</span>](<span class="link_url">4</span>)</div><div class="line">13</div><div class="line">&gt;&gt;&gt; fs[<span class="link_label">4</span>](<span class="link_url">4</span>)</div><div class="line">13</div><div class="line">&gt;&gt;&gt; fs[<span class="link_label">5</span>](<span class="link_url">4</span>)</div><div class="line">13</div></pre></td></tr></table></figure>
-
-<p>结果并没有达到这位老兄的预期，预期的结果应该是：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; fs[<span class="link_label">3</span>](<span class="link_url">4</span>)</div><div class="line">7</div><div class="line">&gt;&gt;&gt; fs[<span class="link_label">4</span>](<span class="link_url">4</span>)</div><div class="line">8</div><div class="line">&gt;&gt;&gt; fs[<span class="link_label">5</span>](<span class="link_url">4</span>)</div><div class="line">9</div></pre></td></tr></table></figure>
-
-<p>问题其实出在变量i上。上面的代码换个简单的不使用lambda的缩减版本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">i = <span class="number">1</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fs</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">return</span> n + i</div><div class="line"><span class="keyword">print</span> fs(<span class="number">1</span>) <span class="comment"># 2</span></div><div class="line"></div><div class="line">i = <span class="number">2</span></div><div class="line"><span class="keyword">print</span> fs(<span class="number">1</span>) <span class="comment"># 3</span></div></pre></td></tr></table></figure>
-
-<p>可见，上面没有达到预期的原因是lambda中的i使用的是匿名函数外的全局变量。修改一下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">fs = [(<span class="keyword">lambda</span> n, i=i : i + n) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>)]</div><div class="line"><span class="prompt">&gt;&gt;&gt; </span>fs[<span class="number">3</span>](<span class="number">4</span>)</div><div class="line"><span class="number">7</span></div><div class="line"><span class="prompt">&gt;&gt;&gt; </span>fs[<span class="number">4</span>](<span class="number">4</span>)</div><div class="line"><span class="number">8</span></div><div class="line"><span class="prompt">&gt;&gt;&gt; </span>fs[<span class="number">5</span>](<span class="number">4</span>)</div><div class="line"><span class="number">9</span></div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/coderzh/archive/2010/04/30/python-c]]>
-    </summary>
-    
-      <category term="lambda" scheme="http://moky.cc/tags/lambda/"/>
     
       <category term="Python" scheme="http://moky.cc/categories/Python/"/>
     

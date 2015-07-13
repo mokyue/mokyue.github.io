@@ -79,7 +79,7 @@
     </p>
   <p class="article-time">
     <time datetime="2015-05-10T05:27:38.000Z" itemprop="datePublished">May 10 2015</time>
-    Updated:<time datetime="2015-05-27T08:19:01.000Z" itemprop="dateModified">May 27 2015</time>
+    Updated:<time datetime="2015-07-12T08:40:12.000Z" itemprop="dateModified">Jul 12 2015</time>
     
   </p>
 </header>
@@ -99,6 +99,10 @@
 
 <p>图片资源: <code>PS: 图片资源右边有一条浅灰色的竖线以区分每个Tab，可以调整QTabWidget宽度使最后一个Tab不显示这条竖线 :)</code><br><img src="tab-normal.png" alt="tab-normal.png"></p>
 <p><img src="tab-selected.png" alt="tab-selected.png"></p>
+<p><br><br>还有另外一种半透明效果的:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">QTabWidget</span><span class="pseudo">:pane</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">border</span>:<span class="value"> none</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QTabBar</span><span class="pseudo">:tab</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">120</span>)</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#a59400</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">128px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">19px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">border-top-left-radius</span>:<span class="value"> <span class="number">3px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">border-top-right-radius</span>:<span class="value"> <span class="number">3px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">margin-right</span>:<span class="value"> <span class="number">2px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QTabBar</span><span class="pseudo">:tab</span><span class="pseudo">:selected</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">166</span>)</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#fae119</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QTabBar</span><span class="pseudo">:tab</span><span class="pseudo">:hover</span>:!<span class="tag">selected</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">156</span>)</span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
+
+<p><img src="result2.png" alt="效果图"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -170,13 +174,15 @@
 	<p class="asidetitle">Categories</p>
 		<ul>
 		
+			<li><a href="/categories/C/" title="C++">C++<sup>1</sup></a></li>
+		
 			<li><a href="/categories/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 		
 			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
 		
-			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>6</sup></a></li>
+			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>9</sup></a></li>
 		
-			<li><a href="/categories/Python/" title="Python">Python<sup>22</sup></a></li>
+			<li><a href="/categories/Python/" title="Python">Python<sup>25</sup></a></li>
 		
 			<li><a href="/categories/Qt/" title="Qt">Qt<sup>20</sup></a></li>
 		
@@ -231,11 +237,11 @@
 		
 			<li><a href="/tags/QTimer/" title="QTimer">QTimer<sup>1</sup></a></li>
 		
+			<li><a href="/tags/QTooltips/" title="QTooltips">QTooltips<sup>1</sup></a></li>
+		
 			<li><a href="/tags/QWebView/" title="QWebView">QWebView<sup>1</sup></a></li>
 		
 			<li><a href="/tags/Qt/" title="Qt">Qt<sup>17</sup></a></li>
-		
-			<li><a href="/tags/QtWebKit/" title="QtWebKit">QtWebKit<sup>1</sup></a></li>
 		
 		</ul>
 </div>
