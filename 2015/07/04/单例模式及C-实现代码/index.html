@@ -1,0 +1,455 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>单例模式及C++实现代码 | One Night in Mok&#39;s Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Moky">
+    
+    <meta name="description" content="【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。http://www.cnblogs.com/cxjchen/p/3148582.html
+
+单例模式
+单例模式，可以说设计模式中最常应用的一种模式了，据说也是面试官最喜欢的题目。但是如果没有学">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml" title="One Night in Mok&#39;s Studio" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="One Night in Mok&#39;s Studio" title="One Night in Mok&#39;s Studio"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="One Night in Mok&#39;s Studio">One Night in Mok&#39;s Studio</a></h1>
+				<h2 class="blog-motto">Life is a beautiful struggle.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:moky.cc">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/04/单例模式及C-实现代码/" title="单例模式及C++实现代码" itemprop="url">单例模式及C++实现代码</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://moky.cc" title="Moky">Moky</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-07-04T13:20:59.000Z" itemprop="datePublished">Jul 4 2015</time>
+    Updated:<time datetime="2015-07-13T13:30:37.000Z" itemprop="dateModified">Jul 13 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单例模式"><span class="toc-number">1.</span> <span class="toc-text">单例模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用的场景"><span class="toc-number">2.</span> <span class="toc-text">常用的场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-number">3.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点"><span class="toc-number">4.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C++实现代码"><span class="toc-number">5.</span> <span class="toc-text">C++实现代码</span></a></li></ol>
+		</div>
+		
+		<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://www.cnblogs.com/cxjchen/p/3148582.html" title="http://www.cnblogs.com/cxjchen/p/3148582.html" target="_blank" rel="external">http://www.cnblogs.com/cxjchen/p/3148582.html</a></p>
+</blockquote>
+<h2 id="单例模式">单例模式</h2>
+<p>单例模式，可以说设计模式中最常应用的一种模式了，据说也是面试官最喜欢的题目。但是如果没有学过设计模式的人，可能不会想到要去应用单例模式，面对单例模式适用的情况，可能会优先考虑使用全局或者静态变量的方式，这样比较简单，也是没学过设计模式的人所能想到的最简单的方式了。</p>
+<p>一般情况下，我们建立的一些类是属于工具性质的，基本不用存储太多的跟自身有关的数据，在这种情况下，每次都去new一个对象，即增加了开销，也使得代码更加臃肿。其实，我们只需要一个实例对象就可以。如果采用全局或者静态变量的方式，会影响封装性，难以保证别的代码不会对全局变量造成影响。</p>
+<p>考虑到这些需要，我们将默认的构造函数声明为私有的，这样就不会被外部所new了，甚至可以将析构函数也声明为私有的，这样就只有自己能够删除自己了。在Java和C#这样纯的面向对象的语言中，单例模式非常好实现，直接就可以在静态区初始化instance，然后通过getInstance返回，这种就被称为饿汉式单例类。也有些写法是在getInstance中new instance然后返回，这种就被称为懒汉式单例类，但这涉及到第一次getInstance的一个判断问题。</p>
+<p>下面的代码只是表示一下，跟具体哪种语言没有关系。</p>
+<p>单线程中：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Singleton* getInstance()</div><div class="line">{</div><div class="line">    <span class="keyword">if</span> (instance == NULL)</div><div class="line">        instance = <span class="keyword">new</span> Singleton();</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> instance;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br><br>这样就可以了，保证只取得了一个实例。但是在多线程的环境下却不行了，因为很可能两个线程同时运行到if (instance == NULL)这一句，导致可能会产生两个实例。于是就要在代码中加锁。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Singleton* getInstance()</div><div class="line">{</div><div class="line">    lock();</div><div class="line">    <span class="keyword">if</span> (instance == NULL)</div><div class="line">    {</div><div class="line">       instance = <span class="keyword">new</span> Singleton();</div><div class="line">    }</div><div class="line">    unlock();</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> instance;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br><br>但这样写的话，会稍稍映像性能，因为每次判断是否为空都需要被锁定，如果有很多线程的话，就爱会造成大量线程的阻塞。于是大神们又想出了双重锁定。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Singleton* getInstance()</div><div class="line">{</div><div class="line">    <span class="keyword">if</span> (instance == NULL)</div><div class="line">    {</div><div class="line">	lock();</div><div class="line">    	<span class="keyword">if</span> (instance == NULL)</div><div class="line">    	{</div><div class="line">       		instance = <span class="keyword">new</span> Singleton();</div><div class="line">    	}</div><div class="line">    	unlock();</div><div class="line">    }</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> instance;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br><br>这样只够极低的几率下，通过越过了if (instance == NULL)的线程才会有进入锁定临界区的可能性，这种几率还是比较低的，不会阻塞太多的线程，但为了防止一个线程进入临界区创建实例，另外的线程也进去临界区创建实例，又加上了一道防御if (instance == NULL)，这样就确保不会重复创建了。<br><br></p>
+<h2 id="常用的场景">常用的场景</h2>
+<p>单例模式常常与工厂模式结合使用，因为工厂只需要创建产品实例就可以了，在多线程的环境下也不会造成任何的冲突，因此只需要一个工厂实例就可以了。<br><br></p>
+<h2 id="优点">优点</h2>
+<ol>
+<li>减少了时间和空间的开销（new实例的开销）。</li>
+<li>提高了封装性，使得外部不易改动实例。</li>
+</ol>
+<p><br></p>
+<h2 id="缺点">缺点</h2>
+<ol>
+<li>懒汉式是以时间换空间的方式。</li>
+<li>饿汉式是以空间换时间的方式。</li>
+</ol>
+<p><br></p>
+<h2 id="C++实现代码">C++实现代码</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Singleton.h</span></div><div class="line"><span class="preprocessor">#ifndef _SINGLETON_H_</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> _SINGLETON_H_</span></div><div class="line"> </div><div class="line"><span class="keyword">class</span> Singleton{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="keyword">static</span> Singleton* getInstance();</div><div class="line"> </div><div class="line"><span class="keyword">private</span>:</div><div class="line">	Singleton();</div><div class="line">	<span class="comment">//把复制构造函数和=操作符也设为私有,防止被复制</span></div><div class="line">	Singleton(<span class="keyword">const</span> Singleton&);</div><div class="line">	Singleton& <span class="keyword">operator</span>=(<span class="keyword">const</span> Singleton&);</div><div class="line"> </div><div class="line">	<span class="keyword">static</span> Singleton* instance;</div><div class="line">};</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Singleton.cpp</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "Singleton.h"</span></div><div class="line"> </div><div class="line">Singleton::Singleton(){</div><div class="line">}</div><div class="line"> </div><div class="line">Singleton::Singleton(<span class="keyword">const</span> Singleton&){</div><div class="line">}</div><div class="line"> </div><div class="line">Singleton& Singleton::<span class="keyword">operator</span>=(<span class="keyword">const</span> Singleton&){</div><div class="line">}</div><div class="line"> </div><div class="line"><span class="comment">//在此处初始化</span></div><div class="line">Singleton* Singleton::instance = <span class="keyword">new</span> Singleton();</div><div class="line">Singleton* Singleton::getInstance(){</div><div class="line">	<span class="keyword">return</span> instance;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.cpp</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "Singleton.h"</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></div><div class="line">  </div><div class="line"><span class="keyword">int</span> main(){</div><div class="line">	Singleton* singleton1 = Singleton::getInstance();</div><div class="line">	Singleton* singleton2 = Singleton::getInstance();</div><div class="line"> </div><div class="line">	<span class="keyword">if</span> (singleton1 == singleton2)</div><div class="line">		<span class="built_in">fprintf</span>(stderr,<span class="string">"singleton1 = singleton2\n"</span>);</div><div class="line"> </div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/单例模式/">单例模式</a><a href="/tags/singleton/">singleton</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C++</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  
+<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到linkedin" href="#" class="bds_linkedin" data-cmd="linkedin"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到Facebook" href="#" class="bds_fbook" data-cmd="fbook"></a><a title="分享到Twitter" href="#" class="bds_twi" data-cmd="twi"></a><a title="分享到有道云笔记" href="#" class="bds_youdao" data-cmd="youdao"></a><a title="分享到飞信" href="#" class="bds_fx" data-cmd="fx"></a><a title="分享到复制网址" href="#" class="bds_copy" data-cmd="copy"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"],"viewText":" ","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/05/如何修改Qt标准对话框的文字-例如-英文改成中文/" title="如何修改Qt标准对话框的文字(例如,英文改成中文)">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  如何修改Qt标准对话框的文字(例如,英文改成中文)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/03/解决-Python-ConfigParser-的文件编码问题/"  title="解决 Python ConfigParser 的文件编码问题">
+ <strong>NEXT:</strong><br/> 
+ <span>解决 Python ConfigParser 的文件编码问题
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单例模式"><span class="toc-number">1.</span> <span class="toc-text">单例模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用的场景"><span class="toc-number">2.</span> <span class="toc-text">常用的场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-number">3.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点"><span class="toc-number">4.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C++实现代码"><span class="toc-number">5.</span> <span class="toc-text">C++实现代码</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/C/" title="C++">C++<sup>3</sup></a></li>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
+		
+			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>9</sup></a></li>
+		
+			<li><a href="/categories/Python/" title="Python">Python<sup>26</sup></a></li>
+		
+			<li><a href="/categories/Qt/" title="Qt">Qt<sup>23</sup></a></li>
+		
+			<li><a href="/categories/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		
+			<li><a href="/categories/杂类/" title="杂类">杂类<sup>2</sup></a></li>
+		
+			<li><a href="/categories/猿人日常/" title="猿人日常">猿人日常<sup>4</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/ASCII/" title="ASCII">ASCII<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Aero/" title="Aero">Aero<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Branch/" title="Branch">Branch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ConfigParser/" title="ConfigParser">ConfigParser<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Notepad/" title="Notepad++">Notepad++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyChecker/" title="PyChecker">PyChecker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyQt/" title="PyQt">PyQt<sup>5</sup></a></li>
+		
+			<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+		
+			<li><a href="/tags/QFontMetrics/" title="QFontMetrics">QFontMetrics<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QLabel/" title="QLabel">QLabel<sup>3</sup></a></li>
+		
+			<li><a href="/tags/QSS/" title="QSS">QSS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QScrollBar/" title="QScrollBar">QScrollBar<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QTabWidget/" title="QTabWidget">QTabWidget<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QThread/" title="QThread">QThread<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QTimer/" title="QTimer">QTimer<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QTooltips/" title="QTooltips">QTooltips<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+    
+    <div class="line">
+        <span></span>
+
+        <div class="author"></div>
+    </div>
+    
+    
+    <section class="info">
+        <p> Hi, I&#39;m Moky. <br/>
+            I wanna share all my stuffs with u ~</p>
+    </section>
+    
+    <div class="social-font clearfix">
+        
+        <a href="http://weibo.com/218889128" target="_blank" title="weibo"></a>
+        
+        
+        
+        <a href="https://github.com/mokyue" target="_blank" title="github"></a>
+        
+        
+        
+        <a href="https://www.linkedin.com/pub/matthew-mok/69/9a3/641" target="_blank" title="linkedin"></a>
+        
+    </div>
+    <p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a> and themed by <a
+                href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a>
+        © 2015
+        
+        <a href="http://moky.cc" target="_blank" title="Moky">Moky</a>
+        
+        <br>
+        <a class="icp" href="http://www.miitbeian.gov.cn/" target="_blank"
+           title="粤ICP备15013592号">粤ICP备15013592号</a>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank" title="中华人民共和国工业和信息化部">
+            <img src="/img/copy_right.png" alt="中华人民共和国工业和信息化部"/>
+        </a>
+    </p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mokyue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<div id="to_top" style="position: fixed; bottom: 80px; right: 7.5%; cursor: pointer;">
+    <a title="返回顶部" style="display: block; line-height: 25px !important; text-align: center; box-shadow: 2px 4px 5px rgba(3, 3, 3, 0.2); width: 28px; height: 28px; border-radius: 50%; font: normal 28px 'FontAwesome'; background-color: #ea6753; color: #ffffff"></a>
+</div>
+
+<script src="/js/to_top.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,425 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>如何修改Qt标准对话框的文字(例如,英文改成中文) | One Night in Mok&#39;s Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Moky">
+    
+    <meta name="description" content="【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。http://blog.csdn.net/libaineu2004/article/details/19030129
+
+此篇文章参考qtcn论坛整理而成，因为文字和图片是本人亲自组织，所以仍算原">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml" title="One Night in Mok&#39;s Studio" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="One Night in Mok&#39;s Studio" title="One Night in Mok&#39;s Studio"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="One Night in Mok&#39;s Studio">One Night in Mok&#39;s Studio</a></h1>
+				<h2 class="blog-motto">Life is a beautiful struggle.</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:moky.cc">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/05/如何修改Qt标准对话框的文字-例如-英文改成中文/" title="如何修改Qt标准对话框的文字(例如,英文改成中文)" itemprop="url">如何修改Qt标准对话框的文字(例如,英文改成中文)</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://moky.cc" title="Moky">Moky</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-07-05T13:11:24.000Z" itemprop="datePublished">Jul 5 2015</time>
+    Updated:<time datetime="2015-07-13T13:18:59.000Z" itemprop="dateModified">Jul 13 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+		</div>
+		
+		<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/libaineu2004/article/details/19030129" title="http://blog.csdn.net/libaineu2004/article/details/19030129" target="_blank" rel="external">http://blog.csdn.net/libaineu2004/article/details/19030129</a></p>
+</blockquote>
+<p>此篇文章参考qtcn论坛整理而成，因为文字和图片是本人亲自组织，所以仍算原创。<br><a href="http://www.qtcn.org/bbs/read-htm-tid-30650.html" title="http://www.qtcn.org/bbs/read-htm-tid-30650.html" target="_blank" rel="external">http://www.qtcn.org/bbs/read-htm-tid-30650.html</a><br><a href="http://blog.csdn.net/yangxiao_0203/article/details/7488967" title="http://blog.csdn.net/yangxiao_0203/article/details/7488967" target="_blank" rel="external">http://blog.csdn.net/yangxiao_0203/article/details/7488967</a></p>
+<p>如图所示，QT自带的内建标准对话框QFontDialog、QColorDialog、QMessageBox。默认的文字全是英文的。QLineEdit和QTextEdit的右键菜单，默认的文字也全是英文的。<br>请问，如何可以把文字修改成中文或其他语言文字？<br><img src="http://www.qtcn.org/bbs/attachment/Mon_1402/17_118943_58b40f8aeeb5310.png?16" alt=""></p>
+<p><img src="http://www.qtcn.org/bbs/attachment/Mon_1402/17_118943_9743e39a4cbe620.png?20" alt=""></p>
+<p><img src="http://img.blog.csdn.net/20140410161351703" alt=""><br><br><br>解决方案如下：<br>简体中文的解决思路是打开Qt安装目录下的translations，找到qt_zh_CN.qm和qt_zh_CN.ts。<br>直接用qt_zh_CN.qm即可，如果确实有翻译不完全的，打开qt_zh_CN.ts翻译一下重新生成.qm文件即可。<br>即：把translation/qt_zh_CN.qm加载到QTranslator中。<br>其他国语言方法类似。<br><br><br>参考源码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "mainwindow.h"</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QApplication&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QTranslator&gt;</span></div><div class="line"> </div><div class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</div><div class="line">{</div><div class="line">    QApplication a(argc, argv);</div><div class="line"> </div><div class="line">    <span class="comment">//加载Qt标准对话框的中文翻译文件</span></div><div class="line">    QTranslator tran;</div><div class="line">    <span class="keyword">bool</span> ok = tran.load(<span class="string">"qt_zh_CN.qm"</span>, <span class="string">"C:\\qt\\4.8.5_VS2010\\translations\\"</span>);<span class="comment">//注,这里使用的是绝对路径,建议把.qm拷贝到工程目录下,然后使用相对路径.</span></div><div class="line">    a.installTranslator(&tran);</div><div class="line"> </div><div class="line">    <span class="comment">//加载用户自定义的界面翻译文件</span></div><div class="line"> </div><div class="line">    QTranslator user;</div><div class="line">    ok = user.load(<span class="string">"user_zh.qm"</span>, <span class="string">":/"</span>);</div><div class="line">    a.installTranslator(&user);</div><div class="line"> </div><div class="line">    <span class="comment">//设置全局文字大小,非必需,根据自身情况使用</span></div><div class="line">    QFont font  = a.font();</div><div class="line">    font.setPointSize(<span class="number">9</span>);</div><div class="line">    a.setFont(font);</div><div class="line"> </div><div class="line">    MainWindow w;</div><div class="line">    w.show();</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> a.exec();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br><br>最终效果图:<br><img src="http://img.blog.csdn.net/20140410161333046" alt=""></p>
+<p><img src="http://img.blog.csdn.net/20140410161348687" alt=""></p>
+<p><img src="http://img.blog.csdn.net/20140410161345062" alt=""><br><br><br>如果软件想动态得切换语言，则需要定义一个全局函数供调用，举例如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "mainwindow.h"</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QApplication&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QTranslator&gt;</span></div><div class="line"> </div><div class="line">QTranslator g_tran;<span class="comment">//必须设置成全局变量，如果是局部变量，设置将失效。</span></div><div class="line"> </div><div class="line"><span class="keyword">void</span> setLanguage(<span class="keyword">int</span> lan)<span class="comment">//全局函数，可供其他文件调用</span></div><div class="line">{</div><div class="line">    <span class="keyword">bool</span> ok = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">if</span> (lan == <span class="number">1</span>)<span class="comment">//中文</span></div><div class="line">    {</div><div class="line">        ok = g_tran.load(<span class="string">"qt_zh_CN.qm"</span>, <span class="string">":/lan/"</span>);<span class="comment">//这里使用Qt资源文件,把.qm文件拷贝到项目路径/lan之下</span></div><div class="line">    }</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (lan == <span class="number">2</span>)<span class="comment">//英文</span></div><div class="line">    {</div><div class="line">        ok = g_tran.load(<span class="string">""</span>, <span class="string">":/lan/"</span>);</div><div class="line">    }</div><div class="line"> </div><div class="line">    QCoreApplication::installTranslator(&g_tran);</div><div class="line">    <span class="comment">//或者写成qApp-&gt;installTranslator(&g_tran);</span></div><div class="line">}</div><div class="line"> </div><div class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</div><div class="line">{</div><div class="line">    QApplication a(argc, argv);</div><div class="line"> </div><div class="line">    setLanguage(<span class="number">1</span>);<span class="comment">//调用全局函数</span></div><div class="line"> </div><div class="line">    MainWindow w;</div><div class="line">    w.show();</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> a.exec();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/汉化/">汉化</a><a href="/tags/标准对话框/">标准对话框</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Qt/">Qt</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  
+<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到linkedin" href="#" class="bds_linkedin" data-cmd="linkedin"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到Facebook" href="#" class="bds_fbook" data-cmd="fbook"></a><a title="分享到Twitter" href="#" class="bds_twi" data-cmd="twi"></a><a title="分享到有道云笔记" href="#" class="bds_youdao" data-cmd="youdao"></a><a title="分享到飞信" href="#" class="bds_fx" data-cmd="fx"></a><a title="分享到复制网址" href="#" class="bds_copy" data-cmd="copy"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"],"viewText":" ","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","sqq","qzone","tqq","linkedin","renren","fbook","twi","youdao","fx","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/06/Qt制作Aero特效窗口/" title="Qt制作Aero特效窗口">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Qt制作Aero特效窗口</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/04/单例模式及C-实现代码/"  title="单例模式及C++实现代码">
+ <strong>NEXT:</strong><br/> 
+ <span>单例模式及C++实现代码
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/C/" title="C++">C++<sup>3</sup></a></li>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/Git/" title="Git">Git<sup>2</sup></a></li>
+		
+			<li><a href="/categories/PyQt/" title="PyQt">PyQt<sup>9</sup></a></li>
+		
+			<li><a href="/categories/Python/" title="Python">Python<sup>26</sup></a></li>
+		
+			<li><a href="/categories/Qt/" title="Qt">Qt<sup>23</sup></a></li>
+		
+			<li><a href="/categories/SVN/" title="SVN">SVN<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		
+			<li><a href="/categories/杂类/" title="杂类">杂类<sup>2</sup></a></li>
+		
+			<li><a href="/categories/猿人日常/" title="猿人日常">猿人日常<sup>4</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/ASCII/" title="ASCII">ASCII<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Aero/" title="Aero">Aero<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Branch/" title="Branch">Branch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ConfigParser/" title="ConfigParser">ConfigParser<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Git/" title="Git">Git<sup>1</sup></a></li>
+		
+			<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Notepad/" title="Notepad++">Notepad++<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyChecker/" title="PyChecker">PyChecker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/PyQt/" title="PyQt">PyQt<sup>5</sup></a></li>
+		
+			<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+		
+			<li><a href="/tags/QFontMetrics/" title="QFontMetrics">QFontMetrics<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QLabel/" title="QLabel">QLabel<sup>3</sup></a></li>
+		
+			<li><a href="/tags/QSS/" title="QSS">QSS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QScrollBar/" title="QScrollBar">QScrollBar<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QTabWidget/" title="QTabWidget">QTabWidget<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QThread/" title="QThread">QThread<sup>2</sup></a></li>
+		
+			<li><a href="/tags/QTimer/" title="QTimer">QTimer<sup>1</sup></a></li>
+		
+			<li><a href="/tags/QTooltips/" title="QTooltips">QTooltips<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+    
+    <div class="line">
+        <span></span>
+
+        <div class="author"></div>
+    </div>
+    
+    
+    <section class="info">
+        <p> Hi, I&#39;m Moky. <br/>
+            I wanna share all my stuffs with u ~</p>
+    </section>
+    
+    <div class="social-font clearfix">
+        
+        <a href="http://weibo.com/218889128" target="_blank" title="weibo"></a>
+        
+        
+        
+        <a href="https://github.com/mokyue" target="_blank" title="github"></a>
+        
+        
+        
+        <a href="https://www.linkedin.com/pub/matthew-mok/69/9a3/641" target="_blank" title="linkedin"></a>
+        
+    </div>
+    <p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a> and themed by <a
+                href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a>
+        © 2015
+        
+        <a href="http://moky.cc" target="_blank" title="Moky">Moky</a>
+        
+        <br>
+        <a class="icp" href="http://www.miitbeian.gov.cn/" target="_blank"
+           title="粤ICP备15013592号">粤ICP备15013592号</a>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank" title="中华人民共和国工业和信息化部">
+            <img src="/img/copy_right.png" alt="中华人民共和国工业和信息化部"/>
+        </a>
+    </p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mokyue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<div id="to_top" style="position: fixed; bottom: 80px; right: 7.5%; cursor: pointer;">
+    <a title="返回顶部" style="display: block; line-height: 25px !important; text-align: center; box-shadow: 2px 4px 5px rgba(3, 3, 3, 0.2); width: 28px; height: 28px; border-radius: 50%; font: normal 28px 'FontAwesome'; background-color: #ea6753; color: #ffffff"></a>
+</div>
+
+<script src="/js/to_top.js"></script>
+
+  </body>
+</html>
