@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Life is a beautiful struggle.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://moky.cc/"/>
-  <updated>2015-07-15T13:51:56.359Z</updated>
+  <updated>2015-07-15T13:53:41.398Z</updated>
   <id>http://moky.cc/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://moky.cc/2015/07/15/ifndef-define-endif%E4%BD%9C%E7%94%A8%E5%92%8C%E7%94%A8%E6%B3%95/"/>
     <id>http://moky.cc/2015/07/15/ifndef-define-endif作用和用法/</id>
     <published>2015-07-15T12:14:06.000Z</published>
-    <updated>2015-07-15T12:23:41.000Z</updated>
+    <updated>2015-07-15T13:53:29.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
 <p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_6398cade0100hi69.html" title="http://blog.sina.com.cn/s/blog_6398cade0100hi69.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_6398cade0100hi69.html</a></p>
 </blockquote>
@@ -28,7 +28,7 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef XX_H</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> XX_H</span></div><div class="line">...</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
 
 <p>这样如果有两个地方都包含这个头文件，就不会出现两次包含的情况 。。<br>因为在第二次包含时 XX_H 已经有定义了，所以就不再 include了</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef GRAPHICS_H <span class="comment">// 防止graphics.h被重复引用</span></span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> GRAPHICS_H</span></div><div class="line"></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;math.h&gt; <span class="comment">// 引用标准库的头文件</span></span></div><div class="line">…</div><div class="line"><span class="preprocessor">#include “myheader.h” <span class="comment">// 引用非标准库的头文件</span></span></div><div class="line">…</div><div class="line"><span class="keyword">void</span> Function1(…); <span class="comment">// 全局函数声明</span></div><div class="line">…</div><div class="line"><span class="keyword">class</span> Box <span class="comment">// 类结构声明</span></div><div class="line">{</div><div class="line">…</div><div class="line">};</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef GRAPHICS_H <span class="comment">// 防止graphics.h被重复引用</span></span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> GRAPHICS_H</span></div><div class="line"> </div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;math.h&gt; <span class="comment">// 引用标准库的头文件</span></span></div><div class="line">…</div><div class="line"><span class="preprocessor">#include “myheader.h” <span class="comment">// 引用非标准库的头文件</span></span></div><div class="line">…</div><div class="line"><span class="keyword">void</span> Function1(…); <span class="comment">// 全局函数声明</span></div><div class="line">…</div><div class="line"><span class="keyword">class</span> Box <span class="comment">// 类结构声明</span></div><div class="line">{</div><div class="line">…</div><div class="line">};</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
 
 <p>那是指你建立多个文件时，多个文件里都包含这个头文件<br>给你举个例子，再顺便分析一下：<br>假设你的工程里面有4个文件，分别是a.cpp,b.h,c.h,d.h。<br>a.cpp的头部是：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "b.h "</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "c.h "</span></div></pre></td></tr></table></figure>
