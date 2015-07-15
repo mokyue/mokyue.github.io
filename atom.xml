@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Life is a beautiful struggle.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://moky.cc/"/>
-  <updated>2015-07-14T01:30:35.838Z</updated>
+  <updated>2015-07-15T13:44:42.739Z</updated>
   <id>http://moky.cc/</id>
   
   <author>
@@ -13,6 +13,104 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[ifndef/define/endif作用和用法]]></title>
+    <link href="http://moky.cc/2015/07/15/ifndef-define-endif%E4%BD%9C%E7%94%A8%E5%92%8C%E7%94%A8%E6%B3%95/"/>
+    <id>http://moky.cc/2015/07/15/ifndef-define-endif作用和用法/</id>
+    <published>2015-07-15T12:14:06.000Z</published>
+    <updated>2015-07-15T12:23:41.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_6398cade0100hi69.html" title="http://blog.sina.com.cn/s/blog_6398cade0100hi69.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_6398cade0100hi69.html</a></p>
+</blockquote>
+<p><strong>问题</strong>：ifndef/define/endif”主要目的是防止头文件的重复包含和编译,偶只知道这个概念不懂的是怎么个用法,和为什么要用它~~高手请指点一下~~谢谢~~~!!!</p>
+<p><strong>用法</strong>：<br>.h文件，如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef XX_H</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> XX_H</span></div><div class="line">...</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
+
+<p>这样如果有两个地方都包含这个头文件，就不会出现两次包含的情况 。。<br>因为在第二次包含时 XX_H 已经有定义了，所以就不再 include了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef GRAPHICS_H <span class="comment">// 防止graphics.h被重复引用</span></span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> GRAPHICS_H</span></div><div class="line"></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;math.h&gt; <span class="comment">// 引用标准库的头文件</span></span></div><div class="line">…</div><div class="line"><span class="preprocessor">#include “myheader.h” <span class="comment">// 引用非标准库的头文件</span></span></div><div class="line">…</div><div class="line"><span class="keyword">void</span> Function1(…); <span class="comment">// 全局函数声明</span></div><div class="line">…</div><div class="line"><span class="keyword">class</span> Box <span class="comment">// 类结构声明</span></div><div class="line">{</div><div class="line">…</div><div class="line">};</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
+
+<p>那是指你建立多个文件时，多个文件里都包含这个头文件<br>给你举个例子，再顺便分析一下：<br>假设你的工程里面有4个文件，分别是a.cpp,b.h,c.h,d.h。<br>a.cpp的头部是：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "b.h "</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "c.h "</span></div></pre></td></tr></table></figure>
+
+<p>b.h和c.h的头部都是:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> "d.h "</span></div></pre></td></tr></table></figure>
+
+<p>而d.h里面有class D的定义。</p>
+<p>这样一来，<br>编译器编译a.cpp的时候，先根据#include “b.h “去编译b.h这个问题，再根据b.h里面的#include “d.h “，去编译d.h的这个文件，这样就把d.h里面的class D编译了；<br>然后再根据a.cpp的第二句#include “c.h “，去编译c.h，最终还是会找到的d.h里面的class D，但是class D之前已经编译过了，所以就会报重定义错误。</p>
+<p>加上ifndef/define/endif，就可以防止这种重定义错误。</p>
+<p>A.h 里</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef A_H</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> A_H</span></div><div class="line">...</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
+
+<p>B.h 和 C.h都include “A.h “</p>
+<p>D.h里</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">include <span class="string">"B.h "</span></div><div class="line">include <span class="string">"C.h "</span></div></pre></td></tr></table></figure>
+
+<p>在预编译的过程中，执行到include “C.h “时会因为在上一句的时候已经定义了A_H这个宏，所以此时的的<br>的ifndef条件不满足，也就不会再一次包含A.h，起到了防止重复引用头文件的效果。</p>
+<p>1.比如你有两个C文件，这两个C文件都include了同一个头文件。而编译时，这两个C文件要一同编译成一个可运行文件，于是问题来了，大量的声明冲突。 还是把头文件的内容都放在#ifndef和#endif中吧。<br>不管你的头文件会不会被多个文件引用，你都要加上这个。<br>一般格式是这样的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef &lt;标识&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> &lt;标识&gt;</span></div><div class="line">......</div><div class="line">......</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span> &lt;标识&gt;</span></div></pre></td></tr></table></figure>
+
+<p>在理论上来说可以是自由命名的，但每个头文件的这个“标识”都应该是唯一的。标识的命名规则一般是头文件名全大写，前后加下划线，并把文件名中的“.”也变成下划线，如：stdio.h</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef _STDIO_H_</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> _STDIO_H_</span></div><div class="line">......</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
+
+<p>2.在#ifndef中定义变量出现的问题（一般不定义在#ifndef中）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef AAA</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> AAA</span></div><div class="line">...</div><div class="line"><span class="keyword">int</span> i;</div><div class="line">...</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
+
+<p>里面有一个变量定义在vc中链接时就出现了i重复定义的错误，而在c中成功编译。<br><strong>原因</strong>：</p>
+<ol>
+<li>当你第一个使用这个头的.cpp文件生成.obj的时候，int i 在里面定义了当另外一个使用这个的.cpp再次[单独]生成.obj的时候，int i 又被定义然后两个obj被另外一个.cpp也include 这个头的，连接在一起，就会出现重复定义.</li>
+<li>把源程序文件扩展名改成.c后，VC按照C语言的语法对源程序进行编译，而不是C++。在C语言中，若是遇到多个int i，则自动认为其中一个是定义，其他的是声明。</li>
+<li>C语言和C++语言连接结果不同，可能（猜测）时在进行编译的时候，C++语言将全局变量默认为强符号，所以连接出错。C语言则依照是否初始化进行强弱的判断的。</li>
+</ol>
+<p><strong>参考解决方法</strong>：</p>
+<ol>
+<li>把源程序文件扩展名改成.c。</li>
+<li>推荐解决方案： .h中只声明 extern int i;<br>在.cpp中定义</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef __X_H__</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> __X_H__</span></div><div class="line"><span class="keyword">extern</span> <span class="keyword">int</span> i;</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span> <span class="comment">//__X_H__ int i;</span></span></div></pre></td></tr></table></figure>
+
+<p>注意问题：变量一般不要定义在.h文件中。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_6398cade0100hi69.html" titl]]>
+    </summary>
+    
+      <category term="ifndef" scheme="http://moky.cc/tags/ifndef/"/>
+    
+      <category term="define" scheme="http://moky.cc/tags/define/"/>
+    
+      <category term="endif" scheme="http://moky.cc/tags/endif/"/>
+    
+      <category term="C++" scheme="http://moky.cc/categories/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[error C2065：未声明的标识符错误]]></title>
+    <link href="http://moky.cc/2015/07/14/error-C2065%EF%BC%9A%E6%9C%AA%E5%A3%B0%E6%98%8E%E7%9A%84%E6%A0%87%E8%AF%86%E7%AC%A6%E9%94%99%E8%AF%AF/"/>
+    <id>http://moky.cc/2015/07/14/error-C2065：未声明的标识符错误/</id>
+    <published>2015-07-14T12:28:25.000Z</published>
+    <updated>2015-07-15T12:31:16.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_8216ada701017evx.html" title="http://blog.sina.com.cn/s/blog_8216ada701017evx.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_8216ada701017evx.html</a></p>
+</blockquote>
+<p>在VS2010下进行VC++调试时，出现这样一种错误：error C2065：未声明的标识符，当时感觉十分怪异，为什么说怪异呢？因为如果在.cpp中未引入相关.h文件出现这样的错误很正常，但是现在是已经引入了相关的头文件，却还是出现了诸如error C2065、error C2087、error C2133…的错误。</p>
+<p>情况是这样的，新建了一个工程项目，想使用其他工程中定义的同一组.cpp/.h文件，完全copy文件中的代码，可是在新建的工程中却提示了上述错误，却在其原先的工程中未出现错误，同一台机器出现了这样的错误，当时想到的是这两个工程项目的属性配置不同，所以就使新的工程项目的属性改变为原先的工程项目属性，但是仍然出现这样的错误，在网上搜寻这方面的资料，大部分都介绍是未引入相关的头文件，毕竟错误提示是：未声明的标识符，但是那样改来改去未解决问题。</p>
+<p>最终解决办法是修改了一下其头文件的顺序，原先copy时“#include “StdAfx.h””在几个头文件的最后位置，将其提前到最前位置，问题得到解决。原来不仅要引入相关的头文件，其位置也要放正确。当然预编译头文件应该放在最前位置吧，不过在原先的工程中放在最后却没有错误，怪哉。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_8216ada701017evx.html" titl]]>
+    </summary>
+    
+      <category term="C2065" scheme="http://moky.cc/tags/C2065/"/>
+    
+      <category term="未声明的标识符错误" scheme="http://moky.cc/tags/%E6%9C%AA%E5%A3%B0%E6%98%8E%E7%9A%84%E6%A0%87%E8%AF%86%E7%AC%A6%E9%94%99%E8%AF%AF/"/>
+    
+      <category term="C++" scheme="http://moky.cc/categories/C/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[C++中获取系统变量的几种方法]]></title>
@@ -45,25 +143,6 @@
       <category term="系统变量" scheme="http://moky.cc/tags/%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F/"/>
     
       <category term="C++" scheme="http://moky.cc/categories/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[自定义QScrollBar实例]]></title>
-    <link href="http://moky.cc/2015/07/12/%E8%87%AA%E5%AE%9A%E4%B9%89QScrollBar%E5%AE%9E%E4%BE%8B/"/>
-    <id>http://moky.cc/2015/07/12/自定义QScrollBar实例/</id>
-    <published>2015-07-12T08:22:51.000Z</published>
-    <updated>2015-07-12T08:22:51.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-]]>
-    </summary>
     
   </entry>
   
@@ -508,200 +587,155 @@
   </entry>
   
   <entry>
-    <title><![CDATA[Qt字符串显示不全显示省略号的实现]]></title>
-    <link href="http://moky.cc/2015/05/16/Qt%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%85%A8%E6%98%BE%E7%A4%BA%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://moky.cc/2015/05/16/Qt字符串显示不全显示省略号的实现/</id>
-    <published>2015-05-16T08:22:06.000Z</published>
-    <updated>2015-05-27T08:17:43.000Z</updated>
+    <title><![CDATA[Qt里的postEvent]]></title>
+    <link href="http://moky.cc/2015/06/30/Qt%E9%87%8C%E7%9A%84postEvent/"/>
+    <id>http://moky.cc/2015/06/30/Qt里的postEvent/</id>
+    <published>2015-06-30T12:32:29.000Z</published>
+    <updated>2015-07-15T12:36:16.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/dreamtdp/article/details/7545620" title="http://blog.csdn.net/dreamtdp/article/details/7545620" target="_blank" rel="external">http://blog.csdn.net/dreamtdp/article/details/7545620</a></p>
 </blockquote>
-<p>在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断得很不友好，一般的交互处理是在即将截断的文本后面显示省略号，以下为PyQt的实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 根据label截断文本</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_truncatedText</span><span class="params">(self, str_text, label)</span>:</span></div><div class="line">    <span class="keyword">return</span> QtGui.QFontMetrics(label.font()).elidedText(str_text, QtCore.Qt.ElideRight, label.width())</div></pre></td></tr></table></figure>
+<p>呵呵，转载了这么多别人的关于Event方面的文章，我也来说说两三句吧</p>
+<p>前几天一直被这个postEvent给困扰着，所以主要讲解postEvent的个人理解吧，随便稍微提一下其他的实现机制。</p>
+<p>Qt中抛消息有：信号和槽、postEvent、sentEvent等机制，sentEvent只支持同步的。postEvent可以实现异步的，其机制是将消息发送到消息队列中，消息队列又会把这些消息都抛出(当然要实现该功能我们也可以用信号和槽机制，将connect函数的最后一个参数设置为Qt::QueuedConnection即可)。</p>
+<p>言归正传，上段我们说到消息队列把消息抛出来，我们该如何去捕获该消息呢？我们只要实现父类中的event()或者customEvent()函数即可，在里面实现我们自己的处理，在此建议采用customEvent()。</p>
+<p>以下是一个简单的实例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QWidget&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QEvent&gt;</span></div><div class="line"> </div><div class="line"><span class="keyword">const</span> QEvent::Type CustomEvent_Login = (QEvent::Type)<span class="number">5001</span>;<span class="comment">//建议用5000以上唯一的标识</span></div><div class="line"> </div><div class="line"><span class="keyword">class</span> PostEvent : <span class="keyword">public</span> QWidget</div><div class="line">{</div><div class="line">Q_OBJECT</div><div class="line"> </div><div class="line"><span class="keyword">public</span>:</div><div class="line">PostEvent(QWidget *parent = <span class="number">0</span>);</div><div class="line">~PostEvent();</div><div class="line"> </div><div class="line"><span class="keyword">private</span>:</div><div class="line"><span class="keyword">void</span> customEvent(QEvent *e); <span class="comment">//该函数是父类QWidget的虚函数</span></div><div class="line"> </div><div class="line">};</div><div class="line"> </div><div class="line">PostEvent::PostEvent(QWidget *parent)</div><div class="line">{</div><div class="line">QApplication::postEvent(<span class="keyword">this</span>, <span class="keyword">new</span> QEvent(CustomEvent_Login));</div><div class="line"><span class="comment">//该函数实现将自定义的消息发送到队列，且new QEvent(CustomEvent_Login))只能动态分配，原因请看Qt的帮助文档中的postEvent函数说明。</span></div><div class="line">}</div><div class="line"> </div><div class="line"><span class="keyword">void</span> PostEvent::customEvent(QEvent *e)</div><div class="line">{</div><div class="line"><span class="keyword">if</span> (e-&gt;type() == CustomEvent_Login) <span class="comment">//捕获消息</span></div><div class="line">{</div><div class="line">QMessageBox msgBox;</div><div class="line">msgBox.setText(<span class="string">"The document has been modified."</span>);</div><div class="line">msgBox.exec();</div><div class="line">}</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>或者</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 根据截断文本</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_truncatedText</span><span class="params">(self, str_text, width)</span>:</span></div><div class="line">    <span class="keyword">return</span> QtGui.QFontMetrics(label.font()).elidedText(str_text, QtCore.Qt.ElideRight, width)</div></pre></td></tr></table></figure>
-
+<p>呵呵，就这样吧 本人一开始犯了一个很白痴的错误，即把customEvent函数当作用户可以自定义的函数，殊不知是父类中的虚函数，所以一直捕获不到消息。好了，以上只是一个简单的关于postEvent的一个应用，如果想了解更多的消息机制请阅读其他关于event的文章。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>在使用QLabel显示长文本（如长昵称、简介文本等）的时候，会因为QLabel的固定宽度使一部分文字截断]]>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/dreamtdp/article/details/7545620" tit]]>
     </summary>
     
-      <category term="Qt" scheme="http://moky.cc/tags/Qt/"/>
-    
-      <category term="截断文字" scheme="http://moky.cc/tags/%E6%88%AA%E6%96%AD%E6%96%87%E5%AD%97/"/>
-    
-      <category term="PyQt" scheme="http://moky.cc/categories/PyQt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[QTimer和QThread的调度时间精度]]></title>
-    <link href="http://moky.cc/2015/05/15/QTimer%E5%92%8CQThread%E7%9A%84%E8%B0%83%E5%BA%A6%E6%97%B6%E9%97%B4%E7%B2%BE%E5%BA%A6/"/>
-    <id>http://moky.cc/2015/05/15/QTimer和QThread的调度时间精度/</id>
-    <published>2015-05-15T04:07:45.000Z</published>
-    <updated>2015-05-16T09:13:54.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/dijunfeng/article/details/7272475" title="http://blog.csdn.net/dijunfeng/article/details/7272475" target="_blank" rel="external">http://blog.csdn.net/dijunfeng/article/details/7272475</a></p>
-</blockquote>
-<p><br><br>最近做的一个模拟嵌入式设备的项目中，要求事件的响应精度在1毫秒左右，特地编写代码测试了一下QTimer和QThread中的msleep函数的时间精度。</p>
-<p>QT的帮助中对于QTimer的时间精度问题是这么写的：</p>
-<blockquote>
-<p>Timers will never time out earlier than the specified timeout value and they are not guaranteed to time out at the exact value specified. In many situations, they may time out late by a period of time that depends on the accuracy of the system timers.</p>
-<p>The accuracy of timers depends on the underlying operating system and hardware. Most platforms support a resolution of 1 millisecond, though the accuracy of the timer will not equal this resolution in many real-world situations.</p>
-<p>If Qt is unable to deliver the requested number of timer clicks, it will silently discard some.</p>
-</blockquote>
-<p><br><br>测试函数用到了windows的高精度时间读取函数，如下所示:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;Windows.h&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;math.h&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> TIMER_INTVL  1000  <span class="comment">//毫秒</span></span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> ARRAY_LEN    1  <span class="comment">//数组长度</span></span></div><div class="line"></div><div class="line"><span class="comment">//传入调用时间间隔，打印出最大和平均时间误差</span></div><div class="line"><span class="keyword">void</span> testTimer(<span class="keyword">int</span> intvl_us)</div><div class="line">{</div><div class="line">    <span class="keyword">static</span> <span class="keyword">bool</span> inited = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">static</span> LARGE_INTEGER lastT;</div><div class="line">    <span class="keyword">static</span> LARGE_INTEGER freq;</div><div class="line">    LARGE_INTEGER now;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> usarray[ARRAY_LEN];</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> index = <span class="number">0</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> maxus = <span class="number">0</span>, averus = <span class="number">0</span>, difus;<span class="comment">//时间差</span></div><div class="line">    QString info(<span class="string">"最大时间差："</span>);</div><div class="line">    <span class="keyword">if</span>(!inited)</div><div class="line">    {</div><div class="line">        <span class="built_in">memset</span>(usarray, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>)*ARRAY_LEN);</div><div class="line">        QueryPerformanceCounter(&lastT);<span class="comment">//获取第一次进入时的时间</span></div><div class="line">        QueryPerformanceFrequency(&freq);<span class="comment">//获取时钟频率</span></div><div class="line">        inited = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    }</div><div class="line">    QueryPerformanceCounter(&now);</div><div class="line">    difus = ((now.QuadPart-lastT.QuadPart)*<span class="number">1000000</span>)/freq.QuadPart;</div><div class="line">    difus = <span class="built_in">abs</span>(difus-intvl_us);</div><div class="line">    usarray[index++] = difus;</div><div class="line">    maxus = maxus&gt;difus?maxus:difus;</div><div class="line">    <span class="keyword">if</span>(index == ARRAY_LEN)</div><div class="line">    {</div><div class="line">        index = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;ARRAY_LEN; i++)</div><div class="line">            averus += usarray[i];</div><div class="line">        averus /= ARRAY_LEN;</div><div class="line">        info = info + QString::number(maxus) + <span class="string">"  平均误差 "</span> + QString::number(averus);</div><div class="line">        gSimDrvDlg-&gt;putInfo(info);</div><div class="line">        maxus = <span class="number">0</span>;</div><div class="line">        averus = <span class="number">0</span>;</div><div class="line">    }</div><div class="line">    lastT = now;</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><br><br>把此函数设为QTimer的超时响应函数，在32位windows7下测试QTimer的不同定时周期的调度误差如下：</p>
-<p><strong>1ms周期：</strong><br><em>最大：30、40毫秒<br>平均：100微秒左右</em></p>
-<p><strong>10ms周期：</strong><br><em>最大：2、3毫秒，跳动比较大，也有20毫秒多过<br>平均：200多微秒</em></p>
-<p><strong>100ms周期：</strong><br><em>最大：20多毫秒<br>平均：10毫秒左右</em></p>
-<p><strong>1秒周期：</strong><br><em>误差十几毫秒</em></p>
-<p>把此函数稍加改动，也可以放到QThread的run()函数中测试一下QThread::msleep的时间精度。<br>在windows下，由于操作系统的本身设计理念问题，定时器的调度误差是比较大的。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/dijunfeng/article/details/7272475" ti]]>
-    </summary>
-    
-      <category term="QTimer" scheme="http://moky.cc/tags/QTimer/"/>
-    
-      <category term="QThread" scheme="http://moky.cc/tags/QThread/"/>
-    
-      <category term="时间精度" scheme="http://moky.cc/tags/%E6%97%B6%E9%97%B4%E7%B2%BE%E5%BA%A6/"/>
-    
-      <category term="计时器精度" scheme="http://moky.cc/tags/%E8%AE%A1%E6%97%B6%E5%99%A8%E7%B2%BE%E5%BA%A6/"/>
+      <category term="postEvent" scheme="http://moky.cc/tags/postEvent/"/>
     
       <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Qt中鼠标穿透的实现]]></title>
-    <link href="http://moky.cc/2015/05/14/Qt%E4%B8%AD%E9%BC%A0%E6%A0%87%E7%A9%BF%E9%80%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://moky.cc/2015/05/14/Qt中鼠标穿透的实现/</id>
-    <published>2015-05-14T09:01:20.000Z</published>
-    <updated>2015-05-16T09:06:27.000Z</updated>
+    <title><![CDATA[程序员修炼之道之Visual Studio的TODO用法]]></title>
+    <link href="http://moky.cc/2015/06/29/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93%E4%B9%8BVisual-Studio%E7%9A%84TODO%E7%94%A8%E6%B3%95/"/>
+    <id>http://moky.cc/2015/06/29/程序员修炼之道之Visual-Studio的TODO用法/</id>
+    <published>2015-06-29T12:47:02.000Z</published>
+    <updated>2015-07-15T12:58:24.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_681fac2801014flm.html" title="http://blog.sina.com.cn/s/blog_681fac2801014flm.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_681fac2801014flm.html</a></p>
 </blockquote>
-<p>在Qt中，QWidget默认是非鼠标穿透的，如果将QWidget覆盖在其他控件上面，即使这个QWidget是透明的，鼠标也是无法点击下面的控件的。但是我们可以通过设置它的属性来实现鼠标穿透，代码如下:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QWidget::setAttribute(Qt::WA_TransparentForMouseEvents,<span class="keyword">true</span>);</div></pre></td></tr></table></figure>
+<p>经常使用eclipse的TODO，用于标识出还未完成的的任务，如:<code>//TODO</code></p>
+<p>这时eclipse中就会在代码行右边打上一个蓝色标记，方便你下次看到还未完成的地方。（还有//FIXME 也可以）</p>
+<p>Visual Studio也提供//TODO标记，不过不会在右边标记处明显标识，需要你选择view进行查看。方法如下：</p>
+<p>1.首先在你还未完成的地方打上TODO标记，以下方式均可：</p>
+<ol>
+<li>//TODO:还有未完成的代码</li>
+<li>//todo:something to do.</li>
+<li>//Todo something<br>以上方式Visual Studio都能识别</li>
+</ol>
+<p>2.选择 view, Task List进行查看整个工程的todo。也可以使用快捷键Ctrl+W,T  如下：<br><img src="http://i.imgur.com/4HGzqrm.jpg" alt=""></p>
+<p>一定要选择comments才能看到<br><img src="http://i.imgur.com/sXP29CD.jpg" alt=""></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_681fac2801014flm.html" titl]]>
+    </summary>
+    
+      <category term="TODO" scheme="http://moky.cc/tags/TODO/"/>
+    
+      <category term="Visual Studio" scheme="http://moky.cc/tags/Visual-Studio/"/>
+    
+      <category term="杂类" scheme="http://moky.cc/categories/%E6%9D%82%E7%B1%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Qt中如何进行DEBUG和使用cout,cin等]]></title>
+    <link href="http://moky.cc/2015/06/28/Qt%E4%B8%AD%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8CDEBUG%E5%92%8C%E4%BD%BF%E7%94%A8cout-cin%E7%AD%89/"/>
+    <id>http://moky.cc/2015/06/28/Qt中如何进行DEBUG和使用cout-cin等/</id>
+    <published>2015-06-28T13:00:49.000Z</published>
+    <updated>2015-07-15T13:03:21.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://socol.iteye.com/blog/719500" title="http://socol.iteye.com/blog/719500" target="_blank" rel="external">http://socol.iteye.com/blog/719500</a></p>
+</blockquote>
+<p>如果想输出DEBUG信息：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">qDebug() &lt;&lt; <span class="string">"Date:"</span> &lt;&lt; QDate::currentDate();  </div><div class="line">qDebug() &lt;&lt; <span class="string">"Types:"</span> &lt;&lt; QString(<span class="string">"String"</span>) &lt;&lt; QChar(<span class="string">'x'</span>) &lt;&lt; QRect(<span class="number">0</span>, <span class="number">10</span>, <span class="number">50</span>, <span class="number">40</span>);  </div><div class="line">qDebug() &lt;&lt; <span class="string">"Custom coordinate type:"</span> &lt;&lt; coordinate;</div></pre></td></tr></table></figure>
+
+<p><br><br>如果想使用，COUT/IN需要使用QTextStream的重载</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QApplication&gt;  </span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QTextStream&gt;  </span></div><div class="line"> </div><div class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])  </div><div class="line">{  </div><div class="line">    QApplication app(argc, argv);  </div><div class="line">    QTextStream out(stdout)；  </div><div class="line">    out &lt;&lt; <span class="string">"is QTextStream out "</span> &lt;&lt; endl;  </div><div class="line">    <span class="keyword">return</span> app.exec();  </div><div class="line">}</div></pre></td></tr></table></figure>
 
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>在Qt中，QWidget默认是非鼠标穿透的，如果将QWidget覆盖在其他控件上面，即使这个QWidge]]>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://socol.iteye.com/blog/719500" title="http://socol.it]]>
     </summary>
     
-      <category term="鼠标穿透" scheme="http://moky.cc/tags/%E9%BC%A0%E6%A0%87%E7%A9%BF%E9%80%8F/"/>
+      <category term="debug" scheme="http://moky.cc/tags/debug/"/>
+    
+      <category term="cout" scheme="http://moky.cc/tags/cout/"/>
+    
+      <category term="cin" scheme="http://moky.cc/tags/cin/"/>
     
       <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Python字符串格式化千分位逗号分隔]]></title>
-    <link href="http://moky.cc/2015/05/13/Python%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%8D%83%E5%88%86%E4%BD%8D%E9%80%97%E5%8F%B7%E5%88%86%E9%9A%94/"/>
-    <id>http://moky.cc/2015/05/13/Python字符串格式化千分位逗号分隔/</id>
-    <published>2015-05-13T08:51:35.000Z</published>
-    <updated>2015-05-16T08:59:39.000Z</updated>
+    <title><![CDATA[Python*与**参数问题]]></title>
+    <link href="http://moky.cc/2015/06/27/Python-%E4%B8%8E-%E5%8F%82%E6%95%B0%E9%97%AE%E9%A2%98/"/>
+    <id>http://moky.cc/2015/06/27/Python-与-参数问题/</id>
+    <published>2015-06-27T13:04:29.000Z</published>
+    <updated>2015-07-15T13:09:25.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_7dc317590101cbkr.html" title="http://blog.sina.com.cn/s/blog_7dc317590101cbkr.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_7dc317590101cbkr.html</a></p>
 </blockquote>
-<p>在显示大数字的时候，通常会每隔三位用逗号分隔开来显示，这样用户就会更加容易识别出数字的大小，这个可以用字符串处理函数<code>format()</code>来实现。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> <span class="string">"{:,}"</span>.format(<span class="number">99999999</span>)</div><div class="line"></div><div class="line"><span class="comment"># 结果</span></div><div class="line"><span class="comment"># 99,999,999</span></div></pre></td></tr></table></figure>
+<h2 id="问题">问题</h2>
+<p>Python的函数定义中有两种特殊的情况，即出现*，**的形式。<br>如：<code>def myfun1(username, *keys)</code>或<code>def myfun2(username, **keys)</code>等。<br><br></p>
+<h2 id="解释">解释</h2>
+<p>* 用来传递任意个无名字参数，这些参数会一个Tuple的形式访问。<br>**用来处理传递任意个有名字的参数，这些参数用dict来访问。<br><br></p>
+<h2 id="应用">应用</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#########################</span></div><div class="line"> </div><div class="line"><span class="comment"># “*” 的应用</span></div><div class="line"> </div><div class="line"><span class="comment">#########################</span></div><div class="line"> </div><div class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">fun1</span><span class="params">(*keys)</span>:</span></div><div class="line"><span class="prompt">... </span>    <span class="keyword">print</span> <span class="string">"keys type=%s"</span> % type(keys)</div><div class="line"><span class="prompt">... </span>    <span class="keyword">print</span> <span class="string">"keys=%s"</span> % str(keys)</div><div class="line"><span class="prompt">... </span>    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(keys)):</div><div class="line"><span class="prompt">... </span>            <span class="keyword">print</span> <span class="string">"keys["</span> + str(i) + <span class="string">"]=%s"</span> % str(keys[i])</div><div class="line">...</div><div class="line"><span class="prompt">&gt;&gt;&gt; </span>fun1(<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</div><div class="line">输出以下结果：</div><div class="line"> </div><div class="line">keys type=</div><div class="line">keys=(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</div><div class="line">keys[<span class="number">0</span>]=<span class="number">2</span></div><div class="line">keys[<span class="number">1</span>]=<span class="number">3</span></div><div class="line">keys[<span class="number">2</span>]=<span class="number">4</span></div><div class="line">keys[<span class="number">3</span>]=<span class="number">5</span></div><div class="line"> </div><div class="line"><span class="comment">#########################</span></div><div class="line"> </div><div class="line"><span class="comment"># “**” 的应用</span></div><div class="line"> </div><div class="line"><span class="comment">#########################</span></div><div class="line"> </div><div class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">fun2</span><span class="params">(**keys)</span>:</span></div><div class="line"><span class="prompt">... </span>    <span class="keyword">print</span> <span class="string">"keys type=%s"</span> % type(keys)</div><div class="line"><span class="prompt">... </span>    <span class="keyword">print</span> <span class="string">"keys=%s"</span> % str(keys)</div><div class="line"><span class="prompt">... </span>    <span class="keyword">print</span> <span class="string">"name=%s"</span> % str(keys[<span class="string">'name'</span>])</div><div class="line">...</div><div class="line">&gt;&gt;&gt;</div><div class="line"><span class="prompt">&gt;&gt;&gt; </span>fun2(name=<span class="string">"vp"</span>, age=<span class="number">19</span>)</div><div class="line"> </div><div class="line">输出以下结果：</div><div class="line">keys type=</div><div class="line">keys={<span class="string">'age'</span>: <span class="number">19</span>, <span class="string">'name'</span>: <span class="string">'vp'</span>}</div><div class="line">name=vp</div></pre></td></tr></table></figure>
 
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>在显示大数字的时候，通常会每隔三位用逗号分隔开来显示，这样用户就会更加容易识别出数字的大小，这个可以用字]]>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.sina.com.cn/s/blog_7dc317590101cbkr.html" titl]]>
     </summary>
     
-      <category term="千分位逗号分隔" scheme="http://moky.cc/tags/%E5%8D%83%E5%88%86%E4%BD%8D%E9%80%97%E5%8F%B7%E5%88%86%E9%9A%94/"/>
+      <category term="星号" scheme="http://moky.cc/tags/%E6%98%9F%E5%8F%B7/"/>
     
-      <category term="格式化" scheme="http://moky.cc/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
-    
-      <category term="字符串" scheme="http://moky.cc/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+      <category term="参数" scheme="http://moky.cc/tags/%E5%8F%82%E6%95%B0/"/>
     
       <category term="Python" scheme="http://moky.cc/categories/Python/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Qt重写paintEvent绘制窗体阴影]]></title>
-    <link href="http://moky.cc/2015/05/12/Qt%E9%87%8D%E5%86%99paintEvent%E7%BB%98%E5%88%B6%E7%AA%97%E4%BD%93%E9%98%B4%E5%BD%B1/"/>
-    <id>http://moky.cc/2015/05/12/Qt重写paintEvent绘制窗体阴影/</id>
-    <published>2015-05-12T13:57:44.000Z</published>
-    <updated>2015-05-27T08:18:05.000Z</updated>
+    <title><![CDATA[拦截Qt关闭窗口的CloseEvent]]></title>
+    <link href="http://moky.cc/2015/06/26/%E6%8B%A6%E6%88%AAQt%E5%85%B3%E9%97%AD%E7%AA%97%E5%8F%A3%E7%9A%84CloseEvent/"/>
+    <id>http://moky.cc/2015/06/26/拦截Qt关闭窗口的CloseEvent/</id>
+    <published>2015-06-26T13:11:55.000Z</published>
+    <updated>2015-07-15T13:15:29.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/vah101/article/details/6133728" title="http://blog.csdn.net/vah101/article/details/6133728" target="_blank" rel="external">http://blog.csdn.net/vah101/article/details/6133728</a></p>
 </blockquote>
-<p>Qt窗体做阴影效果的方法有很多种，有直接使用带阴影效果美术资源的，这里就不详说这种方法了，还有一种方法就是重写paintEvent绘制阴影的方法。<br><br><br>代码如下: (以下为PyQt代码的实现，C++ Qt实现的方法原理也是一样的。)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">paintEvent</span><span class="params">(self, event)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    绘制阴影</div><div class="line">    :param event:</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    path = QtGui.QPainterPath()</div><div class="line">    path.setFillRule(QtCore.Qt.WindingFill)</div><div class="line">    path.addRect(<span class="number">10</span>, <span class="number">10</span>, self.width() - <span class="number">20</span>, self.height() - <span class="number">20</span>)</div><div class="line">    painter = QtGui.QPainter(self)</div><div class="line">    painter.setRenderHint(QtGui.QPainter.Antialiasing, <span class="keyword">True</span>)</div><div class="line">    painter.fillPath(path, QtGui.QBrush(QtCore.Qt.white))</div><div class="line">    color = QtGui.QColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>):</div><div class="line">        path = QtGui.QPainterPath()</div><div class="line">        path.setFillRule(QtCore.Qt.WindingFill)</div><div class="line">        path.addRect(<span class="number">10</span> - i, <span class="number">10</span> - i, self.width() - (<span class="number">10</span> - i) * <span class="number">2</span>, self.height() - (<span class="number">10</span> - i) * <span class="number">2</span>)</div><div class="line">        color.setAlpha(<span class="number">150</span> - math.sqrt(i) * <span class="number">50</span>)</div><div class="line">        painter.setPen(color)</div><div class="line">        painter.drawPath(path)</div></pre></td></tr></table></figure>
+<p>QDialog类下有一个虚函数<br><code>void QDialog::closeEvent (  QCloseEvent   *  e   )  [virtual protected]</code></p>
+<p>通过实现closeEvent函数，就可以以对关闭窗口消息进行拦截，比如程序还没有完成工作时，可以弹出警告窗口，即使用户确认退出操作</p>
+<p>在头文件中，需要加入#include <qcloseevent>：</qcloseevent></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#ifndef TEST_H</span></div><div class="line"><span class="preprocessor">#<span class="keyword">define</span> TEST_H</span></div><div class="line"> </div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QDialog&gt;</span></div><div class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;QCloseEvent&gt;</span></div><div class="line"> </div><div class="line"><span class="keyword">class</span> ClientTest : <span class="keyword">public</span> QDialog</div><div class="line">{</div><div class="line">    Q_OBJECT</div><div class="line"> </div><div class="line"><span class="keyword">public</span>:</div><div class="line">    ClientTest();</div><div class="line">    <span class="keyword">void</span> closeEvent(QCloseEvent *event);</div><div class="line"><span class="comment">//后边的具体实现省略</span></div><div class="line"><span class="comment">//...</span></div><div class="line">};</div><div class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></div></pre></td></tr></table></figure>
 
-<p>做出来的阴影效果类似于下图:<br><img src="http://i.imgur.com/afURmb0.png" alt="效果图"></p>
-<p><br><br>之前写的一篇自定义Tooltips的文章用的就是这种方法，大家可以参考一下。</p>
-<blockquote>
-<p><a href="http://moky.cc/2015/03/17/%E7%BB%98%E5%88%B6%E6%94%AF%E6%8C%81%E5%AF%8C%E6%96%87%E6%9C%AC%E5%B8%A6%E9%98%B4%E5%BD%B1%E8%87%AA%E9%80%82%E5%BA%94%E5%A4%A7%E5%B0%8F%E7%9A%84Tooltips/" target="_blank" rel="external">绘制支持富文本带阴影自适应大小的Tooltips</a></p>
-</blockquote>
+<p><br><br>在cpp文件中，对closeEvent函数进行实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> ClientTest::closeEvent(QCloseEvent *event)</div><div class="line">{</div><div class="line">    QMessageBox::StandardButton button;</div><div class="line">    button = QMessageBox::question(<span class="keyword">this</span>, tr(<span class="string">"退出程序"</span>),</div><div class="line">        QString(tr(<span class="string">"警告：程序有一个任务正在运行中，是否结束操作退出?"</span>)),</div><div class="line">        QMessageBox::Yes | QMessageBox::No);</div><div class="line"> </div><div class="line">    <span class="keyword">if</span> (button == QMessageBox::No) {</div><div class="line">        event-&gt;ignore();  <span class="comment">//忽略退出信号，程序继续运行</span></div><div class="line">    }</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (button == QMessageBox::Yes) {</div><div class="line">        event-&gt;accept();  <span class="comment">//接受退出信号，程序退出</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>Qt窗体做阴影效果的方法有很多种，有直接使用带阴影效果美术资源的，这里就不详说这种方法了，还有一种方法就]]>
+<p>【转】原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。<br><a href="http://blog.csdn.net/vah101/article/details/6133728" title]]>
     </summary>
     
-      <category term="Qt" scheme="http://moky.cc/tags/Qt/"/>
+      <category term="CloseEvent" scheme="http://moky.cc/tags/CloseEvent/"/>
     
-      <category term="paintEvent" scheme="http://moky.cc/tags/paintEvent/"/>
-    
-      <category term="绘制阴影" scheme="http://moky.cc/tags/%E7%BB%98%E5%88%B6%E9%98%B4%E5%BD%B1/"/>
-    
-      <category term="PyQt" scheme="http://moky.cc/categories/PyQt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[自定义QScrollBar样式]]></title>
-    <link href="http://moky.cc/2015/05/11/%E8%87%AA%E5%AE%9A%E4%B9%89QScrollBar%E6%A0%B7%E5%BC%8F/"/>
-    <id>http://moky.cc/2015/05/11/自定义QScrollBar样式/</id>
-    <published>2015-05-11T04:36:25.000Z</published>
-    <updated>2015-07-12T08:27:16.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>QScrollBar是Qt日常开发里使用得比较频繁的一个控件，默认的系统样式已经无法满足开发需求，所以我们就需要定义QSS样式自定义QScrollBar的样式了。QScrollBar主要由handle、add-line、sub-line、add-page、sub-page、up-arrow和down-arrow几部分组成，以下为常用的QScrollBar样式设置。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="tag">QScrollBar</span></div><div class="line"><span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> transparent</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">8px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#6c7bad</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">4px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:hover</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#6a7fc5</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:pressed</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#5b75cb</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::add-line</span>, <span class="tag">QScrollBar</span><span class="pseudo">::sub-line</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> transparent</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::add-page</span>, <span class="tag">QScrollBar</span><span class="pseudo">::sub-page</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> transparent</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::up-arrow</span>, <span class="tag">QScrollBar</span><span class="pseudo">::down-arrow</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> transparent</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
-
-<p>运行结果：<br><img src="QScrollBar-qss.png" alt="QScrollBar-qss.png"></p>
-<p><br><br>还有一种是半透明效果的:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">100</span>)</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">10px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">180</span>)</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">min-height</span>:<span class="value"> <span class="number">70px</span></span></span>;</div><div class="line">	<span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">5px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:vertical</span><span class="pseudo">:hover</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::handle</span><span class="pseudo">:vertical</span><span class="pseudo">:pressed</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="function">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">200</span>)</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::add-line</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> none</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::sub-line</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> none</span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"></div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::add-page</span><span class="pseudo">:vertical</span>,</div><div class="line"><span class="tag">QScrollBar</span><span class="pseudo">::sub-page</span><span class="pseudo">:vertical</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background</span>:<span class="value"> none</span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
-
-<p>运行结果：<br><img src="QScrollBar-qss2.png" alt="QScrollBar-qss2.png"></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>原创作品，允许转载。转载时请务必以超链接形式标明文章原始出处、作者信息和本声明，否则将追究法律责任。</p>
-</blockquote>
-<p>QScrollBar是Qt日常开发里使用得比较频繁的一个控件，默认的系统样式已经无法满足开发需求，所以我]]>
-    </summary>
-    
-      <category term="PyQt" scheme="http://moky.cc/tags/PyQt/"/>
-    
-      <category term="QSS" scheme="http://moky.cc/tags/QSS/"/>
-    
-      <category term="QScrollBar" scheme="http://moky.cc/tags/QScrollBar/"/>
+      <category term="关闭窗口" scheme="http://moky.cc/tags/%E5%85%B3%E9%97%AD%E7%AA%97%E5%8F%A3/"/>
     
       <category term="Qt" scheme="http://moky.cc/categories/Qt/"/>
     
